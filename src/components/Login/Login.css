@@ -1,0 +1,61 @@
+.Login {
+    width: 100vw;
+    height: 90vh;
+    background-color: rgb(52, 55, 66);
+    color: rgb(228, 228, 244);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Login > div {
+    width: 50vw;
+    height: 20vh;
+    border-radius: 10px;
+    background-color: rgb(228, 228, 244);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Login .login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Login label, .Login .submit-button, .Login button {
+    color: rgb(52, 55, 66);
+    font-style: normal;
+}
+
+.Login input {
+    font-style: italic;
+}
+
+.Login .input-fields {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+}
+
+.Login .input-fields > label {
+    width: 220px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Login .form-buttons-container {
+    display: flex;
+    align-items: center;
+    width: 220px;
+}
+
+@media screen and (max-width: 700px) {
+    .Login > div {
+        width: 80vw;
+    }
+}
