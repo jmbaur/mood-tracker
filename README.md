@@ -109,5 +109,6 @@ alter table users
 add column
 (mood_num int references moods(num)),
 (mood_id int references moods(mood_id)),
-(mood_name varchar(30));
+(mood_name varchar(30)),
+(custom_names bool default false not null);
 ```
