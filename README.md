@@ -1,68 +1,102 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Mood Tracker
 
-## Available Scripts
+Minimum Viable Product:
 
-In the project directory, you can run:
+-   user auth functionality
+-   mark mood
+-   change past mood
+-   delete past mood
+-   view moods in chart
 
-### `yarn start`
+Freezer:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+-   user can change mood names
+-   user can view mood data by day, week, month, etc.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Front
 
-### `yarn test`
+### Dependencies
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   axios
+-   react-router-dom
+-   redux
+-   react-redux
+-   redux-promise-middleware
 
-### `yarn build`
+### Routes
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+-   home /
+-   profile /profile
+-   register /register
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### File Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-   src/
+    -   App.js
+    -   App.css
+    -   index.js
+    -   setupProxy.js
+    -   redux/
+        -   store.js
+        -   userReducer.js
+    -   components/
+        -   Header/
+        -   Main
+        -   Data
+        -   Register
+        -   NoUser
+        -   Login
+        -   _Settings_
 
-### `yarn eject`
+## Back
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Dependencies
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-   express
+-   express-session
+-   massive
+-   dotenv
+-   bcrypt
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Endpoints
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+auth:
 
-## Learn More
+-   login /auth/login
+-   register /auth/register
+-   logout /auth/logout
+-   session /auth/session
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+mood:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+-   GET /api/mood
+-   POST /api/mood
+-   PUT /api/mood/:id
+-   DELETE /api/mood/:id
 
-### Code Splitting
+## DB
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```sql
+create table users
+(
+    user_id serial primary key,
+    username varchar(30) not null,
+    email varchar(50) not null,
+    password text not null
+);
 
-### Analyzing the Bundle Size
+create table moods
+(
+    mood_id serial primary key,
+    num int not null,
+    name varchar(30) not null
+);
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+create table marks
+(
+    mark_id serial primary key,
+    user_id int references users(user_id),
+    mood_id int references moods(mood_id),
+    time timestamp(0) not null
+);
+```
