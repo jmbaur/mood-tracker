@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const massive = require("massive");
 const session = require("express-session");
+const authCtrl = require("./controllers/authController.js");
 
 const app = express();
 
@@ -23,10 +24,10 @@ massive(process.env.CONNECTION_STRING)
     .catch(err => console.log("DB connection error: ", err));
 
 // auth endpoints
-app.post("/auth/register");
-app.post("/auth/login");
-app.get("/auth/logout");
-app.get("/auth/session");
+app.post("/auth/register", authCtrl.register);
+app.post("/auth/login", authCtrl.login);
+app.get("/auth/logout", authCtrl.logout);
+app.get("/auth/session", authCtrl.session);
 
 // mood endpoints
 
