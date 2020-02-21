@@ -22,6 +22,7 @@ Freezer:
 -   redux
 -   react-redux
 -   redux-promise-middleware
+-   react-chartjs-2
 
 ### Routes
 
@@ -69,8 +70,8 @@ auth:
 
 mood:
 
--   GET /api/mood
--   POST /api/mood
+-   GET /api/mood/?user=user_id
+-   POST /api/mood/?user=user_id
 -   PUT /api/mood/:id
 -   DELETE /api/mood/:id
 
@@ -99,4 +100,14 @@ create table marks
     mood_id int references moods(mood_id),
     time timestamp(0) not null
 );
+```
+
+Freezer:
+
+```sql
+alter table users
+add column
+(mood_num int references moods(num)),
+(mood_id int references moods(mood_id)),
+(mood_name varchar(30) not null);
 ```
