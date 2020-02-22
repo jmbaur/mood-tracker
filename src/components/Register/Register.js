@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { setUser } from "../../redux/userReducer.js";
+import { setMoods } from "../../redux/moodReducer.js";
 import "./Register.css";
 
 class Register extends React.Component {
@@ -27,19 +28,15 @@ class Register extends React.Component {
         });
     };
 
-    submit = e => {
+    submit = async e => {
         e.preventDefault();
         const { username, email, password1, password2 } = this.state;
-        if (password1 === password2) {
-            axios
+        if (password1 === password2 && password1) {
+            const res = await axios
                 .post("/auth/register", {
                     username,
                     email,
                     password: password1
-                })
-                .then(res => {
-                    // console.log("register data: ", res.data);
-                    this.props.setUser(res.data);
                 })
                 .catch(err => alert(err.response.request.response));
             this.setState({
@@ -48,9 +45,28 @@ class Register extends React.Component {
                 password1: "",
                 password2: ""
             });
+            if (res) {
+                this.props.setUser(res.data);
+                this.props.history.push("/");
+            }
+        } else if (!password1){
+            alert("Password is empty.");
+        } else {
+            alert("Passwords do not match.")
         }
-        this.props.history.push("/");
     };
+
+    // getMoods = async () => {
+    //     const res = await axios
+    //         .get("/api/moods")
+    //         .catch(err => console.log("getMoods error ", err));
+    //     return res.data;
+    // };
+
+    componentWillUnmount() {
+        // console.log("hit");
+        // this.props.setMoods(() => this.getMoods());
+    }
 
     render() {
         const { username, email, password1, password2 } = this.state;
@@ -102,7 +118,11 @@ class Register extends React.Component {
                             </label>
                         </div>
                         <div className="form-buttons-container">
-                            <input type="submit" value="Register" className="submit-button" />
+                            <input
+                                type="submit"
+                                value="Register"
+                                className="submit-button"
+                            />
                             <button onClick={this.clear}>Clear</button>
                         </div>
                     </form>
@@ -112,10 +132,15 @@ class Register extends React.Component {
     }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => {
+    return {
+        user: state.userReducer
+    };
+};
 
 const mapDispatchToProps = {
-    setUser
+    setUser,
+    setMoods
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

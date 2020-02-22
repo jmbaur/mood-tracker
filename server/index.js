@@ -3,6 +3,7 @@ const express = require("express");
 const massive = require("massive");
 const session = require("express-session");
 const authCtrl = require("./controllers/authController.js");
+const moodCtrl = require("./controllers/moodController.js");
 
 const app = express();
 
@@ -30,6 +31,8 @@ app.get("/auth/logout", authCtrl.logout);
 app.get("/auth/session", authCtrl.session);
 
 // mood endpoints
+app.post("/api/mark", moodCtrl.mark);
+app.get("/api/moods", moodCtrl.getMoods);
 
 const PORT = process.env.SERVER_PORT || 3005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

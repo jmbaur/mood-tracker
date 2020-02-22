@@ -1,8 +1,9 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
 import { connect } from "react-redux";
 import { setUser } from "../../redux/userReducer.js";
-import "./Login.css"
+// import { setMoods } from "../../redux/moodReducer.js";
+import "./Login.css";
 
 class Login extends React.Component {
     constructor() {
@@ -23,25 +24,28 @@ class Login extends React.Component {
         });
     };
 
-    submit = e => {
+    submit = async e => {
         e.preventDefault();
         const { email, password } = this.state;
-        axios
-            .post("/auth/login", {
-                email,
-                password
-            })
-            .then(res => {
-                // console.log("login data: ", res.data);
-                this.props.setUser(res.data);
-            })
-            .catch(err => alert(err.response.request.response));
-        this.setState({
-            email: "",
-            password: ""
-        });
-        this.props.history.push("/");
+        if (password) {
+            this.props.setUser({ email, password });
+            this.props.history.push("/");
+        } else {
+            alert("Password is empty.");
+        }
     };
+
+    // getMoods = async () => {
+    //     const res = await axios
+    //         .get("/api/moods")
+    //         .catch(err => console.log("getMoods error ", err));
+    //     return res.data;
+    // };
+
+    componentWillUnmount() {
+        // console.log("hit");
+        // this.props.setMoods(() => this.getMoods());
+    }
 
     render() {
         const { email, password } = this.state;
@@ -73,7 +77,11 @@ class Login extends React.Component {
                             </label>
                         </div>
                         <div className="form-buttons-container">
-                            <input type="submit" value="Login" className="submit-button" />
+                            <input
+                                type="submit"
+                                value="Login"
+                                className="submit-button"
+                            />
                             <button onClick={this.clear}>Clear</button>
                         </div>
                     </form>
@@ -83,10 +91,16 @@ class Login extends React.Component {
     }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => {
+    return {
+        user: state.userReducer,
+        mood: state.moodReducer
+    };
+};
 
 const mapDispatchToProps = {
     setUser
+    // setMoods
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

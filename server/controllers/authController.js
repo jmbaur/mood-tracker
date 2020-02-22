@@ -49,7 +49,8 @@ module.exports = {
         res.sendStatus(200);
     },
     session: (req, res) => {
-        res.status(200).send(req.session.user);
-        // res.sendStatus(200)
+        if (req.session.user) {
+            res.status(200).send(req.session.user);
+        } else res.send(null);
     }
 };

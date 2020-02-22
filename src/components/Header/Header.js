@@ -1,25 +1,16 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getSession, setUser, logout } from "../../redux/userReducer.js";
 import "./Header.css";
 
 class Header extends React.Component {
-    async getSession() {
-        const res = await axios.get("/auth/session");
-        if (res.data) {
-            this.props.setUser(res.data);
-        }
-    }
-
     componentDidMount() {
-        // this.props.getSession();
-        this.getSession();
+        this.props.getSession();
     }
 
     render() {
-        console.log("HEADER PROPS ", this.props);
         const { user, loggedIn } = this.props.user;
 
         return (

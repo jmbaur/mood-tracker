@@ -31,13 +31,13 @@ class Main extends React.Component {
     };
 
     render() {
-        console.log(this.props);
-        const { loggedIn } = this.props.user;
+        const { loggedIn, loading } = this.props.user;
+
         return (
             <main className="Main">
-                {!loggedIn ? (
-                    <NoUser />
-                ) : (
+                {loading ? (
+                    <h1>LOADING</h1>
+                ) : loggedIn ? (
                     <div>
                         <Marker />
                         <div className="arrow" onClick={this.scroll}>
@@ -49,6 +49,8 @@ class Main extends React.Component {
                         </div>
                         <Chart />
                     </div>
+                ) : (
+                    <NoUser />
                 )}
             </main>
         );
@@ -57,7 +59,8 @@ class Main extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.userReducer
+        user: state.userReducer,
+        mood: state.moodReducer
     };
 };
 
