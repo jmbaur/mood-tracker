@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { setUser } from "../../redux/userReducer.js";
+import "./Register.css";
 
 class Register extends React.Component {
     constructor() {
@@ -55,48 +56,57 @@ class Register extends React.Component {
         const { username, email, password1, password2 } = this.state;
 
         return (
-            <main>
-                Register
-                <form onSubmit={this.submit}>
-                    <label>
-                        Username
-                        <input
-                            type="text"
-                            name="username"
-                            value={username}
-                            onChange={this.changeHandler}
-                        />
-                    </label>
-                    <label>
-                        Email
-                        <input
-                            type="text"
-                            name="email"
-                            value={email}
-                            onChange={this.changeHandler}
-                        />
-                    </label>
-                    <label>
-                        Password
-                        <input
-                            type="password"
-                            name="password1"
-                            value={password1}
-                            onChange={this.changeHandler}
-                        />
-                    </label>
-                    <label>
-                        Confirm Password
-                        <input
-                            type="password"
-                            name="password2"
-                            value={password2}
-                            onChange={this.changeHandler}
-                        />
-                    </label>
-                    <input type="submit" value="Register" />
-                    <button onClick={this.clear}>Clear</button>
-                </form>
+            <main className="Register">
+                <div>
+                    <form onSubmit={this.submit} className="register-form">
+                        <div className="input-fields">
+                            <label>
+                                Username
+                                <input
+                                    type="text"
+                                    name="username"
+                                    placeholder="required"
+                                    value={username}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
+                            <label>
+                                Email
+                                <input
+                                    type="text"
+                                    name="email"
+                                    placeholder="required"
+                                    value={email}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
+                            <label>
+                                Password
+                                <input
+                                    type="password"
+                                    name="password1"
+                                    placeholder="required"
+                                    value={password1}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
+                            <label>
+                                Confirm Password
+                                <input
+                                    type="password"
+                                    name="password2"
+                                    placeholder="required"
+                                    value={password2}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
+                        </div>
+                        <div className="form-buttons-container">
+                            <input type="submit" value="Register" className="submit-button" />
+                            <button onClick={this.clear}>Clear</button>
+                        </div>
+                    </form>
+                </div>
             </main>
         );
     }

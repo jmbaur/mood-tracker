@@ -1,0 +1,63 @@
+.Register {
+    width: 100vw;
+    height: 90vh;
+    background-color: rgb(52, 55, 66);
+    color: rgb(228, 228, 244);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Register > div {
+    width: 50vw;
+    height: 30vh;
+    border-radius: 10px;
+    background-color: rgb(228, 228, 244);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Register .register-form {
+    display: flex;
+    height: 20vh;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.Register label, .Register .submit-button, .Register button {
+    color: rgb(52, 55, 66);
+    font-style: normal;
+}
+
+.Register input {
+    font-style: italic;
+}
+
+.Register .input-fields {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+}
+
+.Register .input-fields > label {
+    width: 280px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Register .form-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 150px;
+}
+
+@media screen and (max-width: 700px) {
+    .Register > div {
+        width: 80vw;
+    }
+}

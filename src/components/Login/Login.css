@@ -10,7 +10,7 @@
 
 .Login > div {
     width: 50vw;
-    height: 20vh;
+    height: 25vh;
     border-radius: 10px;
     background-color: rgb(228, 228, 244);
     display: flex;
@@ -20,8 +20,9 @@
 
 .Login .login-form {
     display: flex;
+    height: 20vh;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 }
 
@@ -51,7 +52,8 @@
 .Login .form-buttons-container {
     display: flex;
     align-items: center;
-    width: 220px;
+    justify-content: space-evenly;
+    width: 150px;
 }
 
 @media screen and (max-width: 700px) {

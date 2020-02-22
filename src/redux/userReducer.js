@@ -13,7 +13,7 @@ const LOGOUT = "LOGOUT";
 export function getSession() {
     const res = axios
         .get("/auth/session")
-        .catch(err => console.log("ERROR: ", err));
+        .catch(err => console.log("getSession Error: ", err));
     let payload;
     res.data ? (payload = res.data) : (payload = {});
 

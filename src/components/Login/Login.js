@@ -73,7 +73,7 @@ class Login extends React.Component {
                             </label>
                         </div>
                         <div className="form-buttons-container">
-                            <input type="submit" value="Login" className="submit-button"/>
+                            <input type="submit" value="Login" className="submit-button" />
                             <button onClick={this.clear}>Clear</button>
                         </div>
                     </form>
