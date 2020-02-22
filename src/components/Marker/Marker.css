@@ -1,19 +1,10 @@
 .Marker {
-    height: 90vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-.Marker .circle-container {
     height: 80vh;
     width: 100vw;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
     align-items: center;
+    justify-content: space-evenly;
 }
 
 .Marker .circle-marker button {
@@ -38,21 +29,8 @@
     background-color: rgb(67, 184, 63);
 }
 
-.Marker .arrow {
-    height: 10vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.Marker .arrow img {
-    width: 80px;
-    filter: invert(0.75);
-}
-
 @media screen and (max-width: 700px) {
-    .Marker .circle-container {
+    .Marker {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -62,8 +40,5 @@
         width: 100px;
         height: 100px;
         border-radius: 50%;
-    }
-    .Marker .arrow img {
-        width: 60px;
     }
 }

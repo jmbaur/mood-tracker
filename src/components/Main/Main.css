@@ -2,3 +2,40 @@
     width: 100vw;
     height: 90vh;
 }
+
+.Main .arrow {
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Main .arrow img {
+    width: 80px;
+    filter: invert(0.75);
+}
+
+#up {
+    transform: rotate(180deg);
+    animation-name: spin;
+}
+
+#down {
+    transform: rotate(0deg);
+}
+
+@media screen and (max-width: 700px) {
+    .Main .arrow img {
+        width: 60px;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(90deg);
+    }
+}
