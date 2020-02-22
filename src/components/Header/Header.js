@@ -20,7 +20,7 @@ class Header extends React.Component {
 
     render() {
         console.log("HEADER PROPS ", this.props);
-        const { user, loggedIn } = this.props;
+        const { user, loggedIn } = this.props.user;
 
         return (
             <header>
@@ -53,7 +53,11 @@ class Header extends React.Component {
     }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => {
+    return {
+        user: state.userReducer
+    };
+};
 
 const mapDispatchToProps = {
     getSession,

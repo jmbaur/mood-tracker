@@ -31,7 +31,8 @@ class Main extends React.Component {
     };
 
     render() {
-        const { loggedIn } = this.props;
+        console.log(this.props);
+        const { loggedIn } = this.props.user;
         return (
             <main className="Main">
                 {!loggedIn ? (
@@ -54,7 +55,11 @@ class Main extends React.Component {
     }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => {
+    return {
+        user: state.userReducer
+    };
+};
 
 const mapDispatchToProps = {};
 
