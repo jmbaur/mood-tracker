@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { setUser } from "../../redux/userReducer.js";
-import { setMoods } from "../../redux/moodReducer.js";
 import "./Register.css";
 
 class Register extends React.Component {
@@ -46,13 +45,13 @@ class Register extends React.Component {
                 password2: ""
             });
             if (res) {
-                this.props.setUser(res.data);
+                this.props.setUser({ email, password: password1 });
                 this.props.history.push("/");
             }
-        } else if (!password1){
+        } else if (!password1) {
             alert("Password is empty.");
         } else {
-            alert("Passwords do not match.")
+            alert("Passwords do not match.");
         }
     };
 
@@ -139,8 +138,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    setUser,
-    setMoods
+    setUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

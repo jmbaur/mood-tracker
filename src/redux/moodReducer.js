@@ -1,26 +1,21 @@
 const initialState = {
-    moods: [],
-    loading: false
+    title: "default"
 };
 
-const SET_MOODS = "SET_MOODS";
+const SET_TITLE = "SET_TITLE";
 
-export function setMoods(moods) {
+export function setTitle(color) {
     return {
-        type: SET_MOODS,
-        payload: moods
+        type: SET_TITLE,
+        payload: color
     };
 }
 
 export default function moodReducer(state = initialState, action) {
     console.log("MOOD REDUCER ", action);
     switch (action.type) {
-        case SET_MOODS + "_PENDING":
-            return { ...state, moods: [], loading: true };
-        case SET_MOODS + "_FULFILLED":
-            return { ...state, moods: action.payload, loading: false };
-        case SET_MOODS + "_REJECTED":
-            return { ...state, moods: [], loading: false };
+        case SET_TITLE:
+            return {...state, title: action.payload}
         default:
             return state;
     }

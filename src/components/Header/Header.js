@@ -18,7 +18,7 @@ class Header extends React.Component {
                 <div className="title-container">
                     <Link to="/">
                         <button className="title-button">
-                            <h1 className="title">MOOD TRACKER</h1>
+                            <h1 className="title" id={this.props.mood.title}>MOOD TRACKER</h1>
                         </button>
                     </Link>
                 </div>
@@ -46,14 +46,15 @@ class Header extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.userReducer
+        user: state.userReducer,
+        mood: state.moodReducer
     };
 };
 
 const mapDispatchToProps = {
     getSession,
     setUser,
-    logout
+    logout,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

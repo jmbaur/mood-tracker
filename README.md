@@ -98,7 +98,7 @@ create table marks
 (
     mark_id serial primary key,
     user_id int references users(user_id),
-    mood_id int references moods(mood_id),
+    mood int not null,
     time timestamp(0) not null
 );
 ```
@@ -112,4 +112,8 @@ add column
 (mood_id int references moods(mood_id)),
 (mood_name varchar(30)),
 (custom_names bool default false not null);
+```
+
+```sql
+alter table moods add column user_id int references users(user_id);
 ```
