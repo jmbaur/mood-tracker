@@ -1,8 +1,8 @@
 header {
     width: 100vw;
     height: 10vh;
-    background-color: rgb(52, 55, 66);
-    color: rgb(228, 228, 244);
+    background-color: rgb(24, 24, 24);
+    color: rgb(218, 218, 218);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,10 +17,10 @@ header .title-container {
 }
 
 header .title {
-    color: rgb(228, 228, 244);
+    color: rgb(218, 218, 218);
     font-size: 40px;
     font-weight: 800;
-    text-shadow: 2px 2px rgb(141, 153, 174);
+    /* text-shadow: 2px 2px rgb(141, 153, 174); */
 }
 
 header .title-button {
@@ -29,7 +29,7 @@ header .title-button {
 }
 
 header #default {
-    color: rgb(228, 228, 244);
+    color: rgb(218, 218, 218);
 }
 
 header #one {
@@ -50,8 +50,10 @@ header #five {
 
 header > .user-portal button {
     border: 0;
-    color: rgb(228, 228, 244);
-    background-color: rgb(141, 153, 174);
+    color: rgb(218, 218, 218);
+    /* background-color: rgb(141, 153, 174); */
+    background-color: transparent;
+    font-size: 15px;
     font-weight: 600;
     border-radius: 5px;
     height: 30px;
@@ -70,11 +72,24 @@ header > .user-portal button {
     justify-content: center;
 }
 
+.hamburger-menu {
+    filter: invert();
+    display: none;
+}
+
+#unclicked {
+    transform: rotate(0deg);
+}
+
+#clicked {
+    transform: rotate(90deg);
+}
+
 @media screen and (max-width: 700px) {
     header .title {
         font-size: 20px;
         text-align: left;
-        text-shadow: 1px 1px rgb(141, 153, 174);
+        /* text-shadow: 1px 1px rgb(141, 153, 174); */
     }
     header > .user-portal button {
         margin: 0 2px;
@@ -83,5 +98,21 @@ header > .user-portal button {
     .logged-in {
         width: 45vw;
         justify-content: flex-end;
+    }
+    .not-logged-in button,
+    .logged-in button {
+        display: none;
+    }
+    .hamburger-menu {
+        display: inline-block;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(90deg);
     }
 }

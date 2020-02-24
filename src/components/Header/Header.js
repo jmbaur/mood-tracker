@@ -1,12 +1,45 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getSession, setUser, logout } from "../../redux/userReducer.js";
+import {
+    getSession,
+    setUser,
+    logout,
+    toggleMenu
+} from "../../redux/userReducer.js";
+import hamburger from "./hamburger.svg";
 import "./Header.css";
 
 class Header extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            menuStatus: "unclicked"
+        };
+    }
+
+    menuToggle = () => {
+        let status = false;
+        if (this.state.menuStatus === "unclicked") {
+            this.setState({ menuStatus: "clicked" });
+            status = true;
+        } else {
+            this.setState({ menuStatus: "unclicked" });
+        }
+        this.props.toggleMenu(status);
+    };
+
     componentDidMount() {
         this.props.getSession();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (
+            prevProps.user.hamburgerMenu &&
+            prevProps.user.hamburgerMenu !== this.props.user.hamburgerMenu
+        ) {
+            this.setState({ menuStatus: "unclicked" });
+        }
     }
 
     render() {
@@ -32,6 +65,13 @@ class Header extends React.Component {
                             <Link to="/login">
                                 <button>Login</button>
                             </Link>
+                            <img
+                                src={hamburger}
+                                alt="hamburger"
+                                className="hamburger-menu"
+                                id={this.state.menuStatus}
+                                onClick={this.menuToggle}
+                            />
                         </div>
                     ) : (
                         <div className="logged-in">
@@ -40,6 +80,13 @@ class Header extends React.Component {
                                 <button>Settings</button>
                             </Link>
                             <button onClick={this.props.logout}>Logout</button>
+                            <img
+                                src={hamburger}
+                                alt="hamburger"
+                                className="hamburger-menu"
+                                id={this.state.menuStatus}
+                                onClick={this.menuToggle}
+                            />
                         </div>
                     )}
                 </div>
@@ -58,7 +105,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     getSession,
     setUser,
-    logout
+    logout,
+    toggleMenu
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

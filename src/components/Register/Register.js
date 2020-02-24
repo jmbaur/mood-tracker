@@ -8,6 +8,7 @@ class Register extends React.Component {
     constructor() {
         super();
         this.state = {
+            firstName: "",
             username: "",
             email: "",
             password1: "",
@@ -20,6 +21,7 @@ class Register extends React.Component {
     clear = e => {
         e.preventDefault();
         this.setState({
+            firstName: "",
             username: "",
             email: "",
             password1: "",
@@ -34,18 +36,22 @@ class Register extends React.Component {
             const res = await axios
                 .post("/auth/register", {
                     username,
-                    email,
+                    email: email.toLowerCase(),
                     password: password1
                 })
                 .catch(err => alert(err.response.request.response));
             this.setState({
+                firstName: "",
                 username: "",
                 email: "",
                 password1: "",
                 password2: ""
             });
             if (res) {
-                this.props.setUser({ email, password: password1 });
+                this.props.setUser({
+                    email: email.toLowerCase(),
+                    password: password1
+                });
                 this.props.history.push("/");
             }
         } else if (!password1) {
@@ -68,13 +74,23 @@ class Register extends React.Component {
     }
 
     render() {
-        const { username, email, password1, password2 } = this.state;
+        const { firstName, username, email, password1, password2 } = this.state;
 
         return (
             <main className="Register">
                 <div>
                     <form onSubmit={this.submit} className="register-form">
                         <div className="input-fields">
+                            <label>
+                                First Name
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    placeholder="optional"
+                                    value={firstName}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
                             <label>
                                 Username
                                 <input

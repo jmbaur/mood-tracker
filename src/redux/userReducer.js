@@ -3,12 +3,14 @@ import axios from "axios";
 const initialState = {
     user: {},
     loading: false,
-    loggedIn: false
+    loggedIn: false,
+    hamburgerMenu: false
 };
 
 const GET_SESSION = "GET_SESSION";
 const SET_USER = "SET_USER";
 const LOGOUT = "LOGOUT";
+const TOGGLE_MENU = "TOGGLE_MENU";
 
 export function getSession() {
     return {
@@ -29,6 +31,13 @@ export function logout() {
     return { type: LOGOUT };
 }
 
+export function toggleMenu(status) {
+    return {
+        type: TOGGLE_MENU,
+        payload: status
+    };
+}
+
 export default function userReducer(state = initialState, action) {
     console.log("USER REDUCER: ", action);
     switch (action.type) {
@@ -37,7 +46,7 @@ export default function userReducer(state = initialState, action) {
         case GET_SESSION + "_FULFILLED":
             return {
                 ...state,
-                user: action.payload || {},
+                user: action.payload,
                 loggedIn: !!action.payload,
                 loading: false
             };
@@ -57,6 +66,8 @@ export default function userReducer(state = initialState, action) {
             return { ...state, loading: false };
         case LOGOUT:
             return { ...state, user: {}, loggedIn: false };
+        case TOGGLE_MENU:
+            return { ...state, hamburgerMenu: action.payload };
         default:
             return state;
     }

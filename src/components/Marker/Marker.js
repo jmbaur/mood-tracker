@@ -58,11 +58,6 @@ class Marker extends React.Component {
             time: event,
             mood: num + 1
         });
-        // axios.post("/api/mark", {
-        //     user_id: this.props.user.user.user_id,
-        //     time: event,
-        //     mood: num + 1
-        // });
     };
 
     componentDidMount() {

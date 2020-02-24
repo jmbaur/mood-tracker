@@ -28,7 +28,7 @@ class Login extends React.Component {
         e.preventDefault();
         const { email, password } = this.state;
         if (password) {
-            this.props.setUser({ email, password });
+            this.props.setUser({ email: email.toLowerCase(), password });
             this.props.history.push("/");
         } else {
             alert("Password is empty.");

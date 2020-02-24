@@ -7,51 +7,80 @@ class Chart extends React.Component {
     constructor() {
         super();
         this.state = {
+            selectedValue: "all",
             frequency: [0, 0, 0, 0, 0]
         };
     }
 
     formatData = () => {
+        const date = new Date(Date.now());
+        const today = date.getDate();
+        const yesterday = date.getDate() - 1;
+        const realMonth = date.getMonth();
         const { marks } = this.props.mood;
-        const { frequency } = this.state;
+        const { frequency, selectedValue } = this.state;
         let arr = [];
-        frequency.forEach((elem, i) => {
-            let f = marks.filter(m => m.mood === i + 1).length;
-            arr.push(f);
-        });
+        switch (selectedValue) {
+            case "today":
+                frequency.forEach((elem, i) => {
+                    let f = marks.filter(m => {
+                        let day = new Date(m.time);
+                        return day.getDate() === today
+                            ? m.mood === i + 1
+                            : null;
+                    }).length;
+                    arr.push(f);
+                });
+                break;
+            case "yesterday":
+                frequency.forEach((elem, i) => {
+                    let f = marks.filter(m => {
+                        let day = new Date(m.time);
+                        return day.getDate() === yesterday
+                            ? m.mood === i + 1
+                            : null;
+                    }).length;
+                    arr.push(f);
+                });
+                break;
+            case "week":
+                break;
+            case "month":
+                frequency.forEach((elem, i) => {
+                    let f = marks.filter(m => {
+                        let month = new Date(m.time);
+                        return month.getMonth() === realMonth
+                            ? m.mood === i + 1
+                            : null;
+                    }).length;
+                    arr.push(f);
+                });
+                break;
+            default:
+                frequency.forEach((elem, i) => {
+                    let f = marks.filter(m => m.mood === i + 1).length;
+                    arr.push(f);
+                });
+        }
         this.setState({ frequency: arr });
-        // console.log(arr);
+    };
+
+    changeHandler = e => {
+        this.setState({ selectedValue: e.target.value });
     };
 
     componentDidMount() {
         this.formatData();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.selectedValue !== this.state.selectedValue)
+            this.formatData();
+    }
+
     render() {
-        // console.log(this.props.mood.marks);
-        // console.log(this.state);
-        // const data = {
-        //     labels: [
-        //         "January",
-        //         "February",
-        //         "March",
-        //         "April",
-        //         "May",
-        //         "June",
-        //         "July"
-        //     ],
-        //     datasets: [
-        //         {
-        //             label: "My First dataset",
-        //             backgroundColor: "rgba(255,99,132,0.2)",
-        //             borderColor: "rgba(255,99,132,1)",
-        //             borderWidth: 1,
-        //             hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        //             hoverBorderColor: "rgba(255,99,132,1)",
-        //             data: [65, 59, 80, 81, 56, 55, 40]
-        //         }
-        //     ]
-        // };
+        const { selectedValue } = this.state;
+        console.log(this.props.mood);
         const doughnutData = {
             labels: ["Bad", "Not Great", "OK", "Good", "Great"],
             datasets: [
@@ -74,11 +103,22 @@ class Chart extends React.Component {
                 }
             ]
         };
+        const doughnutOptions = {
+            legend: {display: false}
+        }
 
         return (
             <div className="Chart">
-                {/* <Bar data={data} /> */}
-                <Doughnut data={doughnutData} />
+                <h1>{this.props.user.user.username}'s Data</h1>
+                <select value={selectedValue} onChange={this.changeHandler}>
+                    <option value="all">All</option>
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
+                </select>
+
+                <Doughnut options={doughnutOptions} data={doughnutData} />
             </div>
         );
     }
@@ -86,6 +126,7 @@ class Chart extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        user: state.userReducer,
         mood: state.moodReducer
     };
 };
