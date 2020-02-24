@@ -1,5 +1,4 @@
 import React from "react";
-// import axios from "axios";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getSession, setUser, logout } from "../../redux/userReducer.js";
@@ -18,7 +17,9 @@ class Header extends React.Component {
                 <div className="title-container">
                     <Link to="/">
                         <button className="title-button">
-                            <h1 className="title" id={this.props.mood.title}>MOOD TRACKER</h1>
+                            <h1 className="title" id={this.props.mood.title}>
+                                MOOD TRACKER
+                            </h1>
                         </button>
                     </Link>
                 </div>
@@ -35,6 +36,9 @@ class Header extends React.Component {
                     ) : (
                         <div className="logged-in">
                             <h1>Welcome {user.username}</h1>
+                            <Link to="/settings">
+                                <button>Settings</button>
+                            </Link>
                             <button onClick={this.props.logout}>Logout</button>
                         </div>
                     )}
@@ -54,7 +58,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     getSession,
     setUser,
-    logout,
+    logout
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

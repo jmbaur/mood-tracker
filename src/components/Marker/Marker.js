@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setTitle } from "../../redux/moodReducer.js";
+import { setTitle, addMark, getMarks } from "../../redux/moodReducer.js";
 import "./Marker.css";
 
 class Marker extends React.Component {
@@ -19,10 +19,18 @@ class Marker extends React.Component {
         };
     }
 
+    // getDate = () => {
+    //     const event = new Date(Date.now());
+    //     return event
+    //         .toISOString()
+    //         .replace(/T/, " ")
+    //         .replace(/\..*/, "");
+    // };
+
     setMood = num => {
         const { defaultMoods } = this.state;
         this.setState({ showMood: true, message: defaultMoods[num].name });
-        this.resetTimer();
+        setTimeout(() => this.setState({ showMood: false }), 1000);
         let numName;
         switch (num) {
             case 0:
@@ -44,10 +52,25 @@ class Marker extends React.Component {
                 numName = "default";
         }
         this.props.setTitle(numName);
+        const event = new Date(Date.now()).toISOString();
+        this.props.addMark({
+            user_id: this.props.user.user.user_id,
+            time: event,
+            mood: num + 1
+        });
+        // axios.post("/api/mark", {
+        //     user_id: this.props.user.user.user_id,
+        //     time: event,
+        //     mood: num + 1
+        // });
     };
 
+    componentDidMount() {
+        this.props.getMarks({ user_id: this.props.user.user.user_id });
+    }
+
     render() {
-        // console.log("Marker Props ", this.props);
+        // console.log("Marker Props ", this.props.mood);
         // const { moods } = this.props.mood;
         const { showMood, message } = this.state;
         const custom = null;
@@ -97,12 +120,15 @@ class Marker extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        user: state.userReducer,
         mood: state.moodReducer
     };
 };
 
 const mapDispatchToProps = {
-    setTitle
+    setTitle,
+    addMark,
+    getMarks
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Marker);

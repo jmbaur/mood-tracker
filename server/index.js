@@ -32,6 +32,7 @@ app.get("/auth/session", authCtrl.session);
 
 // mood endpoints
 app.post("/api/mark", moodCtrl.mark);
+app.post("/api/marks", moodCtrl.getAllMarks);
 app.get("/api/moods", moodCtrl.getMoods);
 
 const PORT = process.env.SERVER_PORT || 3005;

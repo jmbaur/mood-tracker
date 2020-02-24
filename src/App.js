@@ -4,6 +4,7 @@ import Header from "./components/Header/Header.js";
 import Main from "./components/Main/Main.js";
 import Register from "./components/Register/Register.js";
 import Login from "./components/Login/Login.js";
+import Settings from "./components/Settings/Settings.js";
 import "./App.css";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
                 <Route exact path="/" component={Main} />
                 <Route path="/register" component={Register} />
                 <Route path="/login" component={Login} />
+                <Route path="/settings" component={Settings} />
             </Switch>
         </div>
     );

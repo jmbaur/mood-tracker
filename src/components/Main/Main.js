@@ -47,7 +47,7 @@ class Main extends React.Component {
                                 id={this.state.arrow}
                             />
                         </div>
-                        <Chart />
+                        {this.props.mood.loading ? <h1>LOADING</h1> : <Chart />}
                     </div>
                 ) : (
                     <NoUser />

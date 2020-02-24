@@ -23,6 +23,7 @@ Freezer:
 -   react-redux
 -   redux-promise-middleware
 -   react-chartjs-2
+-   chart.js
 -   react-scroll
 
 ### Routes
