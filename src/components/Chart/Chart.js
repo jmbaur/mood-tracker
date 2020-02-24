@@ -16,6 +16,15 @@ class Chart extends React.Component {
         const date = new Date(Date.now());
         const today = date.getDate();
         const yesterday = date.getDate() - 1;
+        const week = [
+            today,
+            today - 1,
+            today - 2,
+            today - 3,
+            today - 4,
+            today - 5,
+            today - 6
+        ];
         const realMonth = date.getMonth();
         const { marks } = this.props.mood;
         const { frequency, selectedValue } = this.state;
@@ -44,6 +53,15 @@ class Chart extends React.Component {
                 });
                 break;
             case "week":
+                frequency.forEach((elem, i) => {
+                    let f = marks.filter(m => {
+                        let day = new Date(m.time);
+                        return week.includes(day.getDate())
+                            ? m.mood === i + 1
+                            : null;
+                    }).length;
+                    arr.push(f);
+                });
                 break;
             case "month":
                 frequency.forEach((elem, i) => {
@@ -104,8 +122,8 @@ class Chart extends React.Component {
             ]
         };
         const doughnutOptions = {
-            legend: {display: false}
-        }
+            legend: { display: false }
+        };
 
         return (
             <div className="Chart">
