@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { logout, toggleMenu } from "../../redux/userReducer.js";
 import x from "./x.svg";
 import settings from "./settings.svg";
@@ -44,6 +45,7 @@ function Sidebar(props) {
                             onClick={() => {
                                 props.toggleMenu(false);
                                 props.logout();
+                                props.history.push("/");
                             }}
                         >
                             Logout
@@ -102,4 +104,6 @@ const mapDispatchToProps = {
     toggleMenu
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(Sidebar)
+);

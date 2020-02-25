@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import {
     getSession,
     setUser,
@@ -51,7 +52,14 @@ class Header extends React.Component {
                             <Link to="/settings">
                                 <button>Settings</button>
                             </Link>
-                            <button onClick={this.props.logout}>Logout</button>
+                            <button
+                                onClick={() =>
+                                    this.props.logout() &&
+                                    this.props.history.push("/")
+                                }
+                            >
+                                Logout
+                            </button>
                             <img
                                 src={hamburger}
                                 alt="hamburger"
@@ -80,4 +88,4 @@ const mapDispatchToProps = {
     toggleMenu
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

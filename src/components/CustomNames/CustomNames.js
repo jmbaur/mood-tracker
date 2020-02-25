@@ -1,11 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import "./CustomNames.css";
 
 class CustomNames extends React.Component {
     constructor() {
         super();
         this.state = {
-            custom: null,
+            custom: false,
             one: "",
             two: "",
             three: "",
@@ -16,15 +17,25 @@ class CustomNames extends React.Component {
 
     changeHandler = e => this.setState({ [e.target.name]: e.target.value });
 
+    checkboxChange = e => this.setState({ custom: !this.state.custom });
+
+    componentDidMount() {
+        this.setState({ custom: this.props.user.user.custom_mood });
+    }
+
     render() {
-        const { one, two, three, four, five } = this.state;
+        const { custom, one, two, three, four, five } = this.state;
 
         return (
             <div className="CustomNames">
                 <form>
                     <label>
                         Use Custom Mood Names
-                        <input type="checkbox" />
+                        <input
+                            type="checkbox"
+                            checked={custom}
+                            onChange={this.checkboxChange}
+                        />
                     </label>
                     <label>
                         Bad Mood Name
@@ -76,10 +87,19 @@ class CustomNames extends React.Component {
                             onChange={this.changeHandler}
                         />
                     </label>
+                    <input type="submit" value="Save Changes" />
                 </form>
             </div>
         );
     }
 }
 
-export default CustomNames;
+const mapStateToProps = state => {
+    return {
+        user: state.userReducer
+    };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomNames);
