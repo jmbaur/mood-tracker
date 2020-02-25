@@ -23,7 +23,8 @@ module.exports = {
                 firstName: newUser.first_name,
                 user_id: newUser.user_id,
                 username: newUser.username,
-                email: newUser.email
+                email: newUser.email,
+                custom_mood: newUser.custom_mood
             };
             res.status(200).send(req.session.user);
         }
@@ -45,7 +46,8 @@ module.exports = {
                     firstName: foundUser[0].first_name,
                     user_id: foundUser[0].user_id,
                     username: foundUser[0].username,
-                    email: foundUser[0].email
+                    email: foundUser[0].email,
+                    custom_mood: foundUser[0].custom_mood
                 };
                 res.status(200).send(req.session.user);
             }

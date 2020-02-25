@@ -3,3 +3,7 @@
     height: 100vh;
     /* background-color: rgb(24, 24, 24); */
 }
+
+.Settings img {
+    width: 40px;
+}
