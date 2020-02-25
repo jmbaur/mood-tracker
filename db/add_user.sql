@@ -1,7 +1,7 @@
 insert into users
-(username, email, password)
+(firstName, username, email, password)
 values
-($1, $2, $3);
+($1, $2, $3, $4);
 
 select * from users
-where email = $2;
+where email = $3;

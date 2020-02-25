@@ -117,4 +117,5 @@ add column
 
 ```sql
 alter table moods add column user_id int references users(user_id);
+alter table users add column firstName varchar(20);
 ```
