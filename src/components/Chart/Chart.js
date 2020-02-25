@@ -13,19 +13,17 @@ class Chart extends React.Component {
     }
 
     formatData = () => {
+        // today's date
         const date = new Date(Date.now());
         const today = date.getDate();
         const yesterday = date.getDate() - 1;
-        const week = [
-            today,
-            today - 1,
-            today - 2,
-            today - 3,
-            today - 4,
-            today - 5,
-            today - 6
-        ];
+        const dayOfWeek = date.getDay();
+        let week = [];
+        for (let i = 0; i < dayOfWeek; i++) {
+            week.push(today - i);
+        }
         const realMonth = date.getMonth();
+
         const { marks } = this.props.mood;
         const { frequency, selectedValue } = this.state;
         let arr = [];
