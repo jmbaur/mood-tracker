@@ -96,7 +96,7 @@ class Chart extends React.Component {
 
     render() {
         const { selectedValue } = this.state;
-        console.log(this.props.mood);
+        const { user } = this.props.user;
         const doughnutData = {
             labels: ["Bad", "Not Great", "OK", "Good", "Great"],
             datasets: [
@@ -125,7 +125,7 @@ class Chart extends React.Component {
 
         return (
             <div className="Chart">
-                <h1>{this.props.user.user.username}'s Data</h1>
+                <h1>{user.firstName || user.username}'s Data</h1>
                 <select value={selectedValue} onChange={this.changeHandler}>
                     <option value="all">All</option>
                     <option value="today">Today</option>

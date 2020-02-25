@@ -104,6 +104,7 @@ header > .user-portal button {
         display: none;
     }
     .hamburger-menu {
+        width: 35px;
         display: inline-block;
     }
 }

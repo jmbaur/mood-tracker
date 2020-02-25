@@ -19,14 +19,6 @@ class Marker extends React.Component {
         };
     }
 
-    // getDate = () => {
-    //     const event = new Date(Date.now());
-    //     return event
-    //         .toISOString()
-    //         .replace(/T/, " ")
-    //         .replace(/\..*/, "");
-    // };
-
     setMood = num => {
         const { defaultMoods } = this.state;
         this.setState({ showMood: true, message: defaultMoods[num].name });
@@ -65,8 +57,6 @@ class Marker extends React.Component {
     }
 
     render() {
-        // console.log("Marker Props ", this.props.mood);
-        // const { moods } = this.props.mood;
         const { showMood, message } = this.state;
         const custom = null;
         return (

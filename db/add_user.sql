@@ -1,5 +1,5 @@
 insert into users
-(firstName, username, email, password)
+(first_name, username, email, password)
 values
 ($1, $2, $3, $4);
 

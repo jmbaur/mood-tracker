@@ -31,10 +31,11 @@ class Register extends React.Component {
 
     submit = async e => {
         e.preventDefault();
-        const { username, email, password1, password2 } = this.state;
+        const { firstName, username, email, password1, password2 } = this.state;
         if (password1 === password2 && password1) {
             const res = await axios
                 .post("/auth/register", {
+                    firstName,
                     username,
                     email: email.toLowerCase(),
                     password: password1
@@ -60,18 +61,6 @@ class Register extends React.Component {
             alert("Passwords do not match.");
         }
     };
-
-    // getMoods = async () => {
-    //     const res = await axios
-    //         .get("/api/moods")
-    //         .catch(err => console.log("getMoods error ", err));
-    //     return res.data;
-    // };
-
-    componentWillUnmount() {
-        // console.log("hit");
-        // this.props.setMoods(() => this.getMoods());
-    }
 
     render() {
         const { firstName, username, email, password1, password2 } = this.state;

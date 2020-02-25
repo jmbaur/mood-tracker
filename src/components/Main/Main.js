@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { animateScroll as scroll } from "react-scroll";
+import { getMarks } from "../../redux/moodReducer.js";
 import NoUser from "../NoUser/NoUser.js";
 import Marker from "../Marker/Marker.js";
 import Chart from "../Chart/Chart.js";
@@ -64,6 +65,6 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { getMarks };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

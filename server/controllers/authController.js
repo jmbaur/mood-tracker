@@ -20,7 +20,7 @@ module.exports = {
                 hash
             ]);
             req.session.user = {
-                firstName: newUser.firstName,
+                firstName: newUser.first_name,
                 user_id: newUser.user_id,
                 username: newUser.username,
                 email: newUser.email
@@ -42,6 +42,7 @@ module.exports = {
                 res.status(401).send("Email or password is incorrect.");
             } else {
                 req.session.user = {
+                    firstName: foundUser[0].first_name,
                     user_id: foundUser[0].user_id,
                     username: foundUser[0].username,
                     email: foundUser[0].email

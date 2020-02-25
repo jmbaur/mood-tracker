@@ -11,35 +11,8 @@ import hamburger from "./hamburger.svg";
 import "./Header.css";
 
 class Header extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            menuStatus: "unclicked"
-        };
-    }
-
-    menuToggle = () => {
-        let status = false;
-        if (this.state.menuStatus === "unclicked") {
-            this.setState({ menuStatus: "clicked" });
-            status = true;
-        } else {
-            this.setState({ menuStatus: "unclicked" });
-        }
-        this.props.toggleMenu(status);
-    };
-
     componentDidMount() {
         this.props.getSession();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (
-            prevProps.user.hamburgerMenu &&
-            prevProps.user.hamburgerMenu !== this.props.user.hamburgerMenu
-        ) {
-            this.setState({ menuStatus: "unclicked" });
-        }
     }
 
     render() {
@@ -69,13 +42,12 @@ class Header extends React.Component {
                                 src={hamburger}
                                 alt="hamburger"
                                 className="hamburger-menu"
-                                id={this.state.menuStatus}
-                                onClick={this.menuToggle}
+                                onClick={() => this.props.toggleMenu(true)}
                             />
                         </div>
                     ) : (
                         <div className="logged-in">
-                            <h1>Welcome {user.username}</h1>
+                            <h1>Welcome {user.firstName || user.username}</h1>
                             <Link to="/settings">
                                 <button>Settings</button>
                             </Link>
@@ -84,8 +56,7 @@ class Header extends React.Component {
                                 src={hamburger}
                                 alt="hamburger"
                                 className="hamburger-menu"
-                                id={this.state.menuStatus}
-                                onClick={this.menuToggle}
+                                onClick={() => this.props.toggleMenu(true)}
                             />
                         </div>
                     )}

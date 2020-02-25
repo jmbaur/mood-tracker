@@ -1,15 +1,37 @@
 .Sidebar {
     display: none;
     height: 100vh;
-    width: 70vw;
-    background-color: red;
+    width: 100vw;
     /* background-color: rgb(24,24,24); */
     position: absolute;
     right: 0;
 }
 
+.Sidebar ul {
+    z-index: 1;
+    background-color: red;
+    width: 40vw;
+}
+
+.Sidebar img {
+    width: 20px;
+    filter: invert();
+}
+
+.Sidebar .x {
+    width: 30px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.Sidebar .empty-div {
+    width: 60vw;
+    background-color: transparent;
+}
+
 @media screen and (max-width: 700px) {
     .Sidebar {
-        display: inline-block;
+        display: flex;
     }
 }

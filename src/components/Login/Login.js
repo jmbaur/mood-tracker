@@ -35,13 +35,6 @@ class Login extends React.Component {
         }
     };
 
-    // getMoods = async () => {
-    //     const res = await axios
-    //         .get("/api/moods")
-    //         .catch(err => console.log("getMoods error ", err));
-    //     return res.data;
-    // };
-
     componentWillUnmount() {
         // console.log("hit");
         // this.props.setMoods(() => this.getMoods());

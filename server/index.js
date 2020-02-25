@@ -34,6 +34,8 @@ app.get("/auth/session", authCtrl.session);
 app.post("/api/mark", moodCtrl.mark);
 app.post("/api/marks", moodCtrl.getAllMarks);
 app.get("/api/moods", moodCtrl.getMoods);
+app.put("/api/mark/:id", moodCtrl.changeMark);
+app.delete("/api/mark/:id", moodCtrl.deleteMark);
 
 const PORT = process.env.SERVER_PORT || 3005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

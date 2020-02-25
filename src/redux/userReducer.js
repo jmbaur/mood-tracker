@@ -39,7 +39,7 @@ export function toggleMenu(status) {
 }
 
 export default function userReducer(state = initialState, action) {
-    console.log("USER REDUCER: ", action);
+    // console.log("USER REDUCER: ", action);
     switch (action.type) {
         case GET_SESSION + "_PENDING":
             return { ...state, user: {}, loading: true };
