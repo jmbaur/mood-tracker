@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { getMarks } from "../../redux/moodReducer.js";
+import { getMarksDetailed } from "../../redux/moodReducer.js";
+import EditText from "../EditText/EditText.js";
 import trash from "./trash.svg";
 import "./Log.css";
 
@@ -16,7 +17,7 @@ class Log extends React.Component {
     deleteMark = async mark_id => {
         const status = await axios.delete(`/api/mark/${mark_id}`);
         if (status.data === "OK") {
-            this.props.getMarks({ user_id: this.props.user.user.user_id });
+            this.props.getMarksDetailed(this.props.user.user.user_id);
         }
     };
 
@@ -24,61 +25,85 @@ class Log extends React.Component {
         this.state.changes.forEach(change => {
             axios.put(`/api/mark/${change.mark_id}`, { mood: change.mood });
         });
-        this.props.getMarks({ user_id: this.props.user.user.user_id });
+        this.props.getMarksDetailed(this.props.user.user.user_id);
         this.setState({ changes: [] });
     };
 
     changeHandler = e => {
         const { name, value } = e.target;
+        let arr = this.state.changes.slice();
+        const index = this.state.changes.findIndex(
+            change => change.mark_id === name
+        );
+        if (index !== -1) {
+            arr.splice(index, 1);
+        }
+        console.log(arr);
         const newChange = { mark_id: name, mood: value };
         this.setState({
-            changes: [...this.state.changes, newChange]
+            changes: [...arr, newChange]
         });
     };
 
+    submitComment = async (comment_id, comment) => {
+        const res = await axios.post(`/api/comment`, { comment_id, comment });
+        if (res.data === "OK") {
+        }
+    };
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.user.user.user_id !== this.props.user.user.user_id) {
+            // console.log("user change");
+            this.props.getMarksDetailed(this.props.user.user.user_id);
+        }
+    }
+
     componentDidMount() {
-        this.props.getMarks({ user_id: this.props.user.user.user_id });
+        if (this.props.user.user.user_id) {
+            this.props.getMarksDetailed(this.props.user.user.user_id);
+        }
     }
 
     render() {
-        const { loading, marks } = this.props.mood;
-        const condensedMarks =
-            marks.length > 10
-                ? marks.slice(marks.length - 10, marks.length - 1)
-                : marks;
+        const { loading, marksDetail } = this.props.mood;
 
-        const mappedMarks = condensedMarks
-            .slice()
-            .sort((a, b) => a.mark_id - b.mark_id)
-            .map((mark, i) => {
-                let date = new Date(mark.time).toUTCString();
-                return (
-                    <tr key={mark.mark_id}>
-                        <td>{date}</td>
-                        <td>
-                            <select
-                                name={mark.mark_id}
-                                defaultValue={mark.mood}
-                                onChange={this.changeHandler}
-                            >
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                        </td>
-                        <td>
-                            <img
-                                src={trash}
-                                alt="delete"
-                                className="trash-button"
-                                onClick={() => this.deleteMark(mark.mark_id)}
-                            />
-                        </td>
-                    </tr>
-                );
-            });
+        const mappedMarks = marksDetail.map((mark, i) => {
+            let date = new Date(mark.time).toUTCString();
+            return (
+                <tr key={mark.mark_id}>
+                    <td>{date}</td>
+                    <td>
+                        <select
+                            name={mark.mark_id}
+                            defaultValue={mark.mood}
+                            onChange={this.changeHandler}
+                        >
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </td>
+                    <td>
+                        <EditText
+                            text={mark.comment}
+                            id={mark.comment_id}
+                            submitButtonText="Comment"
+                            submit={this.submit}
+                        />
+                    </td>
+                    <td>
+                        <img
+                            src={trash}
+                            alt="delete"
+                            className="trash-button"
+                            onClick={() => this.deleteMark(mark.mark_id)}
+                        />
+                    </td>
+                </tr>
+            );
+        });
         return (
             <div className="Log">
                 {loading ? (
@@ -90,6 +115,7 @@ class Log extends React.Component {
                                 <tr>
                                     <th>Date</th>
                                     <th>Mood</th>
+                                    <th>Comment</th>
                                 </tr>
                                 {mappedMarks}
                             </tbody>
@@ -110,7 +136,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    getMarks
+    getMarksDetailed
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Log);

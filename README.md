@@ -102,6 +102,14 @@ create table marks
     mood int not null,
     time timestamp(0) not null
 );
+
+create table comments
+(
+    comment_id serial primary key,
+    comment varchar(100) not null,
+    user_id int references users(user_id) not null,
+    mark_id int references marks(mark_id) not null
+);
 ```
 
 Freezer:
@@ -117,6 +125,5 @@ add column
 
 ```sql
 alter table moods add column user_id int references users(user_id);
-alter table users add column custom_mood boolean default false;
 alter table users add column first_name varchar(20);
 ```

@@ -1,94 +1,136 @@
 import React from "react";
 import { connect } from "react-redux";
+import axios from "axios";
+import { getMoods } from "../../redux/moodReducer.js";
+import EditText from "../EditText/EditText.js";
+import trash from "./trash.svg";
 import "./CustomNames.css";
 
 class CustomNames extends React.Component {
     constructor() {
         super();
         this.state = {
-            custom: false,
             one: "",
             two: "",
             three: "",
             four: "",
-            five: ""
+            five: "",
+            customMoods: [
+                { name: "" },
+                { name: "" },
+                { name: "" },
+                { name: "" },
+                { name: "" }
+            ]
         };
     }
 
     changeHandler = e => this.setState({ [e.target.name]: e.target.value });
 
-    checkboxChange = e => this.setState({ custom: !this.state.custom });
+    numberToWords = num => {
+        switch (num) {
+            case 1:
+                return "one";
+            case 2:
+                return "two";
+            case 3:
+                return "three";
+            case 4:
+                return "four";
+            case 5:
+                return "five";
+            default:
+                return "";
+        }
+    };
+
+    submit = async (num, name) => {
+        const status = await axios.post("/api/moods", {
+            num,
+            name,
+            user_id: this.props.user.user.user_id
+        });
+        this.setState({ one: "", two: "", three: "", four: "", five: "" });
+        if (status.data === "OK") {
+            this.props.getMoods(this.props.user.user.user_id);
+        }
+    };
+
+    deleteMood = async id => {
+        const status = await axios.delete(`/api/moods/${id}`);
+        if (status.data === "OK") {
+            this.props.getMoods(this.props.user.user.user_id);
+        }
+    };
+
+    findCustomNames = () => {
+        let arr = [];
+        const { moods } = this.props.mood;
+        for (let i = 1; i <= 5; i++) {
+            const index = moods.findIndex(mood => mood.num === i);
+            index !== -1
+                ? arr.push(moods[index])
+                : arr.push({ num: i, name: "" });
+        }
+        this.setState({ customMoods: arr });
+    };
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.user.user.user_id !== this.props.user.user.user_id) {
+            // console.log("user change");
+            this.props.getMoods(this.props.user.user.user_id);
+        }
+        if (prevProps.mood.moods !== this.props.mood.moods) {
+            // console.log("mood change");
+            this.findCustomNames();
+        }
+    }
 
     componentDidMount() {
-        this.setState({ custom: this.props.user.user.custom_mood });
+        if (this.props.user.user.user_id) {
+            this.props.getMoods(this.props.user.user.user_id);
+            this.findCustomNames();
+        }
     }
 
     render() {
-        const { custom, one, two, three, four, five } = this.state;
+        const { customMoods } = this.state;
+        // console.log(customMoods);
+        const mappedNames = customMoods.map(mood => {
+            return (
+                <tr key={mood.mood_id}>
+                    <td>{mood.num}</td>
+                    <td>
+                        <EditText
+                            submit={this.submit}
+                            text={mood.name}
+                            id={mood.num}
+                            submitButtonText="Change"
+                        />
+                    </td>
+                    <td>
+                        <img
+                            src={trash}
+                            alt="delete"
+                            className="trash-button"
+                            onClick={() => this.deleteMood(mood.mood_id)}
+                        />
+                    </td>
+                </tr>
+            );
+        });
 
         return (
             <div className="CustomNames">
-                <form>
-                    <label>
-                        Use Custom Mood Names
-                        <input
-                            type="checkbox"
-                            checked={custom}
-                            onChange={this.checkboxChange}
-                        />
-                    </label>
-                    <label>
-                        Bad Mood Name
-                        <input
-                            type="text"
-                            name="one"
-                            value={one}
-                            placeholder=""
-                            onChange={this.changeHandler}
-                        />
-                    </label>
-                    <label>
-                        Mediocre Mood Name
-                        <input
-                            type="text"
-                            name="two"
-                            value={two}
-                            placeholder=""
-                            onChange={this.changeHandler}
-                        />
-                    </label>
-                    <label>
-                        Ehh Mood Name
-                        <input
-                            type="text"
-                            name="three"
-                            value={three}
-                            placeholder=""
-                            onChange={this.changeHandler}
-                        />
-                    </label>
-                    <label>
-                        Good Mood Name
-                        <input
-                            type="text"
-                            name="four"
-                            value={four}
-                            placeholder=""
-                            onChange={this.changeHandler}
-                        />
-                    </label>
-                    <label>
-                        Great Mood Name
-                        <input
-                            type="text"
-                            name="five"
-                            value={five}
-                            placeholder=""
-                            onChange={this.changeHandler}
-                        />
-                    </label>
-                    <input type="submit" value="Save Changes" />
-                </form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Mood</th>
+                            <th>Name</th>
+                        </tr>
+                        {mappedNames}
+                    </tbody>
+                </table>
             </div>
         );
     }
@@ -96,10 +138,11 @@ class CustomNames extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.userReducer
+        user: state.userReducer,
+        mood: state.moodReducer
     };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { getMoods };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomNames);

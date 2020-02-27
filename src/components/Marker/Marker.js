@@ -1,6 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setTitle, addMark, getMarks } from "../../redux/moodReducer.js";
+import {
+    setTitle,
+    addMark,
+    getMarks,
+    getMoods
+} from "../../redux/moodReducer.js";
 import "./Marker.css";
 
 class Marker extends React.Component {
@@ -21,7 +26,19 @@ class Marker extends React.Component {
 
     setMood = num => {
         const { defaultMoods } = this.state;
-        this.setState({ showMood: true, message: defaultMoods[num].name });
+        const { moods } = this.props.mood; // custom moods
+        console.log(moods);
+        const customIndex = moods.findIndex(mood => mood.num === num);
+        const defaultIndex = defaultMoods.findIndex(mood => mood.num === num);
+        customIndex !== -1
+            ? this.setState({
+                  showMood: true,
+                  message: moods[customIndex].name
+              })
+            : this.setState({
+                  showMood: true,
+                  message: defaultMoods[defaultIndex].name
+              });
         setTimeout(() => this.setState({ showMood: false }), 1000);
         let numName;
         switch (num) {
@@ -48,17 +65,19 @@ class Marker extends React.Component {
         this.props.addMark({
             user_id: this.props.user.user.user_id,
             time: event,
-            mood: num + 1
+            mood: num
         });
     };
 
     componentDidMount() {
-        this.props.getMarks({ user_id: this.props.user.user.user_id });
+        this.props.getMarks(this.props.user.user.user_id);
+        this.props.getMoods(this.props.user.user.user_id);
     }
 
     render() {
         const { showMood, message } = this.state;
-        const custom = null;
+        console.log(this.props.mood.marks);
+
         return (
             <div className="Marker">
                 <div className="mood-message-container">
@@ -70,31 +89,31 @@ class Marker extends React.Component {
                     <div className="circle-marker">
                         <button
                             className="one"
-                            onClick={() => this.setMood(custom || 0)}
+                            onClick={() => this.setMood(1)}
                         ></button>
                     </div>
                     <div className="circle-marker">
                         <button
                             className="two"
-                            onClick={() => this.setMood(custom || 1)}
+                            onClick={() => this.setMood(2)}
                         ></button>
                     </div>
                     <div className="circle-marker">
                         <button
                             className="three"
-                            onClick={() => this.setMood(custom || 2)}
+                            onClick={() => this.setMood(3)}
                         ></button>
                     </div>
                     <div className="circle-marker">
                         <button
                             className="four"
-                            onClick={() => this.setMood(custom || 3)}
+                            onClick={() => this.setMood(4)}
                         ></button>
                     </div>
                     <div className="circle-marker">
                         <button
                             className="five"
-                            onClick={() => this.setMood(custom || 4)}
+                            onClick={() => this.setMood(5)}
                         ></button>
                     </div>
                 </div>
@@ -113,7 +132,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     setTitle,
     addMark,
-    getMarks
+    getMarks,
+    getMoods
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Marker);

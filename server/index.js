@@ -30,12 +30,17 @@ app.post("/auth/login", authCtrl.login);
 app.get("/auth/logout", authCtrl.logout);
 app.get("/auth/session", authCtrl.session);
 
-// mood endpoints
+// mark endpoints
 app.post("/api/mark", moodCtrl.mark);
-app.post("/api/marks", moodCtrl.getAllMarks);
-app.get("/api/moods", moodCtrl.getMoods);
+app.get("/api/marks", moodCtrl.getAllMarks);
+app.get("/api/marks_detail", moodCtrl.getAllMarksDetailed)
 app.put("/api/mark/:id", moodCtrl.changeMark);
 app.delete("/api/mark/:id", moodCtrl.deleteMark);
+
+// mood endpoints
+app.post("/api/moods", moodCtrl.addMoodNames);
+app.get("/api/moods/:id", moodCtrl.getMoodNames);
+app.delete("/api/moods/:id", moodCtrl.deleteMood);
 
 const PORT = process.env.SERVER_PORT || 3005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
