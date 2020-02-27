@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { animateScroll as scroll } from "react-scroll";
-import { getMarks } from "../../redux/moodReducer.js";
 import NoUser from "../NoUser/NoUser.js";
 import Marker from "../Marker/Marker.js";
 import Chart from "../Chart/Chart.js";
@@ -48,7 +47,7 @@ class Main extends React.Component {
                                 id={this.state.arrow}
                             />
                         </div>
-                        {this.props.mood.loading ? <h1>LOADING</h1> : <Chart />}
+                        {this.props.mark.loading ? <h1>LOADING</h1> : <Chart />}
                     </div>
                 ) : (
                     <NoUser />
@@ -61,10 +60,11 @@ class Main extends React.Component {
 const mapStateToProps = state => {
     return {
         user: state.userReducer,
-        mood: state.moodReducer
+        mood: state.moodReducer,
+        mark: state.markReducer
     };
 };
 
-const mapDispatchToProps = { getMarks };
+const mapDispatchToProps = { };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { getMarksDetailed } from "../../redux/moodReducer.js";
+import { getMarksDetailed } from "../../redux/markReducer.js";
 import EditText from "../EditText/EditText.js";
 import trash from "./trash.svg";
 import "./Log.css";
@@ -23,10 +23,12 @@ class Log extends React.Component {
 
     changeMarks = () => {
         this.state.changes.forEach(change => {
-            axios.put(`/api/mark/${change.mark_id}`, { mood: change.mood });
+            axios.put(`/api/mark/${change.mark_id}`, {
+                mood: change.mood
+            });
         });
-        this.props.getMarksDetailed(this.props.user.user.user_id);
         this.setState({ changes: [] });
+        this.props.getMarksDetailed(this.props.user.user.user_id);
     };
 
     changeHandler = e => {
@@ -38,22 +40,37 @@ class Log extends React.Component {
         if (index !== -1) {
             arr.splice(index, 1);
         }
-        console.log(arr);
         const newChange = { mark_id: name, mood: value };
         this.setState({
             changes: [...arr, newChange]
         });
     };
 
-    submitComment = async (comment_id, comment) => {
-        const res = await axios.post(`/api/comment`, { comment_id, comment });
+    submitComment = async (comment_id, comment, mark_id) => {
+        const { user_id } = this.props.user.user;
+        let res;
+        if (!comment_id) {
+            // post a comment
+            res = await axios.post(`/api/comments`, {
+                mark_id,
+                comment,
+                user_id
+            });
+        } else {
+            // change an existing comment
+            res = await axios.put(`/api/comments/${comment_id}`, {
+                mark_id,
+                comment,
+                user_id
+            });
+        }
         if (res.data === "OK") {
+            this.props.getMarksDetailed(this.props.user.user.user_id);
         }
     };
 
     componentDidUpdate(prevProps) {
         if (prevProps.user.user.user_id !== this.props.user.user.user_id) {
-            // console.log("user change");
             this.props.getMarksDetailed(this.props.user.user.user_id);
         }
     }
@@ -65,7 +82,7 @@ class Log extends React.Component {
     }
 
     render() {
-        const { loading, marksDetail } = this.props.mood;
+        const { loading, marksDetail } = this.props.mark;
 
         const mappedMarks = marksDetail.map((mark, i) => {
             let date = new Date(mark.time).toUTCString();
@@ -89,8 +106,9 @@ class Log extends React.Component {
                         <EditText
                             text={mark.comment}
                             id={mark.comment_id}
+                            id2={mark.mark_id}
                             submitButtonText="Comment"
-                            submit={this.submit}
+                            submit={this.submitComment}
                         />
                     </td>
                     <td>
@@ -131,7 +149,7 @@ class Log extends React.Component {
 const mapStateToProps = state => {
     return {
         user: state.userReducer,
-        mood: state.moodReducer
+        mark: state.markReducer
     };
 };
 

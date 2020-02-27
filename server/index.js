@@ -4,6 +4,8 @@ const massive = require("massive");
 const session = require("express-session");
 const authCtrl = require("./controllers/authController.js");
 const moodCtrl = require("./controllers/moodController.js");
+const markCtrl = require("./controllers/markController.js");
+const commentCtrl = require("./controllers/commentController.js");
 
 const app = express();
 
@@ -31,16 +33,20 @@ app.get("/auth/logout", authCtrl.logout);
 app.get("/auth/session", authCtrl.session);
 
 // mark endpoints
-app.post("/api/mark", moodCtrl.mark);
-app.get("/api/marks", moodCtrl.getAllMarks);
-app.get("/api/marks_detail", moodCtrl.getAllMarksDetailed)
-app.put("/api/mark/:id", moodCtrl.changeMark);
-app.delete("/api/mark/:id", moodCtrl.deleteMark);
+app.post("/api/mark", markCtrl.addMark);
+app.get("/api/marks", markCtrl.getAllMarks);
+app.get("/api/marks_detail", markCtrl.getAllMarksDetailed);
+app.put("/api/mark/:id", markCtrl.changeMark);
+app.delete("/api/mark/:id", markCtrl.deleteMark);
 
 // mood endpoints
 app.post("/api/moods", moodCtrl.addMoodNames);
 app.get("/api/moods/:id", moodCtrl.getMoodNames);
 app.delete("/api/moods/:id", moodCtrl.deleteMood);
+
+// comment endpoints
+app.post("/api/comments", commentCtrl.addComment);
+app.put("/api/comments/:id", commentCtrl.changeComment);
 
 const PORT = process.env.SERVER_PORT || 3005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

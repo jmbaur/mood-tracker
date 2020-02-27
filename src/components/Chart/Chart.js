@@ -24,7 +24,7 @@ class Chart extends React.Component {
         }
         const realMonth = date.getMonth();
 
-        const { marks } = this.props.mood;
+        const { marks } = this.props.mark;
         const { frequency, selectedValue } = this.state;
         let arr = [];
         switch (selectedValue) {
@@ -143,7 +143,7 @@ class Chart extends React.Component {
 const mapStateToProps = state => {
     return {
         user: state.userReducer,
-        mood: state.moodReducer
+        mark: state.markReducer
     };
 };
 

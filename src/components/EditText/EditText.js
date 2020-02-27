@@ -14,7 +14,7 @@ class EditText extends React.Component {
 
     internalSubmit = e => {
         e.preventDefault();
-        this.props.submit(this.props.id, this.state.input);
+        this.props.submit(this.props.id, this.state.input, this.props.id2);
         this.setState({ editText: false });
     };
 

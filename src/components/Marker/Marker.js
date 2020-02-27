@@ -1,11 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-    setTitle,
-    addMark,
-    getMarks,
-    getMoods
-} from "../../redux/moodReducer.js";
+import { setTitle, getMoods } from "../../redux/moodReducer.js";
+import { addMark, getMarks } from "../../redux/markReducer.js";
+import Comment from "../Comment/Comment.js";
 import "./Marker.css";
 
 class Marker extends React.Component {
@@ -25,9 +22,8 @@ class Marker extends React.Component {
     }
 
     setMood = num => {
-        const { defaultMoods } = this.state;
+        const { defaultMoods } = this.state; // default moods
         const { moods } = this.props.mood; // custom moods
-        console.log(moods);
         const customIndex = moods.findIndex(mood => mood.num === num);
         const defaultIndex = defaultMoods.findIndex(mood => mood.num === num);
         customIndex !== -1
@@ -39,7 +35,6 @@ class Marker extends React.Component {
                   showMood: true,
                   message: defaultMoods[defaultIndex].name
               });
-        setTimeout(() => this.setState({ showMood: false }), 1000);
         let numName;
         switch (num) {
             case 0:
@@ -69,6 +64,17 @@ class Marker extends React.Component {
         });
     };
 
+    falseShowMood = () => {
+        this.setState({ showMood: false });
+        // this.setState({ showMood: !this.state.showMood });
+    };
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.mark.recentMark !== this.props.mark.recentMark) {
+            this.props.getMarks(this.props.user.user.user_id);
+        }
+    }
+
     componentDidMount() {
         this.props.getMarks(this.props.user.user.user_id);
         this.props.getMoods(this.props.user.user.user_id);
@@ -76,13 +82,16 @@ class Marker extends React.Component {
 
     render() {
         const { showMood, message } = this.state;
-        console.log(this.props.mood.marks);
 
         return (
             <div className="Marker">
                 <div className="mood-message-container">
                     {showMood ? (
-                        <p className="mood-message">{message}</p>
+                        // <p className="mood-message">{message}</p>
+                        <Comment
+                            message={message}
+                            falseShowMood={this.falseShowMood}
+                        />
                     ) : null}
                 </div>
                 <div className="circle-container">
@@ -125,7 +134,8 @@ class Marker extends React.Component {
 const mapStateToProps = state => {
     return {
         user: state.userReducer,
-        mood: state.moodReducer
+        mood: state.moodReducer,
+        mark: state.markReducer
     };
 };
 

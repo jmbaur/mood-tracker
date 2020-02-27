@@ -96,9 +96,9 @@ class CustomNames extends React.Component {
     render() {
         const { customMoods } = this.state;
         // console.log(customMoods);
-        const mappedNames = customMoods.map(mood => {
+        const mappedNames = customMoods.map((mood, i) => {
             return (
-                <tr key={mood.mood_id}>
+                <tr key={i}>
                     <td>{mood.num}</td>
                     <td>
                         <EditText
