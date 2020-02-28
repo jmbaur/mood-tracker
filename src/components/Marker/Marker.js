@@ -1,7 +1,13 @@
 import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
+import { Line, Scatter } from "react-chartjs-2";
 import { setTitle, getMoods } from "../../redux/moodReducer.js";
-import { addMark, getMarks } from "../../redux/markReducer.js";
+import {
+    addMark,
+    getMarks,
+    getMarksDetailed
+} from "../../redux/markReducer.js";
 import Comment from "../Comment/Comment.js";
 import "./Marker.css";
 
@@ -17,7 +23,9 @@ class Marker extends React.Component {
                 { num: 5, name: "Great!" }
             ],
             showMood: false,
-            message: ""
+            message: "",
+            lineLabels: [],
+            lineData: []
         };
     }
 
@@ -64,6 +72,16 @@ class Marker extends React.Component {
         });
     };
 
+    getLineData = async () => {
+        const filter = "day";
+        const { user_id } = this.props.user.user;
+        const res = await axios.get(
+            `/api/marks_filter?user_id=${user_id}&filter=${filter}`
+        );
+        let tmpArr = res.data.map(elem => elem["t"]);
+        this.setState({ lineData: res.data, lineLabels: tmpArr });
+    };
+
     falseShowMood = () => {
         this.setState({ showMood: false });
         // this.setState({ showMood: !this.state.showMood });
@@ -72,22 +90,47 @@ class Marker extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.mark.recentMark !== this.props.mark.recentMark) {
             this.props.getMarks(this.props.user.user.user_id);
+            this.props.getMarksDetailed(this.props.user.user.user_id);
         }
     }
 
     componentDidMount() {
         this.props.getMarks(this.props.user.user.user_id);
+        this.props.getMarksDetailed(this.props.user.user.user_id);
         this.props.getMoods(this.props.user.user.user_id);
+        this.getLineData();
     }
 
     render() {
-        const { showMood, message } = this.state;
+        const { showMood, message, lineData, lineLabels } = this.state;
+        // console.log(lineData, lineLabels)
+
+        const options = {
+            scales: {
+                xAxes: [
+                    {
+                        type: "time",
+                        distribution: "linear",
+                        time: { unit: "hour", stepSize: 1 }
+                    }
+                ]
+            }
+        };
+        const data = {
+            type: "line",
+            labels: lineLabels,
+            datasets: [
+                {
+                    label: "Today's Moods",
+                    data: lineData
+                }
+            ]
+        };
 
         return (
             <div className="Marker">
                 <div className="mood-message-container">
                     {showMood ? (
-                        // <p className="mood-message">{message}</p>
                         <Comment
                             message={message}
                             falseShowMood={this.falseShowMood}
@@ -126,6 +169,8 @@ class Marker extends React.Component {
                         ></button>
                     </div>
                 </div>
+                <Line options={options} data={data} />
+                {/* <Scatter options={options} data={data} /> */}
             </div>
         );
     }
@@ -143,6 +188,7 @@ const mapDispatchToProps = {
     setTitle,
     addMark,
     getMarks,
+    getMarksDetailed,
     getMoods
 };
 

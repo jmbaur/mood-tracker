@@ -4,6 +4,7 @@ import { animateScroll as scroll } from "react-scroll";
 import NoUser from "../NoUser/NoUser.js";
 import Marker from "../Marker/Marker.js";
 import Chart from "../Chart/Chart.js";
+import Loading from "../Loading/Loading.js";
 import arrow from "./arrow.svg";
 import "./Main.css";
 
@@ -36,18 +37,18 @@ class Main extends React.Component {
         return (
             <main className="Main">
                 {loading ? (
-                    <h1>LOADING</h1>
+                    <Loading />
                 ) : loggedIn ? (
                     <div>
                         <Marker />
-                        <div className="arrow" onClick={this.scroll}>
-                            <img
-                                src={arrow}
-                                alt="arrow"
-                                id={this.state.arrow}
-                            />
-                        </div>
-                        {this.props.mark.loading ? <h1>LOADING</h1> : <Chart />}
+                        {/* <div className="arrow" onClick={this.scroll}> */}
+                        {/*     <img */}
+                        {/*         src={arrow} */}
+                        {/*         alt="arrow" */}
+                        {/*         id={this.state.arrow} */}
+                        {/*     /> */}
+                        {/* </div> */}
+                        <Chart />
                     </div>
                 ) : (
                     <NoUser />
@@ -65,6 +66,6 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = { };
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

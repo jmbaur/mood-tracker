@@ -3,6 +3,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { getMarksDetailed } from "../../redux/markReducer.js";
 import EditText from "../EditText/EditText.js";
+import Loading from "../Loading/Loading.js";
 import trash from "./trash.svg";
 import "./Log.css";
 
@@ -125,7 +126,7 @@ class Log extends React.Component {
         return (
             <div className="Log">
                 {loading ? (
-                    <h1>LOADING</h1>
+                    <Loading />
                 ) : (
                     <div>
                         <table>

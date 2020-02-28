@@ -36,6 +36,7 @@ app.get("/auth/session", authCtrl.session);
 app.post("/api/mark", markCtrl.addMark);
 app.get("/api/marks", markCtrl.getAllMarks);
 app.get("/api/marks_detail", markCtrl.getAllMarksDetailed);
+app.get("/api/marks_filter", markCtrl.getMarksFilter);
 app.put("/api/mark/:id", markCtrl.changeMark);
 app.delete("/api/mark/:id", markCtrl.deleteMark);
 

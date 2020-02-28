@@ -29,5 +29,18 @@ module.exports = {
         const { id } = req.params;
         const modified = await db.change_mark([mood, +id]);
         modified.length ? res.sendStatus(200) : res.sendStatus(500);
+    },
+    getMarksFilter: async (req, res) => {
+        const db = req.app.get("db");
+        const { filter, user_id } = req.query;
+        let data;
+        switch (filter) {
+            case "day":
+                data = await db.get_marks_detail_today(+user_id);
+                break;
+            default:
+                data = [];
+        }
+        res.status(200).send(data);
     }
 };

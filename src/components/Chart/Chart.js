@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
+import Loading from "../Loading/Loading.js";
 import "./Chart.css";
 
 class Chart extends React.Component {
@@ -97,6 +98,7 @@ class Chart extends React.Component {
     render() {
         const { selectedValue } = this.state;
         const { user } = this.props.user;
+        const { loading } = this.props.mark;
         const doughnutData = {
             labels: ["Bad", "Not Great", "OK", "Good", "Great"],
             datasets: [
@@ -134,7 +136,16 @@ class Chart extends React.Component {
                     <option value="month">Month</option>
                 </select>
 
-                <Doughnut options={doughnutOptions} data={doughnutData} />
+                {!loading ? (
+                    <div>
+                        <Doughnut
+                            options={doughnutOptions}
+                            data={doughnutData}
+                        />
+                    </div>
+                ) : (
+                    <Loading />
+                )}
             </div>
         );
     }

@@ -2,13 +2,16 @@ import axios from "axios";
 const initialState = {
     marks: [],
     marksDetail: [],
+    marksDetailFilter: [],
     recentMark: {},
-    loading: false
+    loading: false,
+    loadingFilter: false
 };
 
 const ADD_MARK = "ADD_MARK";
 const GET_MARKS = "GET_MARKS";
 const GET_MARKS_DETAILED = "GET_MARKS_DETAILED";
+const GET_MARKS_DETAILED_FILTERED = "GET_MARKS_DETAILED_FILTERED";
 
 export function addMark(mark) {
     return {
@@ -35,6 +38,15 @@ export function getMarksDetailed(user_id) {
     };
 }
 
+export function getMarksDetailedFiltered(user_id, filter) {
+    return {
+        type: GET_MARKS_DETAILED_FILTERED,
+        payload: axios.get(
+            `/api/marks_detail_filter/?user_id=${user_id}?filter=${filter}`
+        )
+    };
+}
+
 export default function marksReducer(state = initialState, action) {
     switch (action.type) {
         case ADD_MARK + "_PENDING":
@@ -49,6 +61,14 @@ export default function marksReducer(state = initialState, action) {
             return { ...state, loading: true };
         case GET_MARKS_DETAILED + "_FULFILLED":
             return { ...state, loading: false, marksDetail: action.payload };
+        case GET_MARKS_DETAILED_FILTERED + "_PENDING":
+            return { ...state, loadingFilter: true };
+        case GET_MARKS_DETAILED_FILTERED + "_FULFILLED":
+            return {
+                ...state,
+                loadingFilter: false,
+                marksDetailFilter: action.payload
+            };
         default:
             return state;
     }
