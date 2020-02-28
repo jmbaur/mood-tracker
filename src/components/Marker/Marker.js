@@ -1,13 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Line, Scatter } from "react-chartjs-2";
-import { setTitle, getMoods } from "../../redux/moodReducer.js";
-import {
-    addMark,
-    getMarks,
-    getMarksDetailed
-} from "../../redux/markReducer.js";
+import { Line } from "react-chartjs-2";
+import { setTitle } from "../../redux/reducer.js";
 import Comment from "../Comment/Comment.js";
 import "./Marker.css";
 
@@ -22,59 +17,67 @@ class Marker extends React.Component {
                 { num: 4, name: "Pretty good" },
                 { num: 5, name: "Great!" }
             ],
+            customMoods: [],
             showMood: false,
             message: "",
             lineLabels: [],
-            lineData: []
+            lineData: [],
+            recentMark: {}
         };
     }
 
     setMood = num => {
-        const { defaultMoods } = this.state; // default moods
-        const { moods } = this.props.mood; // custom moods
-        const customIndex = moods.findIndex(mood => mood.num === num);
+        const { defaultMoods, customMoods } = this.state;
+        const customIndex = customMoods.findIndex(mood => mood.num === num);
         const defaultIndex = defaultMoods.findIndex(mood => mood.num === num);
         customIndex !== -1
             ? this.setState({
                   showMood: true,
-                  message: moods[customIndex].name
+                  message: customMoods[customIndex].name
               })
             : this.setState({
                   showMood: true,
                   message: defaultMoods[defaultIndex].name
               });
+        this.setTitle(num);
+        this.addMark({
+            user_id: this.props.user.user_id,
+            mood: num
+        });
+    };
+
+    setTitle = num => {
         let numName;
         switch (num) {
-            case 0:
+            case 1:
                 numName = "one";
                 break;
-            case 1:
+            case 2:
                 numName = "two";
                 break;
-            case 2:
+            case 3:
                 numName = "three";
                 break;
-            case 3:
+            case 4:
                 numName = "four";
                 break;
-            case 4:
+            case 5:
                 numName = "five";
                 break;
             default:
                 numName = "default";
         }
         this.props.setTitle(numName);
-        const event = new Date(Date.now()).toISOString();
-        this.props.addMark({
-            user_id: this.props.user.user.user_id,
-            time: event,
-            mood: num
-        });
+    };
+
+    addMark = async mark => {
+        const res = await axios.post("/api/mark", mark);
+        this.setState({ recentMark: res.data[0] });
     };
 
     getLineData = async () => {
         const filter = "day";
-        const { user_id } = this.props.user.user;
+        const { user_id } = this.props.user;
         const res = await axios.get(
             `/api/marks_filter?user_id=${user_id}&filter=${filter}`
         );
@@ -82,28 +85,28 @@ class Marker extends React.Component {
         this.setState({ lineData: res.data, lineLabels: tmpArr });
     };
 
-    falseShowMood = () => {
-        this.setState({ showMood: false });
-        // this.setState({ showMood: !this.state.showMood });
+    getMoods = async user_id => {
+        const res = await axios.get(`/api/moods/${user_id}`);
+        this.setState({ customMoods: res.data });
     };
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.mark.recentMark !== this.props.mark.recentMark) {
-            this.props.getMarks(this.props.user.user.user_id);
-            this.props.getMarksDetailed(this.props.user.user.user_id);
+    falseShowMood = () => {
+        this.setState({ showMood: false });
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.recentMark !== this.state.recentMark) {
+            this.getLineData();
         }
     }
 
     componentDidMount() {
-        this.props.getMarks(this.props.user.user.user_id);
-        this.props.getMarksDetailed(this.props.user.user.user_id);
-        this.props.getMoods(this.props.user.user.user_id);
+        this.getMoods(this.props.user.user_id);
         this.getLineData();
     }
 
     render() {
         const { showMood, message, lineData, lineLabels } = this.state;
-        // console.log(lineData, lineLabels)
 
         const options = {
             scales: {
@@ -111,7 +114,19 @@ class Marker extends React.Component {
                     {
                         type: "time",
                         distribution: "linear",
-                        time: { unit: "hour", stepSize: 1 }
+                        time: {
+                            unit: "hour",
+                            stepSize: 1,
+                            tooltipFormat: "HH:mm:ss"
+                        }
+                    }
+                ],
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
                     }
                 ]
             }
@@ -122,6 +137,23 @@ class Marker extends React.Component {
             datasets: [
                 {
                     label: "Today's Moods",
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: "butt",
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: "miter",
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
                     data: lineData
                 }
             ]
@@ -134,6 +166,7 @@ class Marker extends React.Component {
                         <Comment
                             message={message}
                             falseShowMood={this.falseShowMood}
+                            recentMark={this.state.recentMark}
                         />
                     ) : null}
                 </div>
@@ -170,26 +203,14 @@ class Marker extends React.Component {
                     </div>
                 </div>
                 <Line options={options} data={data} />
-                {/* <Scatter options={options} data={data} /> */}
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.userReducer,
-        mood: state.moodReducer,
-        mark: state.markReducer
-    };
-};
-
+const mapStateToProps = state => state;
 const mapDispatchToProps = {
-    setTitle,
-    addMark,
-    getMarks,
-    getMarksDetailed,
-    getMoods
+    setTitle
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Marker);

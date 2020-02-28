@@ -12,8 +12,8 @@ class Comment extends React.Component {
 
     submitComment = async e => {
         e.preventDefault();
-        const { mark_id } = this.props.mark.recentMark;
-        const { user_id } = this.props.user.user;
+        const { mark_id } = this.props.recentMark;
+        const { user_id } = this.props.user;
         const res = await axios.post(`/api/comments`, {
             mark_id,
             comment: this.state.input,
@@ -51,12 +51,6 @@ class Comment extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.userReducer,
-        mark: state.markReducer
-    };
-};
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Comment);
+const mapStateToProps = state => state
+;
+export default connect(mapStateToProps)(Comment);

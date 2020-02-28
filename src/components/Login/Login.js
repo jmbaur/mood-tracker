@@ -1,8 +1,6 @@
 import React from "react";
-// import axios from "axios";
 import { connect } from "react-redux";
-import { setUser } from "../../redux/userReducer.js";
-// import { setMoods } from "../../redux/moodReducer.js";
+import { setUser } from "../../redux/reducer.js";
 import "./Login.css";
 
 class Login extends React.Component {
@@ -34,11 +32,6 @@ class Login extends React.Component {
             alert("Password is empty.");
         }
     };
-
-    componentWillUnmount() {
-        // console.log("hit");
-        // this.props.setMoods(() => this.getMoods());
-    }
 
     render() {
         const { email, password } = this.state;
@@ -84,16 +77,9 @@ class Login extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.userReducer,
-        mood: state.moodReducer
-    };
-};
-
+const mapStateToProps = state => state;
 const mapDispatchToProps = {
     setUser
-    // setMoods
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

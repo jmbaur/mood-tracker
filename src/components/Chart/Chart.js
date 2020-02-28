@@ -25,7 +25,7 @@ class Chart extends React.Component {
         }
         const realMonth = date.getMonth();
 
-        const { marks } = this.props.mark;
+        const { marks } = this.props;
         const { frequency, selectedValue } = this.state;
         let arr = [];
         switch (selectedValue) {
@@ -97,8 +97,8 @@ class Chart extends React.Component {
 
     render() {
         const { selectedValue } = this.state;
-        const { user } = this.props.user;
-        const { loading } = this.props.mark;
+        const { firstName, username } = this.props.user;
+        const { loading } = this.props;
         const doughnutData = {
             labels: ["Bad", "Not Great", "OK", "Good", "Great"],
             datasets: [
@@ -127,7 +127,7 @@ class Chart extends React.Component {
 
         return (
             <div className="Chart">
-                <h1>{user.firstName || user.username}'s Data</h1>
+                <h1>{firstName || username}'s Data</h1>
                 <select value={selectedValue} onChange={this.changeHandler}>
                     <option value="all">All</option>
                     <option value="today">Today</option>
@@ -151,11 +151,5 @@ class Chart extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.userReducer,
-        mark: state.markReducer
-    };
-};
-
+const mapStateToProps = state => state;
 export default connect(mapStateToProps)(Chart);

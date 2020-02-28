@@ -1,7 +1,10 @@
+const moment = require("moment");
+
 module.exports = {
     addMark: async (req, res) => {
         const db = req.app.get("db");
-        const { user_id, time, mood } = req.body;
+        const { user_id, mood } = req.body;
+        const time = moment().format();
         const data = await db.add_mark([user_id, time, mood]);
         res.status(200).send(data);
     },

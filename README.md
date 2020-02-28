@@ -60,6 +60,7 @@ Freezer:
 -   massive
 -   dotenv
 -   bcrypt
+-   moment
 
 ### Endpoints
 

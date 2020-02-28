@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { getMarksDetailed } from "../../redux/markReducer.js";
 import EditText from "../EditText/EditText.js";
 import Loading from "../Loading/Loading.js";
 import trash from "./trash.svg";
@@ -18,7 +17,7 @@ class Log extends React.Component {
     deleteMark = async mark_id => {
         const status = await axios.delete(`/api/mark/${mark_id}`);
         if (status.data === "OK") {
-            this.props.getMarksDetailed(this.props.user.user.user_id);
+            // this.props.getMarksDetailed(this.props.user.user.user_id);
         }
     };
 
@@ -29,7 +28,7 @@ class Log extends React.Component {
             });
         });
         this.setState({ changes: [] });
-        this.props.getMarksDetailed(this.props.user.user.user_id);
+        // this.props.getMarksDetailed(this.props.user.user.user_id);
     };
 
     changeHandler = e => {
@@ -48,7 +47,7 @@ class Log extends React.Component {
     };
 
     submitComment = async (comment_id, comment, mark_id) => {
-        const { user_id } = this.props.user.user;
+        const { user_id } = this.props.user;
         let res;
         if (!comment_id) {
             // post a comment
@@ -66,63 +65,63 @@ class Log extends React.Component {
             });
         }
         if (res.data === "OK") {
-            this.props.getMarksDetailed(this.props.user.user.user_id);
+            // this.props.getMarksDetailed(this.props.user.user.user_id);
         }
     };
 
     componentDidUpdate(prevProps) {
-        if (prevProps.user.user.user_id !== this.props.user.user.user_id) {
-            this.props.getMarksDetailed(this.props.user.user.user_id);
+        if (prevProps.user.user_id !== this.props.user.user_id) {
+            // this.props.getMarksDetailed(this.props.user.user.user_id);
         }
     }
 
     componentDidMount() {
-        if (this.props.user.user.user_id) {
-            this.props.getMarksDetailed(this.props.user.user.user_id);
+        if (this.props.user.user_id) {
+            // this.props.getMarksDetailed(this.props.user.user.user_id);
         }
     }
 
     render() {
-        const { loading, marksDetail } = this.props.mark;
+        const { loading } = this.props;
 
-        const mappedMarks = marksDetail.map((mark, i) => {
-            let date = new Date(mark.time).toUTCString();
-            return (
-                <tr key={mark.mark_id}>
-                    <td>{date}</td>
-                    <td>
-                        <select
-                            name={mark.mark_id}
-                            defaultValue={mark.mood}
-                            onChange={this.changeHandler}
-                        >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </td>
-                    <td>
-                        <EditText
-                            text={mark.comment}
-                            id={mark.comment_id}
-                            id2={mark.mark_id}
-                            submitButtonText="Comment"
-                            submit={this.submitComment}
-                        />
-                    </td>
-                    <td>
-                        <img
-                            src={trash}
-                            alt="delete"
-                            className="trash-button"
-                            onClick={() => this.deleteMark(mark.mark_id)}
-                        />
-                    </td>
-                </tr>
-            );
-        });
+        // const mappedMarks = marksDetail.map((mark, i) => {
+        //     let date = new Date(mark.time).toUTCString();
+        //     return (
+        //         <tr key={mark.mark_id}>
+        //             <td>{date}</td>
+        //             <td>
+        //                 <select
+        //                     name={mark.mark_id}
+        //                     defaultValue={mark.mood}
+        //                     onChange={this.changeHandler}
+        //                 >
+        //                     <option value="1">1</option>
+        //                     <option value="2">2</option>
+        //                     <option value="3">3</option>
+        //                     <option value="4">4</option>
+        //                     <option value="5">5</option>
+        //                 </select>
+        //             </td>
+        //             <td>
+        //                 <EditText
+        //                     text={mark.comment}
+        //                     id={mark.comment_id}
+        //                     id2={mark.mark_id}
+        //                     submitButtonText="Comment"
+        //                     submit={this.submitComment}
+        //                 />
+        //             </td>
+        //             <td>
+        //                 <img
+        //                     src={trash}
+        //                     alt="delete"
+        //                     className="trash-button"
+        //                     onClick={() => this.deleteMark(mark.mark_id)}
+        //                 />
+        //             </td>
+        //         </tr>
+        //     );
+        // });
         return (
             <div className="Log">
                 {loading ? (
@@ -136,7 +135,7 @@ class Log extends React.Component {
                                     <th>Mood</th>
                                     <th>Comment</th>
                                 </tr>
-                                {mappedMarks}
+                                {/* {mappedMarks} */}
                             </tbody>
                         </table>
                         <button onClick={this.changeMarks}>Save Changes</button>
@@ -147,15 +146,5 @@ class Log extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.userReducer,
-        mark: state.markReducer
-    };
-};
-
-const mapDispatchToProps = {
-    getMarksDetailed
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Log);
+const mapStateToProps = state => state;
+export default connect(mapStateToProps)(Log);

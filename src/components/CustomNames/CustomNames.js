@@ -1,7 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
 import axios from "axios";
-import { getMoods } from "../../redux/moodReducer.js";
+import { connect } from "react-redux";
 import EditText from "../EditText/EditText.js";
 import trash from "./trash.svg";
 import "./CustomNames.css";
@@ -15,7 +14,8 @@ class CustomNames extends React.Component {
             three: "",
             four: "",
             five: "",
-            customMoods: [
+            customMoods: [],
+            moods: [
                 { name: "" },
                 { name: "" },
                 { name: "" },
@@ -48,55 +48,60 @@ class CustomNames extends React.Component {
         const status = await axios.post("/api/moods", {
             num,
             name,
-            user_id: this.props.user.user.user_id
+            user_id: this.props.user.user_id
         });
         this.setState({ one: "", two: "", three: "", four: "", five: "" });
         if (status.data === "OK") {
-            this.props.getMoods(this.props.user.user.user_id);
+            this.getMoods(this.props.user.user_id);
         }
     };
 
     deleteMood = async id => {
         const status = await axios.delete(`/api/moods/${id}`);
         if (status.data === "OK") {
-            this.props.getMoods(this.props.user.user.user_id);
+            this.getMoods(this.props.user.user_id);
         }
+    };
+
+    getMoods = async user_id => {
+        const res = await axios.get(`/api/moods/${user_id}`);
+        this.setState({ customMoods: res.data });
     };
 
     findCustomNames = () => {
         let arr = [];
-        const { moods } = this.props.mood;
+        const { customMoods } = this.state;
         for (let i = 1; i <= 5; i++) {
-            const index = moods.findIndex(mood => mood.num === i);
+            const index = customMoods.findIndex(mood => mood.num === i);
             index !== -1
-                ? arr.push(moods[index])
+                ? arr.push(customMoods[index])
                 : arr.push({ num: i, name: "" });
         }
-        this.setState({ customMoods: arr });
+        this.setState({ moods: arr });
     };
 
     componentDidUpdate(prevProps) {
-        if (prevProps.user.user.user_id !== this.props.user.user.user_id) {
+        if (prevProps.user.user_id !== this.props.user.user_id) {
             // console.log("user change");
-            this.props.getMoods(this.props.user.user.user_id);
-        }
-        if (prevProps.mood.moods !== this.props.mood.moods) {
-            // console.log("mood change");
+            this.getMoods(this.props.user.user_id);
             this.findCustomNames();
         }
+        // if (prevProps.mood.moods !== this.props.mood.moods) {
+        // console.log("mood change");
+        // this.findCustomNames();
+        // }
     }
 
     componentDidMount() {
-        if (this.props.user.user.user_id) {
-            this.props.getMoods(this.props.user.user.user_id);
+        if (this.props.user.user_id) {
+            this.getMoods(this.props.user.user_id);
             this.findCustomNames();
         }
     }
 
     render() {
-        const { customMoods } = this.state;
-        // console.log(customMoods);
-        const mappedNames = customMoods.map((mood, i) => {
+        const { moods } = this.state;
+        const mappedNames = moods.map((mood, i) => {
             return (
                 <tr key={i}>
                     <td>{mood.num}</td>
@@ -136,13 +141,6 @@ class CustomNames extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.userReducer,
-        mood: state.moodReducer
-    };
-};
+const mapStateToProps = state => state;
 
-const mapDispatchToProps = { getMoods };
-
-export default connect(mapStateToProps, mapDispatchToProps)(CustomNames);
+export default connect(mapStateToProps)(CustomNames);

@@ -7,7 +7,7 @@ import {
     setUser,
     logout,
     toggleMenu
-} from "../../redux/userReducer.js";
+} from "../../redux/reducer.js";
 import hamburger from "./hamburger.svg";
 import "./Header.css";
 
@@ -17,14 +17,14 @@ class Header extends React.Component {
     }
 
     render() {
-        const { user, loggedIn } = this.props.user;
+        const { user, loggedIn } = this.props;
 
         return (
             <header>
                 <div className="title-container">
                     <Link to="/">
                         <button className="title-button">
-                            <h1 className="title" id={this.props.mood.title}>
+                            <h1 className="title" id={this.props.title}>
                                 MOOD TRACKER
                             </h1>
                         </button>
@@ -49,6 +49,9 @@ class Header extends React.Component {
                     ) : (
                         <div className="logged-in">
                             <h1>Welcome {user.firstName || user.username}</h1>
+                            <Link to="/data">
+                                <button>Data</button>
+                            </Link>
                             <Link to="/settings">
                                 <button>Settings</button>
                             </Link>
@@ -74,12 +77,8 @@ class Header extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.userReducer,
-        mood: state.moodReducer
-    };
-};
+const mapStateToProps = state =>state
+;
 
 const mapDispatchToProps = {
     getSession,

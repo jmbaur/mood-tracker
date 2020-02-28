@@ -2,12 +2,14 @@ import axios from "axios";
 
 const initialState = {
     user: {},
+    title: "default",
     loading: false,
     loggedIn: false,
-    hamburgerMenu: false
+    hamburgerMenu: false,
 };
 
 const GET_SESSION = "GET_SESSION";
+const SET_TITLE = "SET_TITLE";
 const SET_USER = "SET_USER";
 const LOGOUT = "LOGOUT";
 const TOGGLE_MENU = "TOGGLE_MENU";
@@ -16,6 +18,13 @@ export function getSession() {
     return {
         type: GET_SESSION,
         payload: axios.get("/auth/session").then(res => res.data)
+    };
+}
+
+export function setTitle(color) {
+    return {
+        type: SET_TITLE,
+        payload: color
     };
 }
 
@@ -64,6 +73,8 @@ export default function userReducer(state = initialState, action) {
         case SET_USER + "_REJECTED":
             alert("Incorrect username or password.");
             return { ...state, loading: false };
+        case SET_TITLE:
+            return { ...state, title: action.payload };
         case LOGOUT:
             return { ...state, user: {}, loggedIn: false };
         case TOGGLE_MENU:

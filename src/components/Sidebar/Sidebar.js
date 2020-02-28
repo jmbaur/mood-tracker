@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import { logout, toggleMenu } from "../../redux/userReducer.js";
+import { logout, toggleMenu } from "../../redux/reducer.js";
 import x from "./x.svg";
 import settings from "./settings.svg";
 import logoutSvg from "./logout.svg";
@@ -17,7 +17,7 @@ function Sidebar(props) {
                 onClick={() => props.toggleMenu(false)}
                 className="empty-div"
             ></div>
-            {props.user.loggedIn ? (
+            {props.loggedIn ? (
                 <ul>
                     <img
                         src={x}
@@ -25,6 +25,21 @@ function Sidebar(props) {
                         className="x"
                         onClick={() => props.toggleMenu(false)}
                     />
+                    <li>
+                        <Link
+                            to="/data"
+                            onClick={() => props.toggleMenu(false)}
+                        >
+                            <button>
+                                Data
+                                <img
+                                    src={settings}
+                                    alt="settings-button"
+                                    className="settings-button"
+                                />
+                            </button>
+                        </Link>
+                    </li>
                     <li>
                         <Link
                             to="/settings"
@@ -93,11 +108,8 @@ function Sidebar(props) {
     );
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.userReducer
-    };
-};
+const mapStateToProps = state => state
+;
 
 const mapDispatchToProps = {
     logout,

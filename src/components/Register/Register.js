@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { setUser } from "../../redux/userReducer.js";
+import { setUser } from "../../redux/reducer.js";
 import "./Register.css";
 
 class Register extends React.Component {
@@ -136,12 +136,7 @@ class Register extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.userReducer
-    };
-};
-
+const mapStateToProps = state => state;
 const mapDispatchToProps = {
     setUser
 };
