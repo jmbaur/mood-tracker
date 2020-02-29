@@ -11,10 +11,4 @@ module.exports = {
         const moods = await db.get_custom_names(id);
         res.status(200).send(moods);
     },
-    deleteMood: async (req, res) => {
-        const db = req.app.get("db");
-        const { id } = req.params;
-        const deleted = await db.delete_mood_name(id);
-        deleted.length ? res.sendStatus(200) : res.sendStatus(500);
-    }
 };

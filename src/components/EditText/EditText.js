@@ -18,6 +18,10 @@ class EditText extends React.Component {
         this.setState({ editText: false });
     };
 
+    componentDidMount() {
+        this.setState({ input: this.props.text });
+    }
+
     render() {
         return (
             <div>
@@ -36,7 +40,7 @@ class EditText extends React.Component {
                             type="text"
                             name="input"
                             value={this.state.input}
-                            placeholder={this.props.text}
+                            placeholder={"default"}
                             onChange={this.changeHandler}
                         />
                         <input

@@ -37,13 +37,12 @@ app.post("/api/mark", markCtrl.addMark);
 app.get("/api/marks", markCtrl.getAllMarks);
 app.get("/api/marks_detail", markCtrl.getAllMarksDetailed);
 app.get("/api/marks_filter", markCtrl.getMarksFilter);
-app.put("/api/mark/:id", markCtrl.changeMark);
-app.delete("/api/mark/:id", markCtrl.deleteMark);
+app.put("/api/marks/:id", markCtrl.changeMark);
+app.delete("/api/marks/:id", markCtrl.deleteMark);
 
 // mood endpoints
 app.post("/api/moods", moodCtrl.addMoodNames);
 app.get("/api/moods/:id", moodCtrl.getMoodNames);
-app.delete("/api/moods/:id", moodCtrl.deleteMood);
 
 // comment endpoints
 app.post("/api/comments", commentCtrl.addComment);

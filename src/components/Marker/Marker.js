@@ -10,14 +10,7 @@ class Marker extends React.Component {
     constructor() {
         super();
         this.state = {
-            defaultMoods: [
-                { num: 1, name: "Feels bad man" },
-                { num: 2, name: "Seen better days" },
-                { num: 3, name: "Ehhhh" },
-                { num: 4, name: "Pretty good" },
-                { num: 5, name: "Great!" }
-            ],
-            customMoods: [],
+            moods: [],
             showMood: false,
             message: "",
             lineLabels: [],
@@ -27,18 +20,12 @@ class Marker extends React.Component {
     }
 
     setMood = num => {
-        const { defaultMoods, customMoods } = this.state;
-        const customIndex = customMoods.findIndex(mood => mood.num === num);
-        const defaultIndex = defaultMoods.findIndex(mood => mood.num === num);
-        customIndex !== -1
-            ? this.setState({
-                  showMood: true,
-                  message: customMoods[customIndex].name
-              })
-            : this.setState({
-                  showMood: true,
-                  message: defaultMoods[defaultIndex].name
-              });
+        const { moods } = this.state;
+        const index = moods.findIndex(mood => mood.num === num);
+        this.setState({
+            showMood: true,
+            message: moods[index].name
+        });
         this.setTitle(num);
         this.addMark({
             user_id: this.props.user.user_id,
@@ -87,7 +74,22 @@ class Marker extends React.Component {
 
     getMoods = async user_id => {
         const res = await axios.get(`/api/moods/${user_id}`);
-        this.setState({ customMoods: res.data });
+        const defaultMoods = [
+            { num: 1, name: "Feels bad man" },
+            { num: 2, name: "Seen better days" },
+            { num: 3, name: "Ehhhh" },
+            { num: 4, name: "Pretty good" },
+            { num: 5, name: "Great!" }
+        ];
+        let tmpArr = res.data.slice();
+        let i = 0;
+        while (i < 5) {
+            if (tmpArr[i].num !== i + 1) {
+                tmpArr.splice(i, 0, defaultMoods[i]);
+            }
+            i++;
+        }
+        this.setState({ moods: tmpArr });
     };
 
     falseShowMood = () => {
@@ -107,6 +109,7 @@ class Marker extends React.Component {
 
     render() {
         const { showMood, message, lineData, lineLabels } = this.state;
+        console.log(lineData);
 
         const options = {
             scales: {

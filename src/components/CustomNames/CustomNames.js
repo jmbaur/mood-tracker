@@ -9,19 +9,7 @@ class CustomNames extends React.Component {
     constructor() {
         super();
         this.state = {
-            one: "",
-            two: "",
-            three: "",
-            four: "",
-            five: "",
-            customMoods: [],
-            moods: [
-                { name: "" },
-                { name: "" },
-                { name: "" },
-                { name: "" },
-                { name: "" }
-            ]
+            moods: []
         };
     }
 
@@ -45,99 +33,63 @@ class CustomNames extends React.Component {
     };
 
     submit = async (num, name) => {
-        const status = await axios.post("/api/moods", {
+        let status = await axios.post("/api/moods", {
             num,
             name,
             user_id: this.props.user.user_id
         });
-        this.setState({ one: "", two: "", three: "", four: "", five: "" });
         if (status.data === "OK") {
-            this.getMoods(this.props.user.user_id);
-        }
-    };
-
-    deleteMood = async id => {
-        const status = await axios.delete(`/api/moods/${id}`);
-        if (status.data === "OK") {
-            this.getMoods(this.props.user.user_id);
+            this.findCustomNames();
         }
     };
 
     getMoods = async user_id => {
         const res = await axios.get(`/api/moods/${user_id}`);
-        this.setState({ customMoods: res.data });
+        return res.data;
     };
 
-    findCustomNames = () => {
-        let arr = [];
-        const { customMoods } = this.state;
-        for (let i = 1; i <= 5; i++) {
-            const index = customMoods.findIndex(mood => mood.num === i);
-            index !== -1
-                ? arr.push(customMoods[index])
-                : arr.push({ num: i, name: "" });
+    findCustomNames = async () => {
+        const moods = await this.getMoods(this.props.user.user_id);
+        let tmpArr = moods.slice();
+        let i = 0;
+        while (i < 5) {
+            if (tmpArr[i].num !== i + 1) {
+                tmpArr.splice(i, 0, { num: i + 1, name: "" });
+            }
+            i++;
         }
-        this.setState({ moods: arr });
+        this.setState({ moods: tmpArr });
     };
 
     componentDidUpdate(prevProps) {
         if (prevProps.user.user_id !== this.props.user.user_id) {
-            // console.log("user change");
-            this.getMoods(this.props.user.user_id);
             this.findCustomNames();
         }
-        // if (prevProps.mood.moods !== this.props.mood.moods) {
-        // console.log("mood change");
-        // this.findCustomNames();
-        // }
     }
 
     componentDidMount() {
         if (this.props.user.user_id) {
-            this.getMoods(this.props.user.user_id);
             this.findCustomNames();
         }
     }
 
     render() {
-        const { moods } = this.state;
-        const mappedNames = moods.map((mood, i) => {
+        // console.log(this.state);
+        const mappedInputs = this.state.moods.map((mood, i) => {
             return (
-                <tr key={i}>
-                    <td>{mood.num}</td>
-                    <td>
-                        <EditText
-                            submit={this.submit}
-                            text={mood.name}
-                            id={mood.num}
-                            submitButtonText="Change"
-                        />
-                    </td>
-                    <td>
-                        <img
-                            src={trash}
-                            alt="delete"
-                            className="trash-button"
-                            onClick={() => this.deleteMood(mood.mood_id)}
-                        />
-                    </td>
-                </tr>
+                <div key={i}>
+                    <h1>{mood.num}</h1>
+                    <EditText
+                        submitButtonText="Change"
+                        submit={this.submit}
+                        text={mood.name}
+                        id={mood.num}
+                    />
+                    <img src={trash} alt="trash" onClick={this.delete} />
+                </div>
             );
         });
-
-        return (
-            <div className="CustomNames">
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Mood</th>
-                            <th>Name</th>
-                        </tr>
-                        {mappedNames}
-                    </tbody>
-                </table>
-            </div>
-        );
+        return <div className="CustomNames">{mappedInputs}</div>;
     }
 }
 

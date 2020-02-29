@@ -20,17 +20,17 @@ class Settings extends React.Component {
             <div className="Settings">
                 <div>
                     <img
-                        src={pencil}
-                        alt="names-icon"
+                        src={list}
+                        alt="log-icon"
                         onClick={() => this.toggle(true)}
                     />
                     <img
-                        src={list}
-                        alt="log-icon"
+                        src={pencil}
+                        alt="names-icon"
                         onClick={() => this.toggle(false)}
                     />
                 </div>
-                {this.state.firstPage ? <CustomNames /> : <Log />}
+                {this.state.firstPage ? <Log /> : <CustomNames />}
             </div>
         );
     }
