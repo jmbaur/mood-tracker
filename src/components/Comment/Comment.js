@@ -41,8 +41,8 @@ class Comment extends React.Component {
                             onChange={this.changeHandler}
                         />
                     </label>
-                    <input type="submit" />
-                    <button onClick={this.props.falseShowMood}>
+                    <button type="submit">Submit</button>
+                    <button type="button" onClick={this.props.falseShowMood}>
                         No thanks
                     </button>
                 </form>

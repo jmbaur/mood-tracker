@@ -101,7 +101,7 @@ create table marks
     mark_id serial primary key,
     user_id int references users(user_id),
     mood int not null,
-    time timestamp(0) not null
+    time timestamp(0) with time zone not null
 );
 
 create table comments

@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import moment from "moment";
 import { connect } from "react-redux";
 import { Line } from "react-chartjs-2";
 import { setTitle } from "../../redux/reducer.js";
@@ -29,6 +30,7 @@ class Marker extends React.Component {
         this.setTitle(num);
         this.addMark({
             user_id: this.props.user.user_id,
+            time: moment().format(),
             mood: num
         });
     };

@@ -38,7 +38,7 @@ app.get("/api/marks", markCtrl.getAllMarks);
 app.get("/api/marks_detail", markCtrl.getAllMarksDetailed);
 app.get("/api/marks_filter", markCtrl.getMarksFilter);
 app.put("/api/marks/:id", markCtrl.changeMark);
-app.delete("/api/marks/:id", markCtrl.deleteMark);
+app.delete("/api/marks", markCtrl.deleteMark);
 
 // mood endpoints
 app.post("/api/moods", moodCtrl.addMoodNames);

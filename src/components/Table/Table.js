@@ -1,12 +1,41 @@
 import React from "react";
-import {
-    useTable,
-    useFilters,
-    useSortBy,
-    usePagination
-} from "react-table";
+import { useTable, useFilters, useSortBy, usePagination } from "react-table";
 
-function Table({ columns, data }) {
+function Table({ columns, data, updateMyData, skipPageReset }) {
+    // Create an editable cell renderer
+    const EditableCell = ({
+        cell: { value: initialValue },
+        row: { index },
+        column: { id },
+        updateMyData // This is a custom function that we supplied to our table instance
+    }) => {
+        // We need to keep and update the state of the cell normally
+        const [value, setValue] = React.useState(initialValue);
+
+        const onChange = e => {
+            setValue(e.target.value);
+        };
+
+        // We'll only update the external data when the input is blurred
+        const onBlur = () => {
+            updateMyData(index, id, value);
+        };
+
+        // If the initialValue is changed external, sync it up with our state
+        React.useEffect(() => {
+            setValue(initialValue);
+        }, [initialValue]);
+
+        return (
+            <input value={value || ""} onChange={onChange} onBlur={onBlur} />
+        );
+    };
+
+    // Set our editable cell renderer as the default Cell renderer
+    const defaultColumn = {
+        Cell: EditableCell
+    };
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -29,7 +58,10 @@ function Table({ columns, data }) {
         {
             columns,
             data,
-            initialState: { pageIndex: 0 }
+            defaultColumn,
+            initialState: { pageIndex: 0 },
+            autoResetPage: !skipPageReset,
+            updateMyData
         },
         useSortBy,
         usePagination
