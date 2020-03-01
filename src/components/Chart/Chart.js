@@ -87,12 +87,12 @@ class Chart extends React.Component {
     };
 
     componentDidMount() {
-        this.formatData();
+        // this.formatData();
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.selectedValue !== this.state.selectedValue)
-            this.formatData();
+        // if (prevState.selectedValue !== this.state.selectedValue)
+        //     this.formatData();
     }
 
     render() {
@@ -127,25 +127,9 @@ class Chart extends React.Component {
 
         return (
             <div className="Chart">
-                <h1>{firstName || username}'s Data</h1>
-                <select value={selectedValue} onChange={this.changeHandler}>
-                    <option value="all">All</option>
-                    <option value="today">Today</option>
-                    <option value="yesterday">Yesterday</option>
-                    <option value="week">Week</option>
-                    <option value="month">Month</option>
-                </select>
-
-                {!loading ? (
-                    <div>
-                        <Doughnut
-                            options={doughnutOptions}
-                            data={doughnutData}
-                        />
-                    </div>
-                ) : (
-                    <Loading />
-                )}
+                <div>
+                    <Doughnut options={doughnutOptions} data={doughnutData} />
+                </div>
             </div>
         );
     }

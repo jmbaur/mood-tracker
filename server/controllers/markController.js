@@ -42,7 +42,7 @@ module.exports = {
             case "day":
                 data = await db.get_marks_detail_today(+user_id);
                 data = data.map(elem => {
-                    return { t: moment(elem.t).format(), y: elem.y };
+                    return { t: moment(elem.t).format(), y: elem.y, c: elem.c };
                 });
                 break;
             default:
