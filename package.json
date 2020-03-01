@@ -15,6 +15,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "massive": "^6.2.0",
+    "match-sorter": "^4.0.2",
     "moment": "^2.24.0",
     "nodemon": "^2.0.2",
     "react": "^16.12.0",

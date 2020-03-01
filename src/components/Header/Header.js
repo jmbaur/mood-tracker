@@ -52,6 +52,9 @@ class Header extends React.Component {
                             <Link to="/data">
                                 <button>Data</button>
                             </Link>
+                            <Link to="/log">
+                                <button>Log</button>
+                            </Link>
                             <Link to="/settings">
                                 <button>Settings</button>
                             </Link>
