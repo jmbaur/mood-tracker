@@ -9,7 +9,7 @@ class Settings extends React.Component {
     constructor() {
         super();
         this.state = {
-            moods: []
+            moods: [],
         };
     }
 
@@ -87,11 +87,7 @@ class Settings extends React.Component {
                 </div>
             );
         });
-        return (
-            <div className="Settings">
-                {mappedInputs}
-            </div>
-        );
+        return <div className="Settings">{mappedInputs}</div>;
     }
 }
 

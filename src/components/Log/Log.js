@@ -56,12 +56,14 @@ function Log(props) {
                 <img
                     src={x}
                     alt="delete"
-                    onClick={() =>
+                    onClick={() => {
+                        // console.log(row.index);
                         deleteMark(
                             row.original.comment_id,
-                            row.original.mark_id
-                        )
-                    }
+                            row.original.mark_id,
+                            row.index
+                        );
+                    }}
                 />
             )
         },
@@ -98,13 +100,16 @@ function Log(props) {
         axios.put(`/api/marks/${id}`, { mood });
     };
 
-    const deleteMark = async (comment_id, mark_id) => {
+    const deleteMark = async (comment_id, mark_id, index) => {
         const res = await axios.delete(
             `/api/marks?comment_id=${comment_id || 0}&mark_id=${mark_id}`
         );
+        // let tmpData = data;
+        // tmpData.splice(index, 1);
+        // setData(tmpData);
         if (res.data === "OK") {
             axios
-                .get(`/api/marks_detail?user_id=${props.user.user_id}`)
+                .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
                 .then(res => setData(res.data));
         }
     };
@@ -152,7 +157,7 @@ function Log(props) {
 
     useEffect(() => {
         axios
-            .get(`/api/marks_detail?user_id=${props.user.user_id}`)
+            .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
             .then(res => setData(res.data));
     }, [props.user.user_id]);
 
