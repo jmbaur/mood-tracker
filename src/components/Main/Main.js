@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import NoUser from "../NoUser/NoUser.js";
+import About from "../About/About.js";
 import Marker from "../Marker/Marker.js";
 import Loading from "../Loading/Loading.js";
 import "./Main.css";
@@ -17,7 +17,7 @@ function Main(props) {
                     <Marker />
                 </div>
             ) : (
-                <NoUser />
+                <About />
             )}
         </main>
     );

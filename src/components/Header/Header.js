@@ -21,7 +21,6 @@ class Header extends React.Component {
 
         return (
             <header>
-                <div className="title-container">
                     <Link to="/">
                         <button className="title-button">
                             <h1 className="title" id={this.props.title}>
@@ -29,7 +28,6 @@ class Header extends React.Component {
                             </h1>
                         </button>
                     </Link>
-                </div>
                 <div className="user-portal">
                     {!loggedIn ? (
                         <div className="not-logged-in">

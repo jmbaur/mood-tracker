@@ -19,15 +19,17 @@ function Sidebar(props) {
                 onClick={() => props.toggleMenu(false)}
                 className="empty-div"
             ></div>
-            {props.loggedIn ? (
-                <ul>
+            <div className="sidebar-content-container">
+                <div className="sidebar-header">
                     <img
                         src={x}
                         alt="x"
                         className="x"
                         onClick={() => props.toggleMenu(false)}
                     />
-                    <li>
+                </div>
+                {props.loggedIn ? (
+                    <div className="sidebar-menu">
                         <Link
                             to="/data"
                             onClick={() => props.toggleMenu(false)}
@@ -41,8 +43,6 @@ function Sidebar(props) {
                                 />
                             </button>
                         </Link>
-                    </li>
-                    <li>
                         <Link to="/log" onClick={() => props.toggleMenu(false)}>
                             <button>
                                 Log
@@ -53,8 +53,6 @@ function Sidebar(props) {
                                 />
                             </button>
                         </Link>
-                    </li>
-                    <li>
                         <Link
                             to="/settings"
                             onClick={() => props.toggleMenu(false)}
@@ -68,8 +66,6 @@ function Sidebar(props) {
                                 />
                             </button>
                         </Link>
-                    </li>
-                    <li>
                         <button
                             onClick={() => {
                                 props.toggleMenu(false);
@@ -84,40 +80,30 @@ function Sidebar(props) {
                                 className="logout-button"
                             />
                         </button>
-                    </li>
-                </ul>
-            ) : (
-                <ul>
-                    <img
-                        src={x}
-                        alt="x"
-                        className="x"
-                        onClick={() => props.toggleMenu(false)}
-                    />
-                    <li>
-                        <Link
-                            to="/register"
-                            onClick={() => props.toggleMenu(false)}
-                        >
-                            <button>
-                                Register
+                    </div>
+                ) : (
+                        <div className="sidebar-menu">
+                            <Link
+                                to="/register"
+                                onClick={() => props.toggleMenu(false)}
+                            >
+                                <button>
+                                    Register
                                 <img src={profile} alt="register-button" />
-                            </button>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            to="/login"
-                            onClick={() => props.toggleMenu(false)}
-                        >
-                            <button>
-                                Login
+                                </button>
+                            </Link>
+                            <Link
+                                to="/login"
+                                onClick={() => props.toggleMenu(false)}
+                            >
+                                <button>
+                                    Login
                                 <img src={login} alt="login-button" />
-                            </button>
-                        </Link>
-                    </li>
-                </ul>
-            )}
+                                </button>
+                            </Link>
+                        </div>
+                    )}
+            </div>
         </div>
     );
 }

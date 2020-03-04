@@ -38,40 +38,39 @@ class Login extends React.Component {
 
         return (
             <main className="Login">
-                <div>
-                    <form onSubmit={this.submit} className="login-form">
-                        <div className="input-fields">
-                            <label>
-                                Email
-                                <input
-                                    type="text"
-                                    name="email"
-                                    placeholder="required"
-                                    value={email}
-                                    onChange={this.changeHandler}
-                                />
-                            </label>
-                            <label>
-                                Password
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="required"
-                                    value={password}
-                                    onChange={this.changeHandler}
-                                />
-                            </label>
-                        </div>
-                        <div className="form-buttons-container">
-                            <input
-                                type="submit"
-                                value="Login"
-                                className="submit-button"
-                            />
-                            <button onClick={this.clear}>Clear</button>
-                        </div>
-                    </form>
+                <div className="title">
+                    <h1>Login Here</h1>
                 </div>
+                <form onSubmit={this.submit} className="login-form">
+                    <div className="input-fields">
+                        <label>
+                            Email
+                                <input
+                                type="text"
+                                name="email"
+                                value={email}
+                                onChange={this.changeHandler}
+                            />
+                        </label>
+                        <label>
+                            Password
+                                <input
+                                type="password"
+                                name="password"
+                                value={password}
+                                onChange={this.changeHandler}
+                            />
+                        </label>
+                    </div>
+                    <div className="form-buttons-container">
+                        <button type="button" onClick={this.clear}>Clear</button>
+                        <button
+                            type="submit"
+                            className="submit-button">
+                            Login
+                        </button>
+                    </div>
+                </form>
             </main>
         );
     }

@@ -67,70 +67,67 @@ class Register extends React.Component {
 
         return (
             <main className="Register">
-                <div>
-                    <form onSubmit={this.submit} className="register-form">
-                        <div className="input-fields">
-                            <label>
-                                First Name
-                                <input
-                                    type="text"
-                                    name="firstName"
-                                    placeholder="optional"
-                                    value={firstName}
-                                    onChange={this.changeHandler}
-                                />
-                            </label>
-                            <label>
-                                Username
-                                <input
-                                    type="text"
-                                    name="username"
-                                    placeholder="required"
-                                    value={username}
-                                    onChange={this.changeHandler}
-                                />
-                            </label>
-                            <label>
-                                Email
-                                <input
-                                    type="text"
-                                    name="email"
-                                    placeholder="required"
-                                    value={email}
-                                    onChange={this.changeHandler}
-                                />
-                            </label>
-                            <label>
-                                Password
-                                <input
-                                    type="password"
-                                    name="password1"
-                                    placeholder="required"
-                                    value={password1}
-                                    onChange={this.changeHandler}
-                                />
-                            </label>
-                            <label>
-                                Confirm Password
-                                <input
-                                    type="password"
-                                    name="password2"
-                                    placeholder="required"
-                                    value={password2}
-                                    onChange={this.changeHandler}
-                                />
-                            </label>
-                        </div>
-                        <div className="form-buttons-container">
-                            <input
-                                type="submit"
-                                value="Register"
-                                className="submit-button"
-                            />
-                            <button onClick={this.clear}>Clear</button>
-                        </div>
-                    </form>
+                <div className="title">
+                    <h1>Register Here</h1>
                 </div>
+                <form onSubmit={this.submit} className="register-form">
+                    <div className="input-fields">
+                        <label>
+                            First Name
+                                <input
+                                type="text"
+                                name="firstName"
+                                placeholder="optional"
+                                value={firstName}
+                                onChange={this.changeHandler}
+                            />
+                        </label>
+                        <label>
+                            Username
+                                <input
+                                type="text"
+                                name="username"
+                                value={username}
+                                onChange={this.changeHandler}
+                            />
+                        </label>
+                        <label>
+                            Email
+                                <input
+                                type="text"
+                                name="email"
+                                value={email}
+                                onChange={this.changeHandler}
+                            />
+                        </label>
+                        <label>
+                            Password
+                                <input
+                                type="password"
+                                name="password1"
+                                value={password1}
+                                onChange={this.changeHandler}
+                            />
+                        </label>
+                        <label>
+                            Confirm Password
+                                <input
+                                type="password"
+                                name="password2"
+                                value={password2}
+                                onChange={this.changeHandler}
+                            />
+                        </label>
+                    </div>
+                    <div className="form-buttons-container">
+                        <button type="button" onClick={this.clear}>Clear</button>
+                        <button
+                            type="submit"
+                            className="submit-button">
+                            Register
+                            </button>
+                    </div>
+                </form>
             </main>
         );
     }

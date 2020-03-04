@@ -2,31 +2,61 @@
     display: none;
     height: 100vh;
     width: 100vw;
-    /* background-color: rgb(24,24,24); */
-    position: absolute;
+    position: fixed;
     right: 0;
+    z-index: 1;
 }
 
-.Sidebar ul {
-    z-index: 1;
-    background-color: red;
-    width: 40vw;
+.Sidebar a {
+    text-decoration: none;
+}
+
+.Sidebar .sidebar-content-container{
+    background-color: rgb(250,251,252);
+    width: 55vw;
+}
+
+.Sidebar .sidebar-menu {
+    padding: 0 20px;
+}
+
+.Sidebar button {
+    border: none;
+    background-color: rgb(36,41,46);
+    color: rgb(255,255,255);
+    border-radius: 5px;
+    font-weight: 800;
+    width: 100%;
+    height: 40px;
+    margin: 25px 0;
+    font-size: large;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
 }
 
 .Sidebar img {
-    width: 20px;
+    width: 30px;
     filter: invert();
 }
 
+.Sidebar .sidebar-header {
+    background-color: rgb(250,251,252);
+    width: 100%;
+    height: 10vh;
+}
+
 .Sidebar .x {
-    width: 30px;
+    width: 35px;
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 20px;
+    top: 20px;
+    filter: invert(22%) sepia(6%) saturate(1468%) hue-rotate(148deg) brightness(98%) contrast(93%);
 }
 
 .Sidebar .empty-div {
-    width: 60vw;
+    width: 45vw;
     background-color: transparent;
 }
 

@@ -1,8 +1,10 @@
 header {
+    position: fixed;
+    top: 0;
     width: 100vw;
     height: 10vh;
-    background-color: rgb(24, 24, 24);
-    color: rgb(218, 218, 218);
+    background-color: rgb(36,41,46);
+    color: rgb(255,255,255);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -10,26 +12,19 @@ header {
 
 header button {
     text-decoration: none;
-}
-
-header .title-container {
-    width: 40vw;
-}
-
-header .title {
-    color: rgb(218, 218, 218);
-    font-size: 40px;
-    font-weight: 800;
-    /* text-shadow: 2px 2px rgb(141, 153, 174); */
-}
-
-header .title-button {
     background-color: transparent;
     border: none;
 }
 
+header .title {
+    margin: 0 0 0 20px;
+    font-size: 40px;
+    font-weight: 800;
+    text-shadow: 1px 1px rgb(168,171,173);
+}
+
 header #default {
-    color: rgb(218, 218, 218);
+    color: rgb(250,251,252);
 }
 
 header #one {
@@ -48,25 +43,29 @@ header #five {
     color: rgb(67, 184, 63);
 }
 
-header > .user-portal button {
-    border: 0;
-    color: rgb(218, 218, 218);
-    /* background-color: rgb(141, 153, 174); */
-    background-color: transparent;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 5px;
-    height: 30px;
-    margin: 0 5px;
+header > .user-portal {
+    height: 100%;
 }
 
-/* header > .user-portal button:hover {
-    background-color: rgb(239, 35, 60);
-} */
+header > .user-portal button {
+    color: rgb(250,251,252);
+    /* background-color: rgb(36,41,46); */
+    background-color: transparent;
+    border-radius: 5px;
+    height: 40px;
+    width: 90px;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 20px 0 0;
+}
+
+header > .user-portal button:hover {
+    font-style: oblique;
+}
 
 .not-logged-in,
 .logged-in {
-    width: 20vw;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,16 +86,17 @@ header > .user-portal button {
 
 @media screen and (max-width: 700px) {
     header .title {
-        font-size: 20px;
-        text-align: left;
+        font-size: 25px;
+        margin: 0 0 0 0;
+        /* text-align: left; */
         /* text-shadow: 1px 1px rgb(141, 153, 174); */
     }
     header > .user-portal button {
-        margin: 0 2px;
+        /* margin: 0 2px; */
     }
     .not-logged-in,
     .logged-in {
-        width: 45vw;
+        margin: 0 20px 0 0;
         justify-content: flex-end;
     }
     .not-logged-in button,

@@ -1,6 +1,9 @@
-.Main {
+main {
+    padding-top: 10vh;
+    background-color: rgb(43,48,53);
     width: 100vw;
-    height: 90vh;
+    min-height: 100vh;
+    max-height: 200vh;
 }
 
 .Main .arrow {
@@ -16,15 +19,11 @@
     filter: invert(0.75);
 }
 
-#up {
-    transform: rotate(180deg);
-}
-
-#down {
-    transform: rotate(0deg);
-}
-
 @media screen and (max-width: 700px) {
+    main {
+        /* full size is 85vh */
+        /* min-height: 85vh; */
+    }
     .Main .arrow img {
         width: 60px;
     }

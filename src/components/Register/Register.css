@@ -1,63 +1,84 @@
 .Register {
-    width: 100vw;
-    height: 90vh;
-    background-color: rgb(24, 24, 24);
-    color: rgb(218, 218, 218);
     display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.Register > div {
-    width: 50vw;
-    height: 30vh;
-    border-radius: 10px;
-    background-color: rgb(44, 44, 44);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.Register .register-form {
-    display: flex;
-    height: 20vh;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
 }
 
-.Register label, .Register .submit-button, .Register button {
-    color: rgb(218, 218, 218);
-    font-style: normal;
+.Register .title {
+    width: 100vw;
+    height: 10vh;
+    background-color: rgb(43,48,53);
+    color: rgb(255,255,255);
+    font-size: 22px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Register form {
+    background-color: rgb(250,251,252);
+    /* background-color: red; */
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* padding: 0 20px; */
+}
+
+.Register form .input-fields {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.Register form label {
+    display: flex;
+    width: 30vw;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
 }
 
 .Register input {
+    border: 1px solid rgb(43,48,53);
+    border-radius: 5px;
+    height: 25px;
     font-style: italic;
 }
 
-.Register .input-fields {
+.Register form .form-buttons-container {
+    width: 20vw;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: auto;
-}
-
-.Register .input-fields > label {
-    width: 280px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.Register .form-buttons-container {
-    display: flex;
-    align-items: center;
     justify-content: space-evenly;
-    width: 150px;
+    align-items: center;
+}
+
+.Register button {
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(255,255,255);
+    height: 30px;
+    background-color: rgb(43,48,53);
+}
+
+.Register button:hover {
+    font-style: italic;
 }
 
 @media screen and (max-width: 700px) {
-    .Register > div {
+    .Register form {
+        justify-content: flex-start;
+    }
+    .Register form label {
         width: 80vw;
+    }
+    .Register form .form-buttons-container {
+        width: 60vw;
     }
 }
