@@ -1,1 +1,1 @@
-select extract(day from time) as t, count(*) as y from marks where user_id = $1 and mood = $2 and extract(month from time) = extract(month from current_date at time zone 'America/Phoenix') group by t order by t;
+select extract(day from time at time zone 'America/Phoenix') as t, count(*) as y from marks where user_id = $1 and mood = $2 and extract(month from time at time zone 'America/Phoenix') = extract(month from now() at time zone 'America/Phoenix') group by t order by t;

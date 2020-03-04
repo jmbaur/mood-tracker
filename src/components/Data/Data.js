@@ -12,36 +12,49 @@ class Data extends React.Component {
             pieData: [],
             barData: [],
             barLabels: [],
-            title: `${moment().format("[Year of] YYYY")}`
+            title: `${moment().format("[Year of] YYYY")}`,
+            xLabel: "Month"
+            // unit: "year"
         };
     }
 
     changeHandler = e => {
         let title;
+        let xLabel;
+        // let unit;
         let dayOfWeek = moment().format("e");
         switch (e.target.value) {
             case "today":
                 title = `${moment().format("[Day of] MMMM Do")}`;
+                xLabel = "Hour";
+                // unit = "day";
                 break;
             case "yesterday":
                 title = `${moment()
                     .subtract(1, "days")
                     .format("[Day of] MMMM Do")}`;
+                xLabel = "Hour";
+                // unit = "day";
                 break;
             case "week":
                 title = `
                     ${moment()
                         .subtract(dayOfWeek, "days")
                         .format("[Week of] MMMM Do")}`;
+                xLabel = "Day of Week";
+                // unit = "week";
                 break;
             case "month":
                 title = `${moment().format("[Month of] MMMM")}`;
+                xLabel = "Day of Month";
+                // unit = "month";
                 break;
             default:
                 title = `${moment().format("[Year of] YYYY")}`;
+                xLabel = "Month";
+            // unit = "year";
         }
-        console.log(dayOfWeek);
-        this.setState({ filter: e.target.value, title: title });
+        this.setState({ filter: e.target.value, title, xLabel });
     };
 
     getData = async filter => {
@@ -54,10 +67,11 @@ class Data extends React.Component {
             `/api/marks?user_id=${this.props.user.user_id}&filter=${filter}&type=bar`
         );
         // Data for bar chart does need extra formatting
-        this.formatData(bar.data);
+        this.formatData(bar.data, filter);
     };
 
-    formatData = data => {
+    formatData = (data, filter) => {
+        const dow = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
         // Extra formatting for bar chart
         let tmpData = [];
         let tmpLabels = [];
@@ -69,9 +83,19 @@ class Data extends React.Component {
             tmpData.push(tmpArr);
         }
         for (let i = 0; i < data[0].length; i++) {
-            tmpLabels.push(data[0][i].t);
+            console.log(data[0][i]);
+            switch (filter) {
+                case "today":
+                case "yesterday":
+                    tmpLabels.push(data[0][i].t + ":00");
+                    break;
+                case "week":
+                    tmpLabels.push(dow[data[0][i].t]);
+                    break;
+                default:
+                    tmpLabels.push(data[0][i].t.toString());
+            }
         }
-        // console.log(tmpData, tmpLabels);
         this.setState({ barData: tmpData, barLabels: tmpLabels });
     };
 
@@ -121,16 +145,29 @@ class Data extends React.Component {
             scales: {
                 xAxes: [
                     {
-                        stacked: true
+                        stacked: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: this.state.xLabel
+                        }
                         // type: "time",
                         // time: {
-                        //     unit: "month",
-                        //     displayFormats: { month: "MMMM" }
+                        //     unit: this.state.unit,
+                        //     displayFormats: {
+                        //         month: "Do",
+                        //         year: "MM",
+                        //         week: "ddd",
+                        //         day: "HH[:00]"
+                        //     }
                         // }
                     }
                 ],
                 yAxes: [
-                    { stacked: true, ticks: { stepSize: 1, beginAtZero: true } }
+                    {
+                        stacked: true,
+                        ticks: { stepSize: 1, beginAtZero: true },
+                        scaleLabel: { display: true, labelString: "Frequency" }
+                    }
                 ]
             }
         };
