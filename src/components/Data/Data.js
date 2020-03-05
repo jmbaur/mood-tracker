@@ -3,6 +3,7 @@ import axios from "axios";
 import moment from "moment";
 import { connect } from "react-redux";
 import { Doughnut, Bar } from "react-chartjs-2";
+import Protected from "../Protected/Protected.js";
 
 class Data extends React.Component {
     constructor() {
@@ -203,18 +204,25 @@ class Data extends React.Component {
             ]
         };
         return (
-            <div className="Data">
-                <select value={this.state.filter} onChange={this.changeHandler}>
-                    <option value="today">Today</option>
-                    <option value="yesterday">Yesterday</option>
-                    <option value="week">Week</option>
-                    <option value="month">Month</option>
-                    <option value="year">Year</option>
-                </select>
-                <h1>{this.state.title}</h1>
-                <Doughnut options={pieOptions} data={pieChartData} />
-                <Bar options={barOptions} data={barChartData} />
-            </div>
+            <main className="Data">
+                {this.props.loggedIn ?
+                    <div>
+                        <select value={this.state.filter} onChange={this.changeHandler}>
+                            <option value="today">Today</option>
+                            <option value="yesterday">Yesterday</option>
+                            <option value="week">Week</option>
+                            <option value="month">Month</option>
+                            <option value="year">Year</option>
+                        </select>
+                        <h1>{this.state.title}</h1>
+                        <Doughnut options={pieOptions} data={pieChartData} />
+                        <Bar options={barOptions} data={barChartData} />
+
+                    </div>
+                    :
+                    <Protected />
+                }
+            </main>
         );
     }
 }

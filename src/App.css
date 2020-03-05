@@ -13,6 +13,10 @@ button {
     background-color: rgb(43,48,53);
 }
 
+button:hover {
+  font-style: italic;
+}
+
 input {
     border: 1px solid rgb(43,48,53);
     border-radius: 5px;

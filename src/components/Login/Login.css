@@ -4,18 +4,6 @@
     align-items: center;
 }
 
-.Login .title {
-    width: 100vw;
-    height: 10vh;
-    background-color: rgb(43,48,53);
-    color: rgb(255,255,255);
-    font-size: x-large;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .Login form {
     background-color: rgb(250,251,252);
     /* background-color: red; */

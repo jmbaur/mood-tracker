@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import EditText from "../EditText/EditText.js";
+import Protected from "../Protected/Protected.js";
 import trash from "./trash.svg";
 import "./Settings.css";
 
@@ -73,6 +74,7 @@ class Settings extends React.Component {
         }
     }
     render() {
+        console.log(this.state)
         const mappedInputs = this.state.moods.map((mood, i) => {
             return (
                 <div key={i}>
@@ -87,7 +89,9 @@ class Settings extends React.Component {
                 </div>
             );
         });
-        return <div className="Settings">{mappedInputs}</div>;
+        return <main className="Settings">
+            {this.props.loggedIn ? { mappedInputs } : <Protected />}
+        </main>;
     }
 }
 

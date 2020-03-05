@@ -9,6 +9,10 @@ class Comment extends React.Component {
         this.state = { input: "" };
     }
 
+    outsideClick = e => {
+        if (e.target.className === "Comment") this.props.falseShowMood()
+    }
+
     changeHandler = e => this.setState({ [e.target.name]: e.target.value });
 
     submitComment = async e => {
@@ -29,7 +33,7 @@ class Comment extends React.Component {
         const { message } = this.props;
 
         return (
-            <div className="Comment" onClick={this.props.falseShowMood}>
+            <div className="Comment" onClick={this.outsideClick}>
                 <form onSubmit={this.submitComment}>
                     <h1>{message}</h1>
                     <label>

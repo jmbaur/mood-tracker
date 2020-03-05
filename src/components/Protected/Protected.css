@@ -1,0 +1,24 @@
+.Protected .content-container {
+    width: 100vw;
+    height: 80vh;
+    background-color: rgb(250,251,252);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Protected .button-container {
+    margin: 20px 0;
+    width: 20vw;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+@media screen and (max-width: 700px) {
+    .Protected .button-container {
+        width: 50vw;
+        display: flex;
+        justify-content: space-evenly;
+    }
+}

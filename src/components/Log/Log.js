@@ -3,6 +3,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import Table from "../Table/Table.js";
+import Protected from "../Protected/Protected.js";
 import x from "./x.svg";
 import "./Log.css";
 
@@ -168,19 +169,23 @@ function Log(props) {
 
     return (
         <main className="Log">
-            <div className="title">
-                <h1>View or change your past moods</h1>
-            </div>
-            <div className="table-container">
-                <Styles>
-                    <Table
-                        columns={columns}
-                        data={data}
-                        updateMyData={updateMyData}
-                        skipPageReset={skipPageReset}
-                    />
-                </Styles>
-            </div>
+            {props.loggedIn ?
+                <div>
+                    <div className="title">
+                        <h1>View or change your past moods</h1>
+                    </div>
+                    <div className="table-container">
+                        <Styles>
+                            <Table
+                                columns={columns}
+                                data={data}
+                                updateMyData={updateMyData}
+                                skipPageReset={skipPageReset}
+                            />
+                        </Styles>
+                    </div>
+                </div>
+                : <Protected />}
         </main>
     );
 }
