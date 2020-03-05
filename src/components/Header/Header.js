@@ -21,13 +21,16 @@ class Header extends React.Component {
 
         return (
             <header>
-                    <Link to="/">
+                <Link to="/">
+                    <div className="title-container">
                         <button className="title-button">
                             <h1 className="title" id={this.props.title}>
                                 MOOD TRACKER
                             </h1>
+
                         </button>
-                    </Link>
+                    </div>
+                </Link>
                 <div className="user-portal">
                     {!loggedIn ? (
                         <div className="not-logged-in">
@@ -45,41 +48,41 @@ class Header extends React.Component {
                             />
                         </div>
                     ) : (
-                        <div className="logged-in">
-                            <h1>Welcome {user.firstName || user.username}</h1>
-                            <Link to="/data">
-                                <button>Data</button>
-                            </Link>
-                            <Link to="/log">
-                                <button>Log</button>
-                            </Link>
-                            <Link to="/settings">
-                                <button>Settings</button>
-                            </Link>
-                            <button
-                                onClick={() =>
-                                    this.props.logout() &&
-                                    this.props.history.push("/")
-                                }
-                            >
-                                Logout
+                            <div className="logged-in">
+                                <h1 className="welcome-message">Welcome {user.firstName || user.username}</h1>
+                                <Link to="/data">
+                                    <button>Data</button>
+                                </Link>
+                                <Link to="/log">
+                                    <button>Log</button>
+                                </Link>
+                                <Link to="/settings">
+                                    <button>Settings</button>
+                                </Link>
+                                <button
+                                    onClick={() =>
+                                        this.props.logout() &&
+                                        this.props.history.push("/")
+                                    }
+                                >
+                                    Logout
                             </button>
-                            <img
-                                src={hamburger}
-                                alt="hamburger"
-                                className="hamburger-menu"
-                                onClick={() => this.props.toggleMenu(true)}
-                            />
-                        </div>
-                    )}
+                                <img
+                                    src={hamburger}
+                                    alt="hamburger"
+                                    className="hamburger-menu"
+                                    onClick={() => this.props.toggleMenu(true)}
+                                />
+                            </div>
+                        )}
                 </div>
             </header>
         );
     }
 }
 
-const mapStateToProps = state =>state
-;
+const mapStateToProps = state => state
+    ;
 
 const mapDispatchToProps = {
     getSession,

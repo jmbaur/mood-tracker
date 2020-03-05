@@ -17,7 +17,7 @@ class Marker extends React.Component {
             lineLabels: [],
             lineData: [],
             lineComments: [],
-            recentMark: {}
+            recentMark: {},
         };
     }
 
@@ -132,6 +132,7 @@ class Marker extends React.Component {
         } = this.state;
 
         const options = {
+            // layout: { padding: {left:10, right: 10} },
             layout: { padding: 10 },
             legend: false,
             scales: {
@@ -226,48 +227,41 @@ class Marker extends React.Component {
 
         return (
             <div className="Marker">
-                <div className="mood-message-container">
-                    {showMood ? (
-                        <Comment
-                            message={message}
-                            falseShowMood={this.falseShowMood}
-                            recentMark={this.state.recentMark}
-                        />
-                    ) : null}
+                <div className="title">
+                    <h1>Mark your mood!</h1>
                 </div>
-                <div className="circle-container">
-                    <div className="circle-marker">
-                        <button
-                            className="one"
-                            onClick={() => this.setMood(1)}
-                        ></button>
-                    </div>
-                    <div className="circle-marker">
-                        <button
-                            className="two"
-                            onClick={() => this.setMood(2)}
-                        ></button>
-                    </div>
-                    <div className="circle-marker">
-                        <button
-                            className="three"
-                            onClick={() => this.setMood(3)}
-                        ></button>
-                    </div>
-                    <div className="circle-marker">
-                        <button
-                            className="four"
-                            onClick={() => this.setMood(4)}
-                        ></button>
-                    </div>
-                    <div className="circle-marker">
-                        <button
-                            className="five"
-                            onClick={() => this.setMood(5)}
-                        ></button>
-                    </div>
+                {showMood ? (
+                    <Comment
+                        message={message}
+                        falseShowMood={this.falseShowMood}
+                        recentMark={this.state.recentMark}
+                    />
+                ) : <div className="no-show"></div>}
+                <div className="marker-container">
+                    <button
+                        className="one"
+                        onClick={() => this.setMood(1)}
+                    ></button>
+                    <button
+                        className="two"
+                        onClick={() => this.setMood(2)}
+                    ></button>
+                    <button
+                        className="three"
+                        onClick={() => this.setMood(3)}
+                    ></button>
+                    <button
+                        className="four"
+                        onClick={() => this.setMood(4)}
+                    ></button>
+                    <button
+                        className="five"
+                        onClick={() => this.setMood(5)}
+                    ></button>
                 </div>
-                <Line options={options} data={data} />
+                <div className="line-chart-container">
+                    <Line options={options} data={data} />
+                </div>
             </div>
         );
     }

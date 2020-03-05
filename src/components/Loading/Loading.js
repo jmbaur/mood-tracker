@@ -1,9 +1,10 @@
 import React from "react";
+import "./Loading.css"
 
 function Loading() {
     return (
         <div className="Loading">
-            <h1>LOADING</h1>
+            <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         </div>
     );
 }

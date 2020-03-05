@@ -16,8 +16,11 @@ header button {
     border: none;
 }
 
-header .title {
+header .title-container {
     margin: 0 0 0 20px;
+}
+
+header .title {
     font-size: 40px;
     font-weight: 800;
     text-shadow: 1px 1px rgb(168,171,173);
@@ -43,24 +46,26 @@ header #five {
     color: rgb(67, 184, 63);
 }
 
+header .welcome-message {
+    font-style: italic;
+}
+
 header > .user-portal {
     height: 100%;
 }
 
 header > .user-portal button {
     color: rgb(250,251,252);
-    /* background-color: rgb(36,41,46); */
     background-color: transparent;
     border-radius: 5px;
     height: 40px;
     width: 90px;
     font-size: 15px;
     font-weight: 600;
-    margin: 0 20px 0 0;
 }
 
 header > .user-portal button:hover {
-    font-style: oblique;
+    font-style: italic;
 }
 
 .not-logged-in,
@@ -68,7 +73,7 @@ header > .user-portal button:hover {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 .hamburger-menu {
@@ -85,14 +90,20 @@ header > .user-portal button:hover {
 }
 
 @media screen and (max-width: 700px) {
+    header .title-container {
+        margin: 0;
+    }
     header .title {
         font-size: 25px;
-        margin: 0 0 0 0;
         /* text-align: left; */
         /* text-shadow: 1px 1px rgb(141, 153, 174); */
     }
     header > .user-portal button {
         /* margin: 0 2px; */
+    }
+
+    header .welcome-message {
+        display: none;
     }
     .not-logged-in,
     .logged-in {

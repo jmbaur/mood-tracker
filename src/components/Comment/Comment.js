@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import "./Comment.css"
 
 class Comment extends React.Component {
     constructor() {
@@ -28,9 +29,9 @@ class Comment extends React.Component {
         const { message } = this.props;
 
         return (
-            <div className="Comment">
-                <h1>{message}</h1>
+            <div className="Comment" onClick={this.props.falseShowMood}>
                 <form onSubmit={this.submitComment}>
+                    <h1>{message}</h1>
                     <label>
                         Comment
                         <input
@@ -41,10 +42,12 @@ class Comment extends React.Component {
                             onChange={this.changeHandler}
                         />
                     </label>
-                    <button type="submit">Submit</button>
-                    <button type="button" onClick={this.props.falseShowMood}>
-                        No thanks
+                    <div className="buttons-container">
+                        <button type="submit">Submit</button>
+                        <button type="button" onClick={this.props.falseShowMood}>
+                            No thanks
                     </button>
+                    </div>
                 </form>
             </div>
         );
@@ -52,5 +55,5 @@ class Comment extends React.Component {
 }
 
 const mapStateToProps = state => state
-;
+    ;
 export default connect(mapStateToProps)(Comment);
