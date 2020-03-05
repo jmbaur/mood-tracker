@@ -17,7 +17,7 @@ class Marker extends React.Component {
             lineLabels: [],
             lineData: [],
             lineComments: [],
-            recentMark: {},
+            recentMark: {}
         };
     }
 
@@ -91,7 +91,7 @@ class Marker extends React.Component {
         let tmpArr = res.data.slice();
         let i = 0;
         while (i < 5) {
-            if (tmpArr[i].num !== i + 1) {
+            if (!tmpArr[i] || tmpArr[i].num !== i + 1) {
                 tmpArr.splice(i, 0, defaultMoods[i]);
             }
             i++;
@@ -236,7 +236,9 @@ class Marker extends React.Component {
                         falseShowMood={this.falseShowMood}
                         recentMark={this.state.recentMark}
                     />
-                ) : <div className="no-show"></div>}
+                ) : (
+                    <div className="no-show"></div>
+                )}
                 <div className="marker-container">
                     <button
                         className="one"
