@@ -20,7 +20,7 @@ header .title-container {
     margin: 0 0 0 20px;
 }
 
-header .title {
+header .title-content {
     font-size: 40px;
     font-weight: 800;
     text-shadow: 1px 1px rgb(168,171,173);
@@ -93,7 +93,7 @@ header > .user-portal button:hover {
     header .title-container {
         margin: 0;
     }
-    header .title {
+    header .title-content {
         font-size: 25px;
         /* text-align: left; */
         /* text-shadow: 1px 1px rgb(141, 153, 174); */

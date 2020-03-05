@@ -24,7 +24,7 @@ class Header extends React.Component {
                 <Link to="/">
                     <div className="title-container">
                         <button className="title-button">
-                            <h1 className="title" id={this.props.title}>
+                            <h1 className="title-content" id={this.props.title}>
                                 MOOD TRACKER
                             </h1>
 

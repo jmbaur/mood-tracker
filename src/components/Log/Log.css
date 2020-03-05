@@ -1,7 +1,38 @@
-.Log {
-
-}
-
 .Log .trash-button {
     width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}
+
+.Log .table-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    background-color: rgb(250,251,252);
+}
+
+.Log input {
+    background-color: transparent;
+}
+
+.Log th {
+    font-weight: 600;
+}
+
+.Log td input {
+    width: 200px;
+}
+
+@media screen and (max-width: 700px) {
+    .Log td input {
+        width: 90px;
+        font-size: 12px;
+    }
+    .Log th {
+        font-size: 14px;
+    }
+    .Log td {
+        font-size: 12px;
+    }
 }

@@ -56,6 +56,7 @@ function Log(props) {
                 <img
                     src={x}
                     alt="delete"
+                    className="trash-button"
                     onClick={() => {
                         // console.log(row.index);
                         deleteMark(
@@ -126,10 +127,10 @@ function Log(props) {
                         case "comment":
                             row.comment_id
                                 ? updateComment(
-                                      row.comment_id,
-                                      row.mark_id,
-                                      value
-                                  )
+                                    row.comment_id,
+                                    row.mark_id,
+                                    value
+                                )
                                 : postComment(row.mark_id, value);
                             break;
                         case "mood":
@@ -166,14 +167,21 @@ function Log(props) {
     }, [data]);
 
     return (
-        <Styles>
-            <Table
-                columns={columns}
-                data={data}
-                updateMyData={updateMyData}
-                skipPageReset={skipPageReset}
-            />
-        </Styles>
+        <main className="Log">
+            <div className="title">
+                <h1>View or change your past moods</h1>
+            </div>
+            <div className="table-container">
+                <Styles>
+                    <Table
+                        columns={columns}
+                        data={data}
+                        updateMyData={updateMyData}
+                        skipPageReset={skipPageReset}
+                    />
+                </Styles>
+            </div>
+        </main>
     );
 }
 
