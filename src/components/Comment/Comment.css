@@ -24,16 +24,16 @@
 }
 
 .Comment label {
-    font-size: small;
+    font-size: 16px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    width: 75%;
     justify-content: space-evenly;
+    width: 75%;
 }
 
 .Comment h1 {
-    font-size: large;
-    font-style: italic;
+    font-size: 25px;
     margin-top: 20px;
 }
 

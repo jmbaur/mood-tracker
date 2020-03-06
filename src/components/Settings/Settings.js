@@ -26,12 +26,9 @@ class Settings extends React.Component {
         }
     };
 
-    delete = async num => {
-        let status = await axios.delete(`/api/moods`, {
-            num,
-            user_id: this.props.user.user_id
-        });
-        console.log("hit", status.data);
+    delete = async mood_id => {
+        let status = await axios.delete(`/api/moods/${mood_id}`);
+        // console.log("hit", status.data);
         if (status.data === "OK") {
             this.findCustomNames();
         }

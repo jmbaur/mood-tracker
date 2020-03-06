@@ -37,7 +37,7 @@ class Comment extends React.Component {
                 <form onSubmit={this.submitComment}>
                     <h1>{message}</h1>
                     <label>
-                        Comment
+                        Make a comment!
                         <input
                             type="text"
                             name="input"
@@ -47,7 +47,7 @@ class Comment extends React.Component {
                         />
                     </label>
                     <div className="buttons-container">
-                        <button type="submit">Submit</button>
+                        <button type="submit">Comment</button>
                         <button type="button" onClick={this.props.falseShowMood}>
                             No thanks
                     </button>

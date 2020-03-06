@@ -16,7 +16,7 @@ class EditText extends React.Component {
     };
 
     internalDelete = () => {
-        this.props.delete(this.props.num);
+        this.props.delete(this.props.mood_id);
     };
 
     componentDidMount() {
@@ -24,6 +24,7 @@ class EditText extends React.Component {
     }
 
     render() {
+        console.log(this.state.input);
         return (
             <form onSubmit={this.internalSubmit}>
                 <div
@@ -32,6 +33,8 @@ class EditText extends React.Component {
                 ></div>
                 <input
                     type="text"
+                    name="input"
+                    placeholder="optional"
                     value={this.state.input}
                     onChange={this.changeHandler}
                 />

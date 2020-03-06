@@ -8,11 +8,12 @@
     justify-content: center;
 }
 
-.Protected .button-container {
+.protected-button-container {
     margin: 20px 0;
     width: 20vw;
     display: flex;
     justify-content: space-evenly;
+    align-items: center
 }
 
 @media screen and (max-width: 700px) {

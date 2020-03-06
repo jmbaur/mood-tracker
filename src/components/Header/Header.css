@@ -3,8 +3,8 @@ header {
     top: 0;
     width: 100vw;
     height: 10vh;
-    background-color: rgb(36,41,46);
-    color: rgb(255,255,255);
+    background-color: rgb(36, 41, 46);
+    color: rgb(255, 255, 255);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -16,18 +16,29 @@ header button {
     border: none;
 }
 
+header a {
+    text-decoration: none;
+}
+
 header .title-container {
-    margin: 0 0 0 20px;
+    margin: 0 20px;
+    height: 10vh;
+    display: flex;
+    align-items: center;
 }
 
 header .title-content {
     font-size: 40px;
     font-weight: 800;
-    text-shadow: 1px 1px rgb(168,171,173);
+    text-shadow: 1px 1px rgb(168, 171, 173);
+}
+
+header .title-content:hover {
+    font-style: normal;
 }
 
 header #default {
-    color: rgb(250,251,252);
+    color: rgb(250, 251, 252);
 }
 
 header #one {
@@ -55,7 +66,7 @@ header > .user-portal {
 }
 
 header > .user-portal button {
-    color: rgb(250,251,252);
+    color: rgb(250, 251, 252);
     background-color: transparent;
     border-radius: 5px;
     height: 40px;
@@ -90,16 +101,10 @@ header > .user-portal button:hover {
 }
 
 @media screen and (max-width: 700px) {
-    header .title-container {
-        margin: 0;
-    }
     header .title-content {
         font-size: 25px;
         /* text-align: left; */
         /* text-shadow: 1px 1px rgb(141, 153, 174); */
-    }
-    header > .user-portal button {
-        /* margin: 0 2px; */
     }
 
     header .welcome-message {

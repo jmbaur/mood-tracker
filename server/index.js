@@ -39,8 +39,9 @@ app.put("/api/marks/:id", markCtrl.changeMark);
 app.delete("/api/marks", markCtrl.deleteMark);
 
 // mood endpoints
-app.post("/api/moods", moodCtrl.addMoodNames);
+app.post("/api/moods", moodCtrl.addMoodName);
 app.get("/api/moods/:id", moodCtrl.getMoodNames);
+app.delete("/api/moods/:id", moodCtrl.deleteMood)
 
 // comment endpoints
 app.post("/api/comments", commentCtrl.addComment);

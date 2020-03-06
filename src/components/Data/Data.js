@@ -2,8 +2,9 @@ import React from "react";
 import axios from "axios";
 import moment from "moment";
 import { connect } from "react-redux";
-import { Doughnut, Bar } from "react-chartjs-2";
+import { Pie, Bar } from "react-chartjs-2";
 import Protected from "../Protected/Protected.js";
+import "./Data.css";
 
 class Data extends React.Component {
     constructor() {
@@ -14,8 +15,10 @@ class Data extends React.Component {
             barData: [],
             barLabels: [],
             title: `${moment().format("[Year of] YYYY")}`,
-            xLabel: "Month"
-            // unit: "year"
+            xLabel: "Month",
+            // unit: "year",
+            pieChartShow: true,
+            barChartShow: false
         };
     }
 
@@ -56,6 +59,25 @@ class Data extends React.Component {
             // unit = "year";
         }
         this.setState({ filter: e.target.value, title, xLabel });
+    };
+
+    toggleChart = e => {
+        let shown;
+        let unshown;
+        switch (e.target.className.split(" ")[0]) {
+            case "pie":
+                shown = "pieChartShow";
+                unshown = "barChartShow";
+                break;
+            case "bar":
+                shown = "barChartShow";
+                unshown = "pieChartShow";
+                break;
+            default:
+                shown = "pieChartShow";
+                unshown = "barChartShow";
+        }
+        this.setState({ [shown]: true, [unshown]: false });
     };
 
     getData = async filter => {
@@ -205,23 +227,77 @@ class Data extends React.Component {
         };
         return (
             <main className="Data">
-                {this.props.loggedIn ?
+                {this.props.loggedIn ? (
                     <div>
-                        <select value={this.state.filter} onChange={this.changeHandler}>
-                            <option value="today">Today</option>
-                            <option value="yesterday">Yesterday</option>
-                            <option value="week">Week</option>
-                            <option value="month">Month</option>
-                            <option value="year">Year</option>
-                        </select>
-                        <h1>{this.state.title}</h1>
-                        <Doughnut options={pieOptions} data={pieChartData} />
-                        <Bar options={barOptions} data={barChartData} />
-
+                        <div className="title">
+                            <h1>View your data</h1>
+                        </div>
+                        <div className="data-container">
+                            <div className="select-container">
+                                <select
+                                    value={this.state.filter}
+                                    onChange={this.changeHandler}
+                                >
+                                    <option value="today">Today</option>
+                                    <option value="yesterday">Yesterday</option>
+                                    <option value="week">Week</option>
+                                    <option value="month">Month</option>
+                                    <option value="year">Year</option>
+                                </select>
+                                <h1>{this.state.title}</h1>
+                            </div>
+                            <div className="button-container">
+                                <div
+                                    className="pie selector"
+                                    id={
+                                        this.state.pieChartShow
+                                            ? "selected"
+                                            : "unselected"
+                                    }
+                                    onClick={this.toggleChart}
+                                >
+                                    Pie
+                                </div>
+                                <div
+                                    className="bar selector"
+                                    id={
+                                        this.state.barChartShow
+                                            ? "selected"
+                                            : "unselected"
+                                    }
+                                    onClick={this.toggleChart}
+                                >
+                                    Bar
+                                </div>
+                            </div>
+                            <div
+                                className="chart-container"
+                                id={
+                                    this.state.pieChartShow
+                                        ? "pie-container"
+                                        : "no-show"
+                                }
+                            >
+                                <Pie
+                                    options={pieOptions}
+                                    data={pieChartData}
+                                />
+                            </div>
+                            <div
+                                className="chart-container"
+                                id={
+                                    this.state.barChartShow
+                                        ? "bar-container"
+                                        : "no-show"
+                                }
+                            >
+                                <Bar options={barOptions} data={barChartData} />
+                            </div>
+                        </div>
                     </div>
-                    :
+                ) : (
                     <Protected />
-                }
+                )}
             </main>
         );
     }

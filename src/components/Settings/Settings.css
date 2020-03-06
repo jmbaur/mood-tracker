@@ -5,7 +5,17 @@
 .Settings .mood-name-container {
     width: 100vw;
     height: 80vh;
-    background-color: rgb(250,251,252);
+    background-color: rgb(250, 251, 252);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.Settings .mood-name-container h1 {
+    font-size: 20px;
+    font-style: italic;
+    margin: 40px 0;
 }
 
 .Settings .color-container {
@@ -18,4 +28,25 @@
     border: none;
     font-style: normal;
     background-color: transparent;
+}
+
+.Settings form {
+    display: flex;
+    margin: 10px 0;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 40vw;
+}
+
+.Settings form input {
+    font-size: 20px;
+}
+
+@media screen and (max-width: 700px) {
+    .Settings form {
+        width: 90vw;
+    }
+    .Settings form input {
+        width: 150px;
+    }
 }
