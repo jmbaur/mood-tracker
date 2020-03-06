@@ -14,8 +14,8 @@ module.exports = {
     deleteMood: async (req, res) => {
         const db = req.app.get("db");
         const { id } = req.params;
-        console.log(id, typeof id)
-        await db.delete_mood(+id);
-        res.sendStatus(200)
+        console.log(id, typeof id);
+        const deleted = await db.delete_mood(+id);
+        deleted.length ? res.sendStatus(200) : res.sendStatus(500);
     }
 };

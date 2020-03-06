@@ -27,10 +27,11 @@ class Settings extends React.Component {
     };
 
     delete = async mood_id => {
-        let status = await axios.delete(`/api/moods/${mood_id}`);
-        // console.log("hit", status.data);
-        if (status.data === "OK") {
-            this.findCustomNames();
+        if (mood_id) {
+            let status = await axios.delete(`/api/moods/${mood_id}`);
+            if (status.data === "OK") {
+                this.findCustomNames();
+            }
         }
     };
 
@@ -77,7 +78,7 @@ class Settings extends React.Component {
     }
     render() {
         const { moods } = this.state;
-        console.log(moods);
+        // console.log(moods);
         const mappedInputs = moods.map((mood, i) => {
             return (
                 <div key={i}>

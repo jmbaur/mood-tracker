@@ -132,6 +132,7 @@ class Marker extends React.Component {
         } = this.state;
 
         const options = {
+            title: { display: true, text: "Today" },
             // layout: { padding: {left:10, right: 10} },
             layout: { padding: 10 },
             legend: false,

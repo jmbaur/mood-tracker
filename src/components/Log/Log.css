@@ -6,7 +6,7 @@
 
 .Log .table-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     min-height: 80vh;
     background-color: rgb(250,251,252);

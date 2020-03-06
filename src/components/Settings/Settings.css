@@ -15,7 +15,7 @@
 .Settings .mood-name-container h1 {
     font-size: 20px;
     font-style: italic;
-    margin: 40px 0;
+    margin: 40px 10px;
 }
 
 .Settings .color-container {
@@ -26,6 +26,7 @@
 
 .Settings input {
     border: none;
+    height: 30px;
     font-style: normal;
     background-color: transparent;
 }

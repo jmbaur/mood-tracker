@@ -128,10 +128,10 @@ function Log(props) {
                         case "comment":
                             row.comment_id
                                 ? updateComment(
-                                    row.comment_id,
-                                    row.mark_id,
-                                    value
-                                )
+                                      row.comment_id,
+                                      row.mark_id,
+                                      value
+                                  )
                                 : postComment(row.mark_id, value);
                             break;
                         case "mood":
@@ -158,9 +158,11 @@ function Log(props) {
     // const resetData = () => setData(originalData);
 
     useEffect(() => {
-        axios
-            .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
-            .then(res => setData(res.data));
+        if (props.user.user_id) {
+            axios
+                .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
+                .then(res => setData(res.data));
+        }
     }, [props.user.user_id]);
 
     useEffect(() => {
@@ -169,7 +171,7 @@ function Log(props) {
 
     return (
         <main className="Log">
-            {props.loggedIn ?
+            {props.loggedIn ? (
                 <div>
                     <div className="title">
                         <h1>View or change your past moods</h1>
@@ -185,7 +187,9 @@ function Log(props) {
                         </Styles>
                     </div>
                 </div>
-                : <Protected />}
+            ) : (
+                <Protected />
+            )}
         </main>
     );
 }

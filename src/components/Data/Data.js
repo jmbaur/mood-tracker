@@ -200,27 +200,32 @@ class Data extends React.Component {
             datasets: [
                 {
                     label: "Bad",
-                    backgroundColor: "rgba(227, 49, 51, 0.8)",
+                    backgroundColor: "rgb(227, 49, 51)",
+                    hoverBackgroundColor: "rgba(227, 49, 51, 0.8)",
                     data: barData[0]
                 },
                 {
                     label: "Not good",
-                    backgroundColor: "rgba(240, 116, 58, 0.8)",
+                    backgroundColor: "rgb(240, 116, 58)",
+                    hoverBackgroundColor: "rgba(240, 116, 58, 0.8)",
                     data: barData[1]
                 },
                 {
                     label: "OK",
-                    backgroundColor: "rgba(255, 190, 58, 0.8)",
+                    backgroundColor: "rgb(255, 190, 58)",
+                    hoverBackgroundColor: "rgba(255, 190, 58, 0.8)",
                     data: barData[2]
                 },
                 {
                     label: "Good",
-                    backgroundColor: "rgba(151, 187, 61, 0.8)",
+                    backgroundColor: "rgb(151, 187, 61)",
+                    hoverBackgroundColor: "rgba(151, 187, 61, 0.8)",
                     data: barData[3]
                 },
                 {
                     label: "Great",
-                    backgroundColor: "rgba(67,184,63,0.5)",
+                    backgroundColor: "rgb(67, 184, 63)",
+                    hoverBackgroundColor: "rgba(67, 184, 63, 0.8)",
                     data: barData[4]
                 }
             ]
@@ -278,10 +283,7 @@ class Data extends React.Component {
                                         : "no-show"
                                 }
                             >
-                                <Pie
-                                    options={pieOptions}
-                                    data={pieChartData}
-                                />
+                                <Pie options={pieOptions} data={pieChartData} />
                             </div>
                             <div
                                 className="chart-container"

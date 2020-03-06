@@ -23,8 +23,13 @@ class EditText extends React.Component {
         this.setState({ input: this.props.input });
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.input !== this.props.input) {
+            this.setState({ input: this.props.input });
+        }
+    }
+
     render() {
-        console.log(this.state.input);
         return (
             <form onSubmit={this.internalSubmit}>
                 <div
@@ -39,7 +44,9 @@ class EditText extends React.Component {
                     onChange={this.changeHandler}
                 />
                 <button type="submit">Submit</button>
-                <button onClick={this.internalDelete}>Delete</button>
+                <button type="button" onClick={this.internalDelete}>
+                    Delete
+                </button>
             </form>
         );
     }

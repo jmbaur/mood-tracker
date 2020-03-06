@@ -5,7 +5,7 @@ const initialState = {
     title: "default",
     loading: false,
     loggedIn: false,
-    hamburgerMenu: false,
+    hamburgerMenu: false
 };
 
 const GET_SESSION = "GET_SESSION";
@@ -76,7 +76,7 @@ export default function userReducer(state = initialState, action) {
         case SET_TITLE:
             return { ...state, title: action.payload };
         case LOGOUT:
-            return { ...state, user: {}, loggedIn: false };
+            return { ...state, user: {}, loggedIn: false, title: "default" };
         case TOGGLE_MENU:
             return { ...state, hamburgerMenu: action.payload };
         default:
