@@ -106,7 +106,6 @@ class Data extends React.Component {
             tmpData.push(tmpArr);
         }
         for (let i = 0; i < data[0].length; i++) {
-            console.log(data[0][i]);
             switch (filter) {
                 case "today":
                 case "yesterday":

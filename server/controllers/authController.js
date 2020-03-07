@@ -61,5 +61,11 @@ module.exports = {
         if (req.session.user) {
             res.status(200).send(req.session.user);
         } else res.send(null);
+    },
+    account: async (req, res) => {
+        const db = req.app.get("db");
+        const { id } = req.params;
+        const deleted = await db.delete_user(+id);
+        deleted.length ? res.sendStatus(200) : res.sendStatus(500);
     }
 };

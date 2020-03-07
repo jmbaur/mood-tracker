@@ -24,6 +24,10 @@ input {
     font-style: italic;
 }
 
+em {
+    font-style: italic;
+}
+
 .title {
     width: 100vw;
     height: 10vh;

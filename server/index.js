@@ -31,6 +31,7 @@ app.post("/auth/register", authCtrl.register);
 app.post("/auth/login", authCtrl.login);
 app.get("/auth/logout", authCtrl.logout);
 app.get("/auth/session", authCtrl.session);
+app.delete("/auth/account/:id", authCtrl.account)
 
 // mark endpoints
 app.post("/api/marks", markCtrl.addMark);

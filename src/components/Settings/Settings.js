@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import { logout } from "../../redux/reducer.js";
 import Protected from "../Protected/Protected.js";
 import EditText from "../EditText/EditText.js";
 import "./Settings.css";
@@ -65,6 +66,18 @@ class Settings extends React.Component {
         this.setState({ moods: tmpArr });
     };
 
+    deleteAccount = async () => {
+        const status = await axios.delete(
+            `/auth/account/${this.props.user.user_id}`
+        );
+
+        if (status.data === "OK") {
+            this.props.logout();
+            alert("User account has been deleted.");
+            this.props.history.push("/");
+        }
+    };
+
     componentDidUpdate(prevProps) {
         if (prevProps.user.user_id !== this.props.user.user_id) {
             this.findCustomNames();
@@ -107,6 +120,14 @@ class Settings extends React.Component {
                             </h1>
                             {mappedInputs}
                         </div>
+                        <div className="settings-button-container">
+                            <button
+                                className="delete-account-button"
+                                onClick={this.deleteAccount}
+                            >
+                                Delete Account
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <Protected />
@@ -117,4 +138,7 @@ class Settings extends React.Component {
 }
 
 const mapStateToProps = state => state;
-export default connect(mapStateToProps)(Settings);
+const mapDispatchToProps = {
+    logout
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

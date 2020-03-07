@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import "./Comment.css"
+import "./Comment.css";
 
 class Comment extends React.Component {
     constructor() {
@@ -10,8 +10,8 @@ class Comment extends React.Component {
     }
 
     outsideClick = e => {
-        if (e.target.className === "Comment") this.props.falseShowMood()
-    }
+        if (e.target.className === "Comment") this.props.falseShowMood();
+    };
 
     changeHandler = e => this.setState({ [e.target.name]: e.target.value });
 
@@ -47,10 +47,13 @@ class Comment extends React.Component {
                         />
                     </label>
                     <div className="buttons-container">
-                        <button type="submit">Comment</button>
-                        <button type="button" onClick={this.props.falseShowMood}>
+                        <button
+                            type="button"
+                            onClick={this.props.falseShowMood}
+                        >
                             No thanks
-                    </button>
+                        </button>
+                        <button type="submit">Comment</button>
                     </div>
                 </form>
             </div>
@@ -58,6 +61,5 @@ class Comment extends React.Component {
     }
 }
 
-const mapStateToProps = state => state
-    ;
+const mapStateToProps = state => state;
 export default connect(mapStateToProps)(Comment);
