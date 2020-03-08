@@ -67,5 +67,20 @@ module.exports = {
         const { id } = req.params;
         const deleted = await db.delete_user(+id);
         deleted.length ? res.sendStatus(200) : res.sendStatus(500);
+    },
+    password: async (req, res) => {
+        const db = req.app.get("db");
+        const { email, username, password } = req.body;
+        const existingUser = await db.verify_user([email, username]);
+        if (existingUser.length) {
+            const { user_id } = existingUser[0];
+            const saltRounds = 12;
+            const salt = await bcrypt.genSalt(saltRounds);
+            const hash = await bcrypt.hash(password, salt);
+            db.change_password([hash, user_id]);
+            res.sendStatus(200);
+        } else {
+            res.status(401).send("Email or username is incorrect.");
+        }
     }
 };

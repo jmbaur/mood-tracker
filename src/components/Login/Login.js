@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import axios from "axios";
 import { setUser } from "../../redux/reducer.js";
 import "./Login.css";
 
@@ -8,7 +9,11 @@ class Login extends React.Component {
         super();
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            forgotPassword: false,
+            username: "",
+            password1: "",
+            password2: ""
         };
     }
 
@@ -33,44 +38,140 @@ class Login extends React.Component {
         }
     };
 
+    changePassword = async e => {
+        e.preventDefault();
+        const { email, password1, password2, username } = this.state;
+        console.log(email, username, password1, password2);
+        if (password1 === password2) {
+            const status = await axios
+                .put(`/auth/password`, {
+                    email,
+                    username,
+                    password: password1
+                })
+                .catch(err => alert(err.response.request.response));
+            console.log(status);
+            if (status.data === "OK")
+                this.setState({
+                    email: "",
+                    username: "",
+                    password1: "",
+                    password2: "",
+                    password: "",
+                    forgotPassword: false
+                });
+        } else {
+            alert("Passwords do not match");
+            this.setState({ password1: "", password2: "" });
+        }
+    };
+
+    toggleForgotPassword = () => {
+        this.setState({ forgotPassword: !this.state.forgotPassword });
+    };
+
     render() {
-        const { email, password } = this.state;
+        const {
+            email,
+            password,
+            forgotPassword,
+            username,
+            password1,
+            password2
+        } = this.state;
 
         return (
             <main className="Login">
                 <div className="title">
                     <h1>Login Here</h1>
                 </div>
-                <form onSubmit={this.submit} className="login-form">
-                    <div className="input-fields">
-                        <label>
-                            Email
+                {!forgotPassword ? (
+                    <form onSubmit={this.submit} className="login-form">
+                        <div className="input-fields">
+                            <label>
+                                Email
                                 <input
-                                type="text"
-                                name="email"
-                                value={email}
-                                onChange={this.changeHandler}
-                            />
-                        </label>
-                        <label>
-                            Password
+                                    type="text"
+                                    name="email"
+                                    value={email}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
+                            <label>
+                                Password
                                 <input
-                                type="password"
-                                name="password"
-                                value={password}
-                                onChange={this.changeHandler}
-                            />
-                        </label>
-                    </div>
-                    <div className="form-buttons-container">
-                        <button type="button" onClick={this.clear}>Clear</button>
-                        <button
-                            type="submit"
-                            className="submit-button">
-                            Login
-                        </button>
-                    </div>
-                </form>
+                                    type="password"
+                                    name="password"
+                                    value={password}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
+                        </div>
+                        <div className="form-button-container">
+                            <button type="button" onClick={this.clear}>
+                                Clear
+                            </button>
+                            <button type="submit" className="submit-button">
+                                Login
+                            </button>
+                        </div>
+                        <h2>
+                            Forgot password?
+                            <br />
+                            <em onClick={this.toggleForgotPassword}>Reset</em>
+                        </h2>
+                    </form>
+                ) : (
+                    <form onSubmit={this.changePassword}>
+                        <div className="input-fields">
+                            <label>
+                                Username
+                                <input
+                                    type="text"
+                                    name="username"
+                                    value={username}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
+                            <label>
+                                Email
+                                <input
+                                    type="text"
+                                    name="email"
+                                    value={email}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
+                            <label>
+                                New password
+                                <input
+                                    type="password"
+                                    name="password1"
+                                    value={password1}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
+                            <label>
+                                Confirm password
+                                <input
+                                    type="password"
+                                    name="password2"
+                                    value={password2}
+                                    onChange={this.changeHandler}
+                                />
+                            </label>
+                            <div className="form-button-container">
+                                <button
+                                    type="button"
+                                    onClick={this.toggleForgotPassword}
+                                >
+                                    Cancel
+                                </button>
+                                <button type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                )}
             </main>
         );
     }

@@ -206,25 +206,27 @@ class Marker extends React.Component {
                     label: "Today's Moods",
                     fill: false,
                     lineTension: 0.05,
-                    backgroundColor: "rgba(0,0,0,0.5)",
-                    borderColor: "rgba(0,0,0,0.5)",
+                    backgroundColor: "rgba(100, 100, 100,0.5)",
+                    borderColor: "rgba(100,100,100, 0.5)",
                     borderCapStyle: "butt",
                     borderDash: [],
                     borderDashOffset: 0.0,
                     borderJoinStyle: "miter",
-                    // pointBorderColor: "rgba(75,192,192,1)",
-                    pointBackgroundColor: "#fff",
-                    pointRadius: 4,
-                    pointBorderWidth: 1,
-                    pointHoverRadius: 8,
-                    // pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointBorderColor: "rgb(255,0,255)",
+                    pointBackgroundColor: "rgb(255,0,255)",
+                    pointRadius: 6,
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 12,
+                    pointHoverBackgroundColor: "rgb(255,0,255)",
+                    pointHoverBorderColor: "rgb(255,0,255)",
                     pointHoverBorderWidth: 2,
                     pointHitRadius: 10,
                     data: lineData
                 }
             ]
         };
+
+        // if (!this.state.moods.length) console.log("hit");
 
         return (
             <div className="Marker">

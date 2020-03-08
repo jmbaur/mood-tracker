@@ -4,13 +4,15 @@ import { connect } from "react-redux";
 import { logout } from "../../redux/reducer.js";
 import Protected from "../Protected/Protected.js";
 import EditText from "../EditText/EditText.js";
+import Warning from "../Warning/Warning.js";
 import "./Settings.css";
 
 class Settings extends React.Component {
     constructor() {
         super();
         this.state = {
-            moods: []
+            moods: [],
+            warning: false
         };
     }
 
@@ -64,6 +66,10 @@ class Settings extends React.Component {
             i++;
         }
         this.setState({ moods: tmpArr });
+    };
+
+    toggleWarning = () => {
+        this.setState({ warning: !this.state.warning });
     };
 
     deleteAccount = async () => {
@@ -123,10 +129,16 @@ class Settings extends React.Component {
                         <div className="settings-button-container">
                             <button
                                 className="delete-account-button"
-                                onClick={this.deleteAccount}
+                                onClick={this.toggleWarning}
                             >
                                 Delete Account
                             </button>
+                            {this.state.warning ? (
+                                <Warning
+                                    fn1={this.toggleWarning}
+                                    fn2={this.deleteAccount}
+                                />
+                            ) : null}
                         </div>
                     </div>
                 ) : (

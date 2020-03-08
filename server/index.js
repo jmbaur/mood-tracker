@@ -31,7 +31,8 @@ app.post("/auth/register", authCtrl.register);
 app.post("/auth/login", authCtrl.login);
 app.get("/auth/logout", authCtrl.logout);
 app.get("/auth/session", authCtrl.session);
-app.delete("/auth/account/:id", authCtrl.account)
+app.put("/auth/password", authCtrl.password);
+app.delete("/auth/account/:id", authCtrl.account);
 
 // mark endpoints
 app.post("/api/marks", markCtrl.addMark);
@@ -42,7 +43,7 @@ app.delete("/api/marks", markCtrl.deleteMark);
 // mood endpoints
 app.post("/api/moods", moodCtrl.addMoodName);
 app.get("/api/moods/:id", moodCtrl.getMoodNames);
-app.delete("/api/moods/:id", moodCtrl.deleteMood)
+app.delete("/api/moods/:id", moodCtrl.deleteMood);
 
 // comment endpoints
 app.post("/api/comments", commentCtrl.addComment);

@@ -28,6 +28,10 @@ em {
     font-style: italic;
 }
 
+em:hover {
+    font-weight: 600;
+}
+
 .title {
     width: 100vw;
     height: 10vh;
