@@ -27,12 +27,16 @@ class Login extends React.Component {
         });
     };
 
-    submit = async e => {
+    submit = e => {
         e.preventDefault();
         const { email, password } = this.state;
         if (password) {
             this.props.setUser({ email: email.toLowerCase(), password });
-            this.props.history.push("/");
+            setTimeout(() => {
+                if (this.props.loggedIn) {
+                    this.props.history.push("/");
+                }
+            }, 400);
         } else {
             alert("Password is empty.");
         }
@@ -41,8 +45,7 @@ class Login extends React.Component {
     changePassword = async e => {
         e.preventDefault();
         const { email, password1, password2, username } = this.state;
-        console.log(email, username, password1, password2);
-        if (password1 === password2) {
+        if (password1 && password1 === password2) {
             const status = await axios
                 .put(`/auth/password`, {
                     email,
