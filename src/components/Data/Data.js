@@ -16,7 +16,6 @@ class Data extends React.Component {
             barLabels: [],
             title: `${moment().format("[Year of] YYYY")}`,
             xLabel: "Month",
-            // unit: "year",
             pieChartShow: true,
             barChartShow: false
         };
