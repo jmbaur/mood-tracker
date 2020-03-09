@@ -45,6 +45,19 @@ module.exports = {
         let data = [];
         let arr = [];
         switch (type) {
+            case "grid":
+                switch (filter) {
+                    case "detail":
+                        const { date } = req.query;
+                        data = await db.get_marks_grid_detail(+user_id, date);
+                        console.log(data)
+                        res.status(200).send(data);
+                        break;
+                    default:
+                        data = await db.get_marks_grid(+user_id);
+                        res.status(200).send(data);
+                }
+                break;
             case "line":
                 data = await db.get_marks_detail_today(+user_id);
                 data = data.map(elem => {

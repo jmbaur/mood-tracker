@@ -1,0 +1,59 @@
+.Grid {
+    width: 650px;
+    height: 168px;
+    display: flex;
+    /* align-items: center; */
+    /* justify-content: center; */
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.Grid em {
+    font-weight: 600;
+    font-style: normal;
+}
+
+.Grid em:hover {
+    font-weight: 600;
+}
+
+.Grid .tooltip {
+    padding: 5px;
+    width: 250px;
+    visibility: hidden;
+    position: absolute;
+    top: -35px;
+    left: -125px;
+    z-index: 1;
+    background-color: rgb(250, 251, 252);
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.Grid .color-block {
+    position: relative;
+    margin: 2px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+.Grid .color-block:hover .tooltip {
+    visibility: visible;
+}
+
+@media screen and (max-width: 700px) {
+    .Grid {
+        max-width: 80vw;
+        max-height: 100px;
+    }
+    .Grid .color-block {
+        margin: 1px;
+        width: 12px;
+        height: 12px;
+    }
+    .Grid .tooltip {
+        font-size: 12px;
+    }
+}

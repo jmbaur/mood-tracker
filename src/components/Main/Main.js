@@ -7,7 +7,7 @@ import "./Main.css";
 
 function Main(props) {
     const { loggedIn, loading } = props;
-
+    console.log(loading);
     return (
         <main className="Main">
             {loading ? (
