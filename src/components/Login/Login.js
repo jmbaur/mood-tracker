@@ -32,11 +32,7 @@ class Login extends React.Component {
         const { email, password } = this.state;
         if (password) {
             this.props.setUser({ email: email.toLowerCase(), password });
-            setTimeout(() => {
-                if (this.props.loggedIn) {
-                    this.props.history.push("/");
-                }
-            }, 400);
+            this.props.history.push("/");
         } else {
             alert("Password is empty.");
         }

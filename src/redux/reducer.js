@@ -31,7 +31,9 @@ export function setTitle(color) {
 export function setUser(user) {
     return {
         type: SET_USER,
-        payload: axios.post("/auth/login", user).then(res => res.data)
+        payload: axios
+            .post("/auth/login", user)
+            .then(res => res.data)
     };
 }
 
@@ -48,7 +50,7 @@ export function toggleMenu(status) {
 }
 
 export default function userReducer(state = initialState, action) {
-    // console.log("REDUCER: ", action);
+    console.log("REDUCER: ", action);
     switch (action.type) {
         case GET_SESSION + "_PENDING":
             return { ...state, user: {}, loading: true };
@@ -72,7 +74,7 @@ export default function userReducer(state = initialState, action) {
             };
         case SET_USER + "_REJECTED":
             alert("Incorrect username or password.");
-            return { ...state, loading: false };
+            return { ...state, loading: false, loggedIn: false };
         case SET_TITLE:
             return { ...state, title: action.payload };
         case LOGOUT:

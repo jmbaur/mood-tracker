@@ -7,6 +7,7 @@ import "./Main.css";
 
 function Main(props) {
     const { loggedIn, loading } = props;
+    console.log(loggedIn);
 
     return (
         <main className="Main">
