@@ -1,4 +1,5 @@
 require("dotenv").config();
+const path = require("path");
 const express = require("express");
 const massive = require("massive");
 const session = require("express-session");
@@ -49,7 +50,6 @@ app.delete("/api/moods/:id", moodCtrl.deleteMood);
 app.post("/api/comments", commentCtrl.addComment);
 app.put("/api/comments/:id", commentCtrl.changeComment);
 
-const path = require("path");
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../build/index.html"));
 });
