@@ -1,5 +1,4 @@
 require("dotenv").config();
-const path = require("path");
 const express = require("express");
 const massive = require("massive");
 const session = require("express-session");
@@ -19,6 +18,7 @@ app.use(
         cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }
     })
 );
+app.use(express.static(`${__dirname}/../build`));
 
 massive(process.env.CONNECTION_STRING)
     .then(db => {
@@ -49,10 +49,6 @@ app.delete("/api/moods/:id", moodCtrl.deleteMood);
 // comment endpoints
 app.post("/api/comments", commentCtrl.addComment);
 app.put("/api/comments/:id", commentCtrl.changeComment);
-
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../build/index.html"));
-});
 
 const PORT = process.env.SERVER_PORT || 3005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
