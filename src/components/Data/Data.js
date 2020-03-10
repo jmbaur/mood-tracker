@@ -21,15 +21,13 @@ class Data extends React.Component {
         this.setState({ viewDetails: status || !this.state.viewDetails });
     };
 
-    getDetailData = async date => {
-        console.log(date);
+    getDetailData = async (doy, year) => {
         const res = await axios.get(
-            `/api/marks?user_id=${this.props.user.user_id}&type=grid&filter=detail&date=${date}`
+            `/api/marks?user_id=${this.props.user.user_id}&type=grid&filter=detail&doy=${doy}&year=${year}`
         );
-        console.log(res);
-        if (this.state.recentView !== date) {
+        if (this.state.recentView !== doy) {
             this.toggleDetails(true);
-            this.setState({ recentView: date, detailData: res.data });
+            this.setState({ recentView: doy, detailData: res.data });
         } else {
             this.toggleDetails();
         }
@@ -69,9 +67,8 @@ class Data extends React.Component {
                 tmpArr[index].count++;
             }
         }
-        console.log(tmpArr.reverse());
 
-        this.setState({ data: tmpArr });
+        this.setState({ data: tmpArr.reverse() });
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -90,8 +87,8 @@ class Data extends React.Component {
     }
 
     render() {
-        const { data, viewDetails, recentView } = this.state;
-        console.log(recentView);
+        const { data, viewDetails, recentView, detailData } = this.state;
+        console.log(detailData);
 
         return (
             <main className="Data">

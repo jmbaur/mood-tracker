@@ -10,12 +10,15 @@ function Grid(props) {
         "rgb(67,184,63)"
     ];
     const grid = props.data.map(el => {
+        const date = new Date(el.fullDate);
         return (
             <div key={el.date} className="grid-element">
                 {el.mood ? (
                     <div
                         className="color-block"
-                        onClick={() => props.viewDetails(el.date)}
+                        onClick={() =>
+                            props.viewDetails(el.date, date.getFullYear())
+                        }
                         style={{
                             backgroundColor:
                                 colors[Math.floor(el.mood / el.count)]

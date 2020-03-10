@@ -48,9 +48,10 @@ module.exports = {
             case "grid":
                 switch (filter) {
                     case "detail":
-                        const { date } = req.query;
-                        data = await db.get_marks_grid_detail(+user_id, date);
-                        console.log(data)
+                        const { doy, year } = req.query;
+                        console.log("DATE ", doy, year);
+                        data = await db.get_marks_grid_detail([+user_id, doy, year]);
+                        console.log("DATA ", data);
                         res.status(200).send(data);
                         break;
                     default:

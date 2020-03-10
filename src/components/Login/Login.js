@@ -54,7 +54,7 @@ class Login extends React.Component {
                 })
                 .catch(err => alert(err.response.request.response));
             console.log(status);
-            if (status.data === "OK")
+            if (status && status.data === "OK")
                 this.setState({
                     email: "",
                     username: "",
