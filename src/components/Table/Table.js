@@ -88,7 +88,9 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
         const [value, setValue] = React.useState(initialValue);
 
         const onChange = e => {
-            setValue(e.target.value);
+            const value =
+                e.target.type === "number" ? +e.target.value : e.target.value;
+            setValue(value);
         };
 
         // We'll only update the external data when the input is blurred
@@ -102,7 +104,14 @@ function Table({ columns, data, updateMyData, skipPageReset }) {
         }, [initialValue]);
 
         return (
-            <input value={value || ""} onChange={onChange} onBlur={onBlur} />
+            <input
+                type={typeof value === "number" ? "number" : "string"}
+                min={typeof value === "number" ? 1 : null}
+                max={typeof value === "number" ? 5 : null}
+                value={value || ""}
+                onChange={onChange}
+                onBlur={onBlur}
+            />
         );
     };
 

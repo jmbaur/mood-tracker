@@ -13,7 +13,7 @@ Freezer:
 -   user can change mood names
 -   user can view mood data by day, week, month, etc.
 
-## Front
+## Front-End
 
 ### Dependencies
 
@@ -51,7 +51,7 @@ Freezer:
         -   Login
         -   _Settings_
 
-## Back
+## Back-End
 
 ### Dependencies
 

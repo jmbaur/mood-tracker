@@ -60,7 +60,6 @@ function Log(props) {
                     alt="delete"
                     className="trash-button"
                     onClick={() => {
-                        // console.log(row.index);
                         deleteMark(
                             row.original.comment_id,
                             row.original.mark_id,
@@ -120,6 +119,7 @@ function Log(props) {
         setData(old =>
             old.map((row, index) => {
                 if (index === rowIndex) {
+                    console.log(row.comment_id, row.mark_id);
                     ////////////////////// external calls
                     switch (columnId) {
                         case "comment":
@@ -132,11 +132,10 @@ function Log(props) {
                                 : postComment(row.mark_id, value);
                             break;
                         case "mood":
-                            console.log(row.mark_id, value);
                             updateMark(row.mark_id, value);
                             break;
                         default:
-                            console.log("default hit");
+                            console.log("updateMyData err");
                     }
                     //////////////////////
                     return {
@@ -150,39 +149,34 @@ function Log(props) {
     };
 
     const toggleDetails = async (doy, year) => {
-        console.log("DETAIL ", doy, year);
         const res = await axios.get(
             `/api/marks?user_id=${props.user.user_id}&type=grid&filter=detail&doy=${doy}&year=${year}`
         );
-        console.log("DETAILDATA ", res.data);
         if (recent !== doy) {
             setShowDetails(true);
             setRecent(doy);
             setDetailData(res.data);
         } else {
             setShowDetails(false);
+            setRecent(0);
         }
     };
 
     const [data, setData] = React.useState([]);
     const [skipPageReset, setSkipPageReset] = React.useState(false);
-    const [recent, setRecent] = React.useState("");
+    const [recent, setRecent] = React.useState(0);
     const [showDetails, setShowDetails] = React.useState(false);
     const [detailData, setDetailData] = React.useState([]);
 
     React.useEffect(() => {
-        if (props.user.user_id) {
-            axios
-                .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
-                .then(res => setData(res.data));
-        }
+        axios
+            .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
+            .then(res => setData(res.data));
     }, [props.user.user_id]);
 
     React.useEffect(() => {
         setSkipPageReset(false);
     }, [data]);
-
-    console.log("SHOW ? ", showDetails);
 
     return (
         <main className="Log">

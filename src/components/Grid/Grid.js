@@ -6,29 +6,6 @@ import "./Grid.css";
 
 function Grid(props) {
     const [data, setData] = React.useState([]);
-    const [showDetails, setShowDetails] = React.useState(false);
-    const [recent, setRecent] = React.useState("");
-
-    const getDetailData = async (doy, year) => {
-        const res = await axios.get(
-            `/api/marks?user_id=${props.user.user_id}&type=grid&filter=detail&doy=${doy}&year=${year}`
-        );
-        if (this.state.recentView !== doy) {
-            setShowDetails(true);
-            this.setState({ recentView: doy, detailData: res.data });
-        } else {
-            setShowDetails(false);
-        }
-    };
-
-    const getData = async () => {
-        const { user_id } = props.user;
-        const type = "grid";
-        const res = await axios.get(
-            `/api/marks?user_id=${user_id}&type=${type}`
-        );
-        formatData(res.data);
-    };
 
     const formatData = data => {
         let arr = [84, 85, 86, 87, 88, 89, 90];
@@ -46,7 +23,7 @@ function Grid(props) {
                     .subtract(i, "days")
                     .format(),
                 mood: 0,
-                count: 1
+                count: 0
             };
         }
 
@@ -63,10 +40,12 @@ function Grid(props) {
     };
 
     React.useEffect(() => {
-        if (props.user.user_id) {
-            getData();
-        }
-    }, [data]);
+        axios
+            .get(`/api/marks?user_id=${props.user.user_id}&type=grid`)
+            .then(res => {
+                formatData(res.data);
+            });
+    }, [props.user.user_id]);
 
     const colors = [
         "rgb(227,49,51)",
@@ -88,11 +67,11 @@ function Grid(props) {
                         }}
                         style={{
                             backgroundColor:
-                                colors[Math.floor(el.mood / el.count)]
+                                colors[Math.round(el.mood / el.count) - 1]
                         }}
                     >
                         <span className="tooltip">
-                            <em>{el.count} marks</em> {el.viewDate}
+                            <em>{el.count} mark(s)</em> {el.viewDate}
                         </span>
                     </div>
                 ) : (
