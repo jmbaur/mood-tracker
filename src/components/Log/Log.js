@@ -107,9 +107,6 @@ function Log(props) {
         const res = await axios.delete(
             `/api/marks?comment_id=${comment_id || 0}&mark_id=${mark_id}`
         );
-        // let tmpData = data;
-        // tmpData.splice(index, 1);
-        // setData(tmpData);
         if (res.data === "OK") {
             axios
                 .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
@@ -152,8 +149,26 @@ function Log(props) {
         );
     };
 
+    const toggleDetails = async (doy, year) => {
+        console.log("DETAIL ", doy, year);
+        const res = await axios.get(
+            `/api/marks?user_id=${props.user.user_id}&type=grid&filter=detail&doy=${doy}&year=${year}`
+        );
+        console.log("DETAILDATA ", res.data);
+        if (recent !== doy) {
+            setShowDetails(true);
+            setRecent(doy);
+            setDetailData(res.data);
+        } else {
+            setShowDetails(false);
+        }
+    };
+
     const [data, setData] = React.useState([]);
     const [skipPageReset, setSkipPageReset] = React.useState(false);
+    const [recent, setRecent] = React.useState("");
+    const [showDetails, setShowDetails] = React.useState(false);
+    const [detailData, setDetailData] = React.useState([]);
 
     React.useEffect(() => {
         if (props.user.user_id) {
@@ -167,6 +182,8 @@ function Log(props) {
         setSkipPageReset(false);
     }, [data]);
 
+    console.log("SHOW ? ", showDetails);
+
     return (
         <main className="Log">
             {props.loggedIn ? (
@@ -175,13 +192,13 @@ function Log(props) {
                         <h1>View or change your past moods</h1>
                     </div>
                     <div className="grid-container">
-                        <Grid />
+                        <Grid toggleDetails={toggleDetails} />
                     </div>
                     <div className="table-container">
                         <Styles>
                             <Table
                                 columns={columns}
-                                data={data}
+                                data={!showDetails ? data : detailData}
                                 updateMyData={updateMyData}
                                 skipPageReset={skipPageReset}
                             />

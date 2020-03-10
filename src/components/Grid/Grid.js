@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import moment from 'moment'
+import moment from "moment";
 import { connect } from "react-redux";
 import "./Grid.css";
 
@@ -39,9 +39,12 @@ function Grid(props) {
                 date: +moment()
                     .subtract(i, "days")
                     .format("DDD"),
-                fullDate: moment()
+                viewDate: moment()
                     .subtract(i, "days")
                     .format("ddd MMM DD"),
+                fullDate: moment()
+                    .subtract(i, "days")
+                    .format(),
                 mood: 0,
                 count: 1
             };
@@ -60,7 +63,9 @@ function Grid(props) {
     };
 
     React.useEffect(() => {
-        getData();
+        if (props.user.user_id) {
+            getData();
+        }
     }, [data]);
 
     const colors = [
@@ -78,23 +83,23 @@ function Grid(props) {
                 {el.mood ? (
                     <div
                         className="color-block"
-                        onClick={() =>
-                            {/* viewDetails(el.date, date.getFullYear()) */}
-                        }
+                        onClick={() => {
+                            props.toggleDetails(el.date, date.getFullYear());
+                        }}
                         style={{
                             backgroundColor:
                                 colors[Math.floor(el.mood / el.count)]
                         }}
                     >
                         <span className="tooltip">
-                            <em>{el.count} marks</em> {el.fullDate}
+                            <em>{el.count} marks</em> {el.viewDate}
                         </span>
                     </div>
                 ) : (
                     <div className="color-block">
                         <span className="tooltip">
                             <em>0 marks </em>
-                            {el.fullDate}
+                            {el.viewDate}
                         </span>
                     </div>
                 )}
