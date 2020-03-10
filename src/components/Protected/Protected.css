@@ -1,7 +1,7 @@
 .Protected .content-container {
     width: 100vw;
     height: 80vh;
-    background-color: rgb(250,251,252);
+    background-color: rgb(250, 251, 252);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,11 +13,11 @@
     width: 20vw;
     display: flex;
     justify-content: space-evenly;
-    align-items: center
+    align-items: center;
 }
 
 @media screen and (max-width: 700px) {
-    .Protected .button-container {
+    .Protected .protected-button-container {
         width: 50vw;
         display: flex;
         justify-content: space-evenly;

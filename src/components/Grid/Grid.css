@@ -1,11 +1,11 @@
 .Grid {
+    margin: 10px 0;
     width: 650px;
     height: 168px;
     display: flex;
-    /* align-items: center; */
-    /* justify-content: center; */
     flex-direction: column;
     flex-wrap: wrap;
+    z-index: 1;
 }
 
 .Grid em {
@@ -19,11 +19,11 @@
 
 .Grid .tooltip {
     padding: 5px;
-    width: 250px;
+    width: 220px;
     visibility: hidden;
     position: absolute;
     top: -35px;
-    left: -125px;
+    left: -110px;
     z-index: 1;
     background-color: rgb(250, 251, 252);
     text-align: center;
@@ -45,7 +45,7 @@
 
 @media screen and (max-width: 700px) {
     .Grid {
-        max-width: 80vw;
+        max-width: 65vw;
         max-height: 100px;
     }
     .Grid .color-block {
@@ -54,6 +54,9 @@
         height: 12px;
     }
     .Grid .tooltip {
-        font-size: 12px;
+        font-size: 10px;
+        width: 150px;
+        left: -75px;
+        top: -25px;
     }
 }

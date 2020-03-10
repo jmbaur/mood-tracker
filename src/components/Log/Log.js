@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import Table from "../Table/Table.js";
 import Protected from "../Protected/Protected.js";
+import Grid from "../Grid/Grid.js";
 import x from "./x.svg";
 import "./Log.css";
 
@@ -122,8 +123,7 @@ function Log(props) {
         setData(old =>
             old.map((row, index) => {
                 if (index === rowIndex) {
-                    console.log(columnId, typeof columnId);
-                    ////////////////////// axios calls
+                    ////////////////////// external calls
                     switch (columnId) {
                         case "comment":
                             row.comment_id
@@ -152,12 +152,10 @@ function Log(props) {
         );
     };
 
-    const [data, setData] = useState([]);
-    // const [originalData] = useState(data);
-    const [skipPageReset, setSkipPageReset] = useState(false);
-    // const resetData = () => setData(originalData);
+    const [data, setData] = React.useState([]);
+    const [skipPageReset, setSkipPageReset] = React.useState(false);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (props.user.user_id) {
             axios
                 .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
@@ -165,7 +163,7 @@ function Log(props) {
         }
     }, [props.user.user_id]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         setSkipPageReset(false);
     }, [data]);
 
@@ -175,6 +173,9 @@ function Log(props) {
                 <div>
                     <div className="title">
                         <h1>View or change your past moods</h1>
+                    </div>
+                    <div className="grid-container">
+                        <Grid />
                     </div>
                     <div className="table-container">
                         <Styles>
