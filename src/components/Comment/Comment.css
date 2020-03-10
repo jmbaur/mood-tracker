@@ -3,7 +3,8 @@
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 110vh;
+    max-height: 200vh;
     z-index: 5;
     background-color: rgba(0, 0, 0, 0.5);
     color: rgb(36, 41, 46);
