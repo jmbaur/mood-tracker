@@ -83,6 +83,7 @@ function Log(props) {
     ];
 
     const updateComment = (comment_id, mark_id, comment) => {
+        console.log("old comment", mark_id, comment);
         axios.put(`/api/comments/${comment_id}`, {
             mark_id,
             comment,
@@ -91,6 +92,7 @@ function Log(props) {
     };
 
     const postComment = (mark_id, comment) => {
+        console.log("new comment", mark_id, comment);
         axios.post(`/api/comments`, {
             mark_id,
             comment,
@@ -119,7 +121,6 @@ function Log(props) {
         setData(old =>
             old.map((row, index) => {
                 if (index === rowIndex) {
-                    console.log(row.comment_id, row.mark_id);
                     ////////////////////// external calls
                     switch (columnId) {
                         case "comment":

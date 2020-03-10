@@ -49,5 +49,10 @@ app.delete("/api/moods/:id", moodCtrl.deleteMood);
 app.post("/api/comments", commentCtrl.addComment);
 app.put("/api/comments/:id", commentCtrl.changeComment);
 
+const path = require("path");
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../build/index.html"));
+});
+
 const PORT = process.env.SERVER_PORT || 3005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
