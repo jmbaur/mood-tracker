@@ -1,6 +1,6 @@
 # Mood Tracker
 
-** Hosted at https://dailymoodtracker.com/ **
+**Hosted at https://dailymoodtracker.com/**
 
 Minimum Viable Product:
 
