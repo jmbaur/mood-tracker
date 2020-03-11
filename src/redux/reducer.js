@@ -17,7 +17,9 @@ const TOGGLE_MENU = "TOGGLE_MENU";
 export function getSession() {
     return {
         type: GET_SESSION,
-        payload: axios.get("/auth/session").then(res => res.data)
+        payload: axios
+            .get("http://localhost:4000/auth/session")
+            .then(res => res.data)
     };
 }
 
@@ -32,13 +34,13 @@ export function setUser(user) {
     return {
         type: SET_USER,
         payload: axios
-            .post("/auth/login", user)
+            .post("http://localhost:4000/auth/login", user)
             .then(res => res.data)
     };
 }
 
 export function logout() {
-    axios.get("/auth/logout");
+    axios.get("http://localhost:4000/auth/logout");
     return { type: LOGOUT };
 }
 
