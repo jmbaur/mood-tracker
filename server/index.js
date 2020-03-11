@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const massive = require("massive");
 const session = require("express-session");
-const cors = require("cors");
+// const cors = require("cors");
 const authCtrl = require("./controllers/authController.js");
 const moodCtrl = require("./controllers/moodController.js");
 const markCtrl = require("./controllers/markController.js");
