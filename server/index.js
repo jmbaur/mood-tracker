@@ -24,6 +24,13 @@ app.use(function(req, res, next) {
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept"
     );
+    if (req.method === "OPTIONS") {
+        res.header(
+            "Access-Control-Allow-Methods",
+            "PUT, POST, DELETE, GET, PATCH"
+        );
+        return res.status(200).json({});
+    }
     next();
 });
 app.use(express.static(`${__dirname}/../build`));
