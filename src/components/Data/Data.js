@@ -81,12 +81,12 @@ class Data extends React.Component {
 
     getData = async filter => {
         const pie = await axios.get(
-            `/api/marks?user_id=${this.props.user.user_id}&filter=${filter}&type=pie`
+            `http://localhost:4000/api/marks?user_id=${this.props.user.user_id}&filter=${filter}&type=pie`
         );
         // Data for pie chart does not need extra formatting
         this.setState({ pieData: pie.data });
         const bar = await axios.get(
-            `/api/marks?user_id=${this.props.user.user_id}&filter=${filter}&type=bar`
+            `http://localhost:4000/api/marks?user_id=${this.props.user.user_id}&filter=${filter}&type=bar`
         );
         // Data for bar chart does need extra formatting
         this.formatData(bar.data, filter);

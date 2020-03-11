@@ -84,7 +84,7 @@ function Log(props) {
 
     const updateComment = (comment_id, mark_id, comment) => {
         console.log("old comment", mark_id, comment);
-        axios.put(`/api/comments/${comment_id}`, {
+        axios.put(`http://localhost:4000/api/comments/${comment_id}`, {
             mark_id,
             comment,
             user_id: props.user.user_id
@@ -93,7 +93,7 @@ function Log(props) {
 
     const postComment = (mark_id, comment) => {
         console.log("new comment", mark_id, comment);
-        axios.post(`/api/comments`, {
+        axios.post(`http://localhost:4000/api/comments`, {
             mark_id,
             comment,
             user_id: props.user.user_id
@@ -101,7 +101,7 @@ function Log(props) {
     };
 
     const updateMark = (id, mood) => {
-        axios.put(`/api/marks/${id}`, { mood });
+        axios.put(`http://localhost:4000/api/marks/${id}`, { mood });
     };
 
     const deleteMark = async (comment_id, mark_id, index) => {
@@ -114,11 +114,11 @@ function Log(props) {
         }
 
         const res = await axios.delete(
-            `/api/marks?comment_id=${comment_id || 0}&mark_id=${mark_id}`
+            `http://localhost:4000/api/marks?comment_id=${comment_id || 0}&mark_id=${mark_id}`
         );
         if (res.data === "OK") {
             axios
-                .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
+                .get(`http://localhost:4000/api/marks?user_id=${props.user.user_id}&type=log`)
                 .then(res => setData(res.data));
         }
     };
@@ -159,7 +159,7 @@ function Log(props) {
 
     const toggleDetails = async (doy, year) => {
         const res = await axios.get(
-            `/api/marks?user_id=${props.user.user_id}&type=grid&filter=detail&doy=${doy}&year=${year}`
+            `http://localhost:4000/api/marks?user_id=${props.user.user_id}&type=grid&filter=detail&doy=${doy}&year=${year}`
         );
         if (recent !== doy) {
             setShowDetails(true);
@@ -180,7 +180,7 @@ function Log(props) {
     React.useEffect(() => {
         if (props.user.user_id) {
             axios
-                .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
+                .get(`http://localhost:4000/api/marks?user_id=${props.user.user_id}&type=log`)
                 .then(res => setData(res.data));
         }
     }, [props.user.user_id]);

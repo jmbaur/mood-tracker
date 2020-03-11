@@ -19,7 +19,7 @@ class Comment extends React.Component {
         e.preventDefault();
         const { mark_id } = this.props.recentMark;
         const { user_id } = this.props.user;
-        const res = await axios.post(`/api/comments`, {
+        const res = await axios.post(`http://localhost:4000/api/comments`, {
             mark_id,
             comment: this.state.input,
             user_id

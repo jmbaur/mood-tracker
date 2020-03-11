@@ -43,7 +43,7 @@ class Login extends React.Component {
         const { email, password1, password2, username } = this.state;
         if (password1 && password1 === password2) {
             const status = await axios
-                .put(`/auth/password`, {
+                .put(`http://localhost:4000/auth/password`, {
                     email,
                     username,
                     password: password1
