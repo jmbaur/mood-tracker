@@ -42,7 +42,7 @@ function Grid(props) {
     React.useEffect(() => {
         if (props.user.user_id) {
             axios
-                .get(`http://localhost:4000/api/marks?user_id=${props.user.user_id}&type=grid`)
+                .get(`/api/marks?user_id=${props.user.user_id}&type=grid`)
                 .then(res => {
                     formatData(res.data);
                 });

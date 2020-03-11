@@ -19,7 +19,7 @@ class Settings extends React.Component {
     changeHandler = e => this.setState({ [e.target.name]: e.target.value });
 
     submit = async (num, name) => {
-        let status = await axios.post("http://localhost:4000/api/moods", {
+        let status = await axios.post("/api/moods", {
             num,
             name,
             user_id: this.props.user.user_id
@@ -31,7 +31,7 @@ class Settings extends React.Component {
 
     delete = async mood_id => {
         if (mood_id) {
-            let status = await axios.delete(`http://localhost:4000/api/moods/${mood_id}`);
+            let status = await axios.delete(`/api/moods/${mood_id}`);
             if (status.data === "OK") {
                 this.findCustomNames();
             }
@@ -39,7 +39,7 @@ class Settings extends React.Component {
     };
 
     getMoods = async user_id => {
-        const res = await axios.get(`http://localhost:4000/api/moods/${user_id}`);
+        const res = await axios.get(`/api/moods/${user_id}`);
         return res.data;
     };
 
@@ -74,7 +74,7 @@ class Settings extends React.Component {
 
     deleteAccount = async () => {
         const status = await axios.delete(
-            `http://localhost:4000/auth/account/${this.props.user.user_id}`
+            `/auth/account/${this.props.user.user_id}`
         );
 
         if (status.data === "OK") {

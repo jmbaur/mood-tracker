@@ -61,7 +61,7 @@ class Marker extends React.Component {
     };
 
     addMark = async mark => {
-        const res = await axios.post("http://localhost:4000/api/marks", mark);
+        const res = await axios.post("/api/marks", mark);
         this.setState({ recentMark: res.data[0] });
     };
 
@@ -69,7 +69,7 @@ class Marker extends React.Component {
         const type = "line";
         const { user_id } = this.props.user;
         const res = await axios.get(
-            `http://localhost:4000/api/marks?user_id=${user_id}&type=${type}`
+            `/api/marks?user_id=${user_id}&type=${type}`
         );
         const lineData = res.data.map(elem => {
             return { t: elem["t"], y: elem["y"] };
@@ -80,7 +80,7 @@ class Marker extends React.Component {
     };
 
     getMoods = async user_id => {
-        const res = await axios.get(`http://localhost:4000/api/moods/${user_id}`);
+        const res = await axios.get(`/api/moods/${user_id}`);
         const defaultMoods = [
             { num: 1, name: "Bad" },
             { num: 2, name: "Not good" },

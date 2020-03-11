@@ -34,7 +34,7 @@ class Register extends React.Component {
         const { firstName, username, email, password1, password2 } = this.state;
         if (password1 === password2 && password1) {
             const res = await axios
-                .post("http://localhost:4000/auth/register", {
+                .post("/auth/register", {
                     firstName,
                     username,
                     email: email.toLowerCase(),

@@ -18,7 +18,7 @@ export function getSession() {
     return {
         type: GET_SESSION,
         payload: axios
-            .get("http://localhost:4000/auth/session")
+            .get("/auth/session")
             .then(res => res.data)
     };
 }
@@ -34,13 +34,13 @@ export function setUser(user) {
     return {
         type: SET_USER,
         payload: axios
-            .post("http://localhost:4000/auth/login", user)
+            .post("/auth/login", user)
             .then(res => res.data)
     };
 }
 
 export function logout() {
-    axios.get("http://localhost:4000/auth/logout");
+    axios.get("/auth/logout");
     return { type: LOGOUT };
 }
 
