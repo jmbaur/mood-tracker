@@ -1,1 +1,1 @@
-select * from marks where user_id = $1 and extract(doy from time at time zone 'America/Phoenix') = $2 and extract(year from time at time zone 'America/Phoenix') = $3;
+select m.mark_id, m.time, m.mood, c.comment_id, c.comment  from marks m left join comments c on (m.mark_id  = c.mark_id) where m.user_id = $1 and extract(doy from m.time at time zone 'America/Phoenix') = $2 and extract(year from m.time at time zone 'America/Phoenix') = $3;

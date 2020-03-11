@@ -105,6 +105,14 @@ function Log(props) {
     };
 
     const deleteMark = async (comment_id, mark_id, index) => {
+
+        // remove that from detail dataset if exists
+        if (detailData.findIndex(el => el.mark_id === mark_id) !== -1) {
+            const newDetailData = detailData.slice();
+            newDetailData.splice(index, 1);
+            setDetailData(newDetailData);
+        }
+
         const res = await axios.delete(
             `/api/marks?comment_id=${comment_id || 0}&mark_id=${mark_id}`
         );
@@ -170,9 +178,11 @@ function Log(props) {
     const [detailData, setDetailData] = React.useState([]);
 
     React.useEffect(() => {
-        axios
-            .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
-            .then(res => setData(res.data));
+        if (props.user.user_id) {
+            axios
+                .get(`/api/marks?user_id=${props.user.user_id}&type=log`)
+                .then(res => setData(res.data));
+        }
     }, [props.user.user_id]);
 
     React.useEffect(() => {
@@ -187,7 +197,10 @@ function Log(props) {
                         <h1>View or change your past moods</h1>
                     </div>
                     <div className="grid-container">
-                        <Grid toggleDetails={toggleDetails} />
+                        <Grid
+                            detailData={detailData}
+                            toggleDetails={toggleDetails}
+                        />
                     </div>
                     <div className="table-container">
                         <Styles>

@@ -40,12 +40,14 @@ function Grid(props) {
     };
 
     React.useEffect(() => {
-        axios
-            .get(`/api/marks?user_id=${props.user.user_id}&type=grid`)
-            .then(res => {
-                formatData(res.data);
-            });
-    }, [props.user.user_id]);
+        if (props.user.user_id) {
+            axios
+                .get(`/api/marks?user_id=${props.user.user_id}&type=grid`)
+                .then(res => {
+                    formatData(res.data);
+                });
+        }
+    }, [props.user.user_id, props.detailData]);
 
     const colors = [
         "rgb(227,49,51)",
