@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const massive = require("massive");
 const session = require("express-session");
-// const cors = require("cors");
+const cors = require("cors");
 const authCtrl = require("./controllers/authController.js");
 const moodCtrl = require("./controllers/moodController.js");
 const markCtrl = require("./controllers/markController.js");
@@ -22,22 +22,9 @@ app.use(
     })
 );
 // CORS
-// app.use(cors({ credentials: true }));
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header(
-//         "Access-Control-Allow-Headers",
-//         "Origin, X-Requested-With, Content-Type, Accept"
-//     );
-//     if (req.method === "OPTIONS") {
-//         res.header(
-//             "Access-Control-Allow-Methods",
-//             "PUT, POST, DELETE, GET, PATCH"
-//         );
-//         return res.status(200).json({});
-//     }
-//     next();
-// });
+app.use(cors({ credentials: true }));
+
+// Serve up files from backend
 app.use(express.static(`${__dirname}/../build`));
 
 massive(process.env.CONNECTION_STRING)
