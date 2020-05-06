@@ -57,7 +57,7 @@ function Marker(props) {
       method: "get",
       url: `/api/marks?start=${start}&end=${end}`
     });
-    const { marks } = res.data.results;
+    const { marks } = res.data;
     if (marks) {
       setLineLabels(marks.map(el => el.time));
       setLineComments(marks.map(el => el.comment));

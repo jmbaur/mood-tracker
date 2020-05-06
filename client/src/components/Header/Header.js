@@ -23,6 +23,7 @@ function Header(props) {
 
   React.useEffect(() => {
     if (loggedIn) {
+      console.log("loggedin");
       getMoods();
     }
   }, [getMoods, loggedIn]);

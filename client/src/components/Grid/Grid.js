@@ -67,7 +67,7 @@ function Grid(props) {
   const grid = data.map(el => {
     const date = new Date(el.time);
     return (
-      <div key={el.ID} className="grid-element">
+      <div key={el.id} className="grid-element">
         {el.mood ? (
           <div
             className="color-block"

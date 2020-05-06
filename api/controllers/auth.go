@@ -16,9 +16,9 @@ import (
 )
 
 func Register(c *gin.Context) {
-	var user models.Login
+	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, "Invalid JSON provided")
+		c.JSON(http.StatusBadRequest, "Invalid JSON provided")
 		return
 	}
 
@@ -38,9 +38,9 @@ func Register(c *gin.Context) {
 
 func Login(c *gin.Context) {
 	// bind request body to user
-	var user models.Login
+	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, "Invalid JSON provided")
+		c.JSON(http.StatusBadRequest, "Invalid JSON provided")
 		return
 	}
 

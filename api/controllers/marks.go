@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -32,18 +33,17 @@ func GetMarks(c *gin.Context) {
 
 	// opts := options.Aggregate()
 	matchStage := bson.M{"$match": bson.M{"_id": userId}}
-	filterStage := bson.M{"$filter": bson.M{"input": "$marks",
+	filter := bson.M{"$filter": bson.M{"input": "$marks",
 		"as": "mark",
 		"cond": bson.M{"$and": bson.A{
 			bson.M{"$gte": bson.A{"$$mark.time", start}},
 			bson.M{"$lte": bson.A{"$$mark.time", end}}}}}}
-	projectStage := bson.M{"$project": bson.M{"_id": 0, "marks": filterStage}}
-	// unwindStage := bson.M{"$unwind": "$marks"}
+	projectStage := bson.M{"$project": bson.M{"_id": 0, "marks": filter}}
 	cursor, err := coll.Aggregate(ctx,
 		[]bson.M{matchStage, projectStage})
 	if err != nil {
 		log.Println("get marks error: ", err)
-		c.JSON(http.StatusNotFound, gin.H{"error": err})
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
 	var marks []bson.M
@@ -51,7 +51,7 @@ func GetMarks(c *gin.Context) {
 		log.Println(err)
 	}
 
-	c.JSON(http.StatusOK, gin.H{"results": marks[0]})
+	c.JSON(http.StatusOK, marks[0])
 }
 
 func AddMark(c *gin.Context) {
@@ -86,37 +86,39 @@ func ChangeMark(c *gin.Context) {
 	userId, _ := primitive.ObjectIDFromHex(c.MustGet("userId").(string))
 
 	markId, _ := primitive.ObjectIDFromHex(c.Query("id"))
+	fmt.Printf("%v %T %v %T\n", userId, userId, markId, markId)
 
 	var mark models.Mark
 	if err := c.ShouldBindJSON(&mark); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": err})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	coll := db.GetCollection(database, collection)
 
-	opts := options.Update().SetUpsert(true)
+	// opts := options.Update()
 	filter := bson.M{"_id": userId, "marks._id": markId}
-
 	update := bson.M{}
 	// find where the update is
-	if mark.Comment != "" && mark.Number != 0 {
-		update = bson.M{"$set": bson.M{"marks.$.num": mark.Number, "marks.$.comment": mark.Comment}}
-	} else if mark.Comment != "" {
+	if mark.Comment != "" {
 		update = bson.M{"$set": bson.M{"marks.$.comment": mark.Comment}}
+
 	} else if mark.Number != 0 {
-		update = bson.M{"$set": bson.M{"marks.$.num": mark.Number}}
+		update = bson.M{"$set": bson.M{"marks.$.number": mark.Number}}
 	} else {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "No update found."})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No update found."})
 		return
 	}
-	result, err := coll.UpdateOne(context.Background(), filter, update, opts)
+	result, err := coll.UpdateOne(context.Background(), filter, update)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"status": err})
+		fmt.Println("ERROR", err.Error())
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
 	if result.ModifiedCount == 1 {
 		c.JSON(http.StatusOK, "OK")
+	} else {
+		c.JSON(http.StatusNotModified, "Not modified")
 	}
 }
 

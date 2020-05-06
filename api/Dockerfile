@@ -1,20 +1,10 @@
-FROM golang:latest
+FROM golang:alpine
 
-# if left blank app will run with dev settings
-# to build production image run:
-# $ docker build ./api --build-args app_env=production
-# ARG app_env
-# ENV APP_ENV $app_env
-
-# ENV GOCACHE /tmp
-RUN mkdir $GOPATH/src/app
-ADD . $GOPATH/src/app/
-WORKDIR $GOPATH/src/app
+RUN mkdir $GOPATH/src/api
+ADD . $GOPATH/src/api/
+WORKDIR $GOPATH/src/api
 RUN go mod download
 RUN go build -o api .
-
-# RUN adduser -S -D -H -h $GOPATH/src/app appuser
-# USER 9000
 
 CMD go get github.com/pilu/fresh && \
 	fresh;

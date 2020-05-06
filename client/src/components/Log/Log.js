@@ -51,7 +51,7 @@ function Log(props) {
   const columns = [
     {
       Header: "",
-      accessor: "ID",
+      accessor: "_id",
       disableSortBy: true,
       Cell: ({ row }) => (
         <img
@@ -59,7 +59,7 @@ function Log(props) {
           alt="delete"
           className="trash-button"
           onClick={() => {
-            deleteMark(row.original.ID, row.index);
+            deleteMark(row.original._id, row.index);
           }}
         />
       )
@@ -78,6 +78,7 @@ function Log(props) {
   ];
 
   const updateMark = (id, number, comment) => {
+    console.log(id, number, comment)
     axios({
       method: "put",
       url: `/api/marks?id=${id}`,
@@ -86,13 +87,6 @@ function Log(props) {
   };
 
   const deleteMark = (id, index) => {
-    // remove that from detail dataset if exists
-    /* if (detailData.findIndex(el => el.mark_id === mark_id) !== -1) {
-      const newDetailData = detailData.slice();
-      newDetailData.splice(index, 1);
-      setDetailData(newDetailData);
-    } */
-
     axios({
       url: `/api/marks?id=${id}`,
       method: "delete"
@@ -111,11 +105,10 @@ function Log(props) {
         if (index === rowIndex) {
           ////////////////////// external calls
           if (columnId === "number" && row.number !== value) {
-            console.log(row);
-            updateMark(row.ID, value, "");
+            updateMark(row._id, +value, "");
           }
           if (columnId === "comment" && row.comment !== value) {
-            updateMark(row.ID, 0, value);
+            updateMark(row._id, 0, value);
           }
           //////////////////////
           return {
@@ -150,8 +143,7 @@ function Log(props) {
 
   React.useEffect(() => {
     axios({ url: "/api/marks", method: "get" }).then(res => {
-      console.log(res.data.results);
-      setData(res.data.results.marks);
+      setData(res.data.marks);
     });
   }, []);
 
