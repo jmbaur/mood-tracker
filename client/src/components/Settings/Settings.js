@@ -19,8 +19,7 @@ class Settings extends React.Component {
   getMoods = async () => {
     const res = await axios.get(`/api/moods`);
     const moods = res.data.moods;
-    moods.sort((a, b) => a.num - b.num);
-    console.log(moods);
+    moods.sort((a, b) => a.number - b.number);
 
     const defaultColors = [
       "#e33133",
@@ -32,14 +31,14 @@ class Settings extends React.Component {
     let tmpArr = moods.slice();
     let i = 0;
     while (i < 5) {
-      if (tmpArr[i]?.num !== i + 1) {
+      if (tmpArr[i]?.number !== i + 1) {
         tmpArr.splice(i, 0, {
-          num: i + 1,
+          number: i + 1,
           name: "",
           color: defaultColors[i],
           editable: false
         });
-      } else {
+      } else if (tmpArr[i].name) {
         tmpArr[i].editable = true;
       }
       i++;
@@ -61,16 +60,16 @@ class Settings extends React.Component {
     }
   };
 
-  addNewMood = num => {
+  addNewMood = number => {
     let tmp = this.state.moods.slice();
-    tmp[num - 1].editable = true;
-    tmp[num - 1].name = "";
+    tmp[number - 1].editable = true;
+    tmp[number - 1].name = "";
     this.setState(tmp);
   };
 
-  changeMoodName = (num, name) => {
+  changeMoodName = (number, name) => {
     let tmp = this.state.moods.slice();
-    const index = tmp.findIndex(el => el.num === num);
+    const index = tmp.findIndex(el => el.number === number);
     tmp[index].name = name;
     this.setState(tmp);
 
@@ -78,7 +77,7 @@ class Settings extends React.Component {
     axios({
       method: "post",
       url: "/api/moods",
-      data: { num, name, color }
+      data: { number, name, color }
     });
   };
 
@@ -87,22 +86,22 @@ class Settings extends React.Component {
     tmp[index].color = e.target.value;
     this.setState(tmp);
 
-    const { num, name } = tmp[index];
+    const { number, name } = tmp[index];
     axios({
       method: "post",
       url: "/api/moods",
-      data: { num, color: e.target.value, name }
+      data: { number, color: e.target.value, name }
     });
   };
 
-  clear = num => {
+  clear = number => {
     let tmp = this.state.moods.slice();
-    let index = tmp.findIndex(el => el.num === num);
+    let index = tmp.findIndex(el => el.number === number);
     tmp[index].editable = false;
     this.setState(tmp);
     if (tmp[index].name) {
       axios({
-        url: `/api/moods?num=${num}`,
+        url: `/api/moods?number=${number}`,
         method: "delete"
       });
     }
@@ -114,7 +113,6 @@ class Settings extends React.Component {
 
   render() {
     const { moods } = this.state;
-    console.log(moods);
     const mappedInputs = moods.map((mood, i) => {
       return (
         <div key={i}>
@@ -127,14 +125,14 @@ class Settings extends React.Component {
           {mood.editable ? (
             <>
               <EditText
-                num={mood.num}
+                number={mood.number}
                 input={mood.name}
                 changeMoodName={this.changeMoodName}
               />
-              <button onClick={() => this.clear(mood.num)}>Delete</button>
+              <button onClick={() => this.clear(mood.number)}>Delete</button>
             </>
           ) : (
-            <button onClick={() => this.addNewMood(mood.num)}>Add</button>
+            <button onClick={() => this.addNewMood(mood.number)}>Add</button>
           )}
         </div>
       );

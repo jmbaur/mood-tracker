@@ -28,6 +28,7 @@ function Comment(props) {
         <label>
           Make a comment!
           <input
+            autoFocus
             type="text"
             name="input"
             value={input}

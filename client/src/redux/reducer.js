@@ -1,17 +1,16 @@
 import axios from "axios";
-import formatMoods from "../utils/formatMoods.js";
 
 const initialState = {
   username: "",
   moods: [],
-  titleColor: "#ffffff",
+  titleColor: localStorage.getItem("titleColor") || "#ffffff",
   loading: false,
   loggedIn: false,
   hamburgerMenu: false
 };
 
 const GET_SESSION = "GET_SESSION";
-const GET_MOODS = "GET_MOODS";
+const SET_MOODS = "SET_MOODS";
 const SET_TITLE_COLOR = "SET_TITLE_COLOR";
 const SET_USER = "SET_USER";
 const LOGOUT = "LOGOUT";
@@ -27,17 +26,15 @@ export function getSession() {
   };
 }
 
-export function getMoods() {
+export function setMoods(moods) {
   return {
-    type: GET_MOODS,
-    payload: axios({
-      method: "get",
-      url: "/api/moods"
-    }).then(res => res.data.moods)
+    type: SET_MOODS,
+    payload: moods
   };
 }
 
 export function setTitleColor(color) {
+  localStorage.setItem("titleColor", color);
   return {
     type: SET_TITLE_COLOR,
     payload: color
@@ -56,6 +53,7 @@ export function setUser(user) {
 }
 
 export function logout() {
+  localStorage.clear();
   axios({ method: "get", url: "/auth/logout" });
   return { type: LOGOUT };
 }
@@ -80,8 +78,8 @@ export default function userReducer(state = initialState, action) {
       };
     case GET_SESSION + "_REJECTED":
       return { ...state, username: "", loading: false };
-    case GET_MOODS + "_FULFILLED":
-      return { ...state, moods: formatMoods(action.payload) };
+    case SET_MOODS:
+      return { ...state, moods: action.payload };
     case SET_USER + "_PENDING":
       return { ...state, loading: true };
     case SET_USER + "_FULFILLED":

@@ -15,18 +15,18 @@ function Marker(props) {
   const [lineLabels, setLineLabels] = React.useState([]);
   const [lineComments, setLineComments] = React.useState([]);
 
-  const setMood = num => {
-    const index = props.moods.findIndex(mood => mood.num === num);
+  const setMood = number => {
+    const index = props.moods.findIndex(mood => mood.number === number);
     setComment(true);
     setMessage(props.moods[index]?.name);
-    setTitle(num);
+    setTitle(number);
     addMark({
       time: moment().format(),
-      number: num
+      number
     });
   };
 
-  const setTitle = num => {
+  const setTitle = number => {
     const defaultColors = [
       "#e33133",
       "#f0743a",
@@ -34,7 +34,7 @@ function Marker(props) {
       "#97bb3d",
       "#43b83f"
     ];
-    props.setTitleColor(defaultColors[num - 1]);
+    props.setTitleColor(defaultColors[number - 1]);
   };
 
   const addMark = async mark => {

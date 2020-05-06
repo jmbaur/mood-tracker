@@ -12,7 +12,7 @@ function EditText(props) {
       placeholder="optional"
       value={input}
       onChange={handleChange}
-      onBlur={() => props.changeMoodName(props.num, input)}
+      onBlur={() => props.changeMoodName(props.number, input)}
     />
   );
 }

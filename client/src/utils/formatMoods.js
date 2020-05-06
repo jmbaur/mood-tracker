@@ -1,16 +1,19 @@
 export default function formatMoods(moods) {
   const defaultMoods = [
-    { num: 1, name: "Bad", color: "#e33133" },
-    { num: 2, name: "Not good", color: "#f0743a" },
-    { num: 3, name: "OK", color: "#ffbd3a" },
-    { num: 4, name: "Good", color: "#97bb3d" },
-    { num: 5, name: "Great", color: "#43b83f" }
+    { number: 1, name: "Bad", color: "#e33133" },
+    { number: 2, name: "Not good", color: "#f0743a" },
+    { number: 3, name: "OK", color: "#ffbd3a" },
+    { number: 4, name: "Good", color: "#97bb3d" },
+    { number: 5, name: "Great", color: "#43b83f" }
   ];
-  moods.sort((a, b) => a.num - b.num);
+  moods.sort((a, b) => a.number - b.number);
   let i = 0;
   while (i < 5) {
-    if (moods[i]?.num !== i + 1) {
+    if (moods[i]?.number !== i + 1) {
       moods.splice(i, 0, defaultMoods[i]);
+    } else {
+      moods[i].color = moods[i].color || defaultMoods[i].color;
+      moods[i].name = moods[i].name || defaultMoods[i].name;
     }
     i++;
   }

@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import axios from "axios";
+import formatMoods from "../../utils/formatMoods.js";
 import { withRouter } from "react-router-dom";
 import {
   getSession,
-  getMoods,
+  setMoods,
   setUser,
   logout,
   toggleMenu
@@ -13,9 +15,7 @@ import hamburger from "./hamburger.svg";
 import "./Header.css";
 
 function Header(props) {
-  const [titleColor, setTitleColor] = React.useState(props.titleColor);
-
-  const { getMoods, getSession, loggedIn } = props;
+  const { titleColor, setMoods, getSession, loggedIn } = props;
 
   React.useEffect(() => {
     getSession();
@@ -23,14 +23,12 @@ function Header(props) {
 
   React.useEffect(() => {
     if (loggedIn) {
-      console.log("loggedin");
-      getMoods();
+      axios({ method: "get", url: "/api/moods" }).then(({ data }) => {
+        let moods = formatMoods(data.moods);
+        setMoods(moods);
+      });
     }
-  }, [getMoods, loggedIn]);
-
-  // React.useEffect(() => {
-  //   setTitleColor(props.titleColor);
-  // }, [props.titleColor]);
+  }, [setMoods, loggedIn]);
 
   return (
     <header>
@@ -90,7 +88,7 @@ function Header(props) {
 const mapStateToProps = state => state;
 const mapDispatchToProps = {
   getSession,
-  getMoods,
+  setMoods,
   setUser,
   logout,
   toggleMenu

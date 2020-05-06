@@ -78,7 +78,7 @@ function Log(props) {
   ];
 
   const updateMark = (id, number, comment) => {
-    console.log(id, number, comment)
+    console.log(id, number, comment);
     axios({
       method: "put",
       url: `/api/marks?id=${id}`,
@@ -143,7 +143,7 @@ function Log(props) {
 
   React.useEffect(() => {
     axios({ url: "/api/marks", method: "get" }).then(res => {
-      setData(res.data.marks);
+      setData(res.data.marks || []);
     });
   }, []);
 

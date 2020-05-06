@@ -11,7 +11,6 @@ import (
 	"github.com/jmbaur/mood-tracker-backend/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func UpsertMood(c *gin.Context) {
@@ -25,17 +24,16 @@ func UpsertMood(c *gin.Context) {
 
 	coll := db.GetCollection(database, collection)
 
-	opts := options.Update()
-	filter := bson.M{"_id": userId, "moods.num": mood.Number}
+	filter := bson.M{"_id": userId, "moods.number": mood.Number}
 	update := bson.M{"$set": bson.M{"moods.$": mood}}
-	result, err := coll.UpdateOne(context.Background(), filter, update, opts)
+	result, err := coll.UpdateOne(context.Background(), filter, update)
 	if err != nil {
 		log.Println("mood update error: ", err)
 	}
 	if result.MatchedCount != 1 && result.ModifiedCount != 1 {
 		filter = bson.M{"_id": userId}
 		update = bson.M{"$push": bson.M{"moods": mood}}
-		result, err = coll.UpdateOne(context.Background(), filter, update, opts)
+		result, err = coll.UpdateOne(context.Background(), filter, update)
 		if err != nil {
 			log.Println("mood update error: ", err)
 		}
@@ -54,33 +52,31 @@ func GetMoods(c *gin.Context) {
 	coll := db.GetCollection(database, collection)
 
 	var user models.User
-	opts := options.FindOne()
 	filter := bson.M{"_id": userId}
-	err := coll.FindOne(context.Background(), filter, opts).Decode(&user)
+	err := coll.FindOne(context.Background(), filter).Decode(&user)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"status": err})
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
 
 	if len(user.Moods) != 0 {
-		c.JSON(http.StatusOK, gin.H{"count": len(user.Moods), "moods": user.Moods})
+		c.JSON(http.StatusOK, gin.H{"moods": user.Moods})
 	} else {
 		empty := []string{}
-		c.JSON(http.StatusOK, gin.H{"count": 0, "moods": empty})
+		c.JSON(http.StatusOK, gin.H{"moods": empty})
 	}
 
 }
 func DeleteMood(c *gin.Context) {
 	userId, _ := primitive.ObjectIDFromHex(c.MustGet("userId").(string))
 
-	num, _ := strconv.Atoi(c.Query("num"))
+	number, _ := strconv.Atoi(c.Query("number"))
 
 	coll := db.GetCollection(database, collection)
 
-	opts := options.Update()
 	filter := bson.M{"_id": userId}
-	update := bson.M{"$pull": bson.M{"moods": bson.M{"num": num}}}
-	result, err := coll.UpdateOne(context.Background(), filter, update, opts)
+	update := bson.M{"$pull": bson.M{"moods": bson.M{"number": number}}}
+	result, err := coll.UpdateOne(context.Background(), filter, update)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"status": err})
 		return
