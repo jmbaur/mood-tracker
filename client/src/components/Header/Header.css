@@ -1,0 +1,136 @@
+header {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 10vh;
+    background-color: rgb(36, 41, 46);
+    color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3;
+}
+
+header button {
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+}
+
+header a {
+    text-decoration: none;
+}
+
+header .title-container {
+    margin: 0 20px;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+}
+
+header .title-content {
+    font-size: 40px;
+    font-weight: 800;
+    text-shadow: 1px 1px rgb(168, 171, 173);
+}
+
+header .title-content:hover {
+    font-style: normal;
+}
+
+header #default {
+    color: rgb(250, 251, 252);
+}
+
+header #one {
+    color: rgb(227, 49, 51);
+}
+header #two {
+    color: rgb(240, 116, 58);
+}
+header #three {
+    color: rgb(255, 190, 58);
+}
+header #four {
+    color: rgb(151, 187, 61);
+}
+header #five {
+    color: rgb(67, 184, 63);
+}
+
+header .welcome-message {
+    font-style: italic;
+}
+
+header > .user-portal {
+    height: 100%;
+}
+
+header > .user-portal button {
+    color: rgb(250, 251, 252);
+    background-color: transparent;
+    border-radius: 5px;
+    height: 40px;
+    width: 90px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+header > .user-portal button:hover {
+    font-style: italic;
+}
+
+.not-logged-in,
+.logged-in {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.hamburger-menu {
+    filter: invert();
+    display: none;
+}
+
+#unclicked {
+    transform: rotate(0deg);
+}
+
+#clicked {
+    transform: rotate(90deg);
+}
+
+@media screen and (max-width: 700px) {
+    header .title-content {
+        font-size: 25px;
+        /* text-align: left; */
+        /* text-shadow: 1px 1px rgb(141, 153, 174); */
+    }
+
+    header .welcome-message {
+        display: none;
+    }
+    .not-logged-in,
+    .logged-in {
+        margin: 0 20px 0 0;
+        justify-content: flex-end;
+    }
+    .not-logged-in button,
+    .logged-in button {
+        display: none;
+    }
+    .hamburger-menu {
+        width: 35px;
+        display: inline-block;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(90deg);
+    }
+}

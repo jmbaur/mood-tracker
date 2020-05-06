@@ -1,0 +1,68 @@
+.Data .data-container {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(250, 251, 252);
+}
+
+.Data .select-container {
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Data .select-container select {
+    margin: 0 20px;
+}
+
+.Data .select-container h1 {
+    margin: 0 20px;
+    font-size: 16px;
+}
+
+.Data .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Data .selector {
+    width: 100px;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Data .pie {
+    border-radius: 5px 0 0 5px;
+}
+
+.Data .bar {
+    border-radius: 0 5px 5px 0;
+}
+
+.Data #selected {
+    background-color: rgb(36, 41, 46);
+}
+
+.Data #unselected {
+    background-color: rgb(168, 171, 173);
+}
+
+.Data #no-show {
+    display: none;
+}
+
+.Data .chart-container {
+    background-color: rgb(250, 251, 252);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+}
+
+@media screen and (max-width: 700px) {
+}

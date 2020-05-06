@@ -1,0 +1,72 @@
+.Register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Register form {
+    background-color: rgb(250,251,252);
+    /* background-color: red; */
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* padding: 0 20px; */
+}
+
+.Register form .input-fields {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.Register form label {
+    display: flex;
+    width: 30vw;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.Register input {
+    border: 1px solid rgb(43,48,53);
+    border-radius: 5px;
+    height: 25px;
+    font-style: italic;
+}
+
+.Register form .form-buttons-container {
+    width: 20vw;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.Register button {
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(255,255,255);
+    height: 30px;
+    background-color: rgb(43,48,53);
+}
+
+.Register button:hover {
+    font-style: italic;
+}
+
+@media screen and (max-width: 700px) {
+    .Register form {
+        justify-content: flex-start;
+    }
+    .Register form label {
+        width: 80vw;
+    }
+    .Register form .form-buttons-container {
+        width: 60vw;
+    }
+}
