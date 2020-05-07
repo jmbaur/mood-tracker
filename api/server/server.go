@@ -1,6 +1,8 @@
 package server
 
 import (
+	"net/http"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -14,7 +16,7 @@ func Run() {
 	router := gin.Default()
 
 	store := cookie.NewStore([]byte(config.Config.GetString("session.key")))
-	// store.Options(sessions.Options{SameSite: http.SameSiteStrictMode})
+	store.Options(sessions.Options{SameSite: http.SameSiteStrictMode})
 
 	router.Use(sessions.Sessions("session", store))
 
