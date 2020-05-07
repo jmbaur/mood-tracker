@@ -26,7 +26,7 @@ const LineGraph = ({ moods, newMark, start, end }) => {
     if (!newMark) {
       fetchData();
     }
-  }, [newMark, start, end]);
+  }, [fetchData, newMark, start, end]);
 
   const options = {
     title: { display: true, text: "Today" },
