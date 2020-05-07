@@ -24,7 +24,7 @@ func GetMarks(c *gin.Context) {
 	start, startErr := time.Parse(time.RFC3339, startQuery)
 	end, endErr := time.Parse(time.RFC3339, endQuery)
 	if startErr != nil || endErr != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": startErr.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Could not parse start or end date"})
 		return
 	}
 
