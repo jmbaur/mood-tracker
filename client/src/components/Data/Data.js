@@ -2,7 +2,8 @@ import React from "react";
 import axios from "axios";
 import moment from "moment";
 import { connect } from "react-redux";
-import { Pie, Bar } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
+import LineGraph from "../LineGraph/LineGraph.js";
 import formatData from "../../utils/formatData.js";
 import "./Data.css";
 
@@ -19,9 +20,11 @@ function Data(props) {
       .toISOString()
       .slice(0, 10)
   );
-  const [showPie, setShowPie] = React.useState(true);
+  const [showPie, setShowPie] = React.useState(
+    !!localStorage.getItem("showPie") ? false : true
+  );
   const [pieData, setPieData] = React.useState([]);
-  const [barData, setBarData] = React.useState([]);
+  const [lineData, setLineData] = React.useState([]);
 
   React.useEffect(() => {
     getData(
@@ -63,9 +66,9 @@ function Data(props) {
         method: "get",
         url
       });
-      const { pieMarks, barMarks } = formatData(data.marks);
+      const { pieMarks, lineMarks } = formatData(data.marks);
       setPieData(pieMarks);
-      setBarData(barMarks);
+      setLineData(lineMarks);
     } catch (err) {
       console.log(err);
     }
@@ -75,7 +78,7 @@ function Data(props) {
     <main className="Data">
       <div>
         <div className="title">
-          <h1>View your data</h1>
+          <h1>Get a closer look at your data</h1>
         </div>
         <div className="data-container">
           <div className="select-container">
@@ -102,22 +105,33 @@ function Data(props) {
             <div
               className="pie selector"
               id={showPie ? "selected" : "unselected"}
-              onClick={() => setShowPie(true)}
+              onClick={() => {
+                localStorage.setItem("showPie", true);
+                setShowPie(true);
+              }}
             >
               Pie
             </div>
             <div
               className="bar selector"
               id={showPie ? "unselected" : "selected"}
-              onClick={() => setShowPie(false)}
+              onClick={() => {
+                localStorage.setItem("showPie", false);
+                setShowPie(false);
+              }}
             >
-              Bar
+              Line
             </div>
           </div>
           {showPie ? (
             <PieChart moods={props.moods} pieData={pieData} />
           ) : (
-            <BarChart moods={props.moods} barData={barData} />
+            <LineGraph
+              moods={props.moods}
+              start={moment(start).toISOString()}
+              end={moment(end).toISOString()}
+              newMark={false}
+            />
           )}
         </div>
       </div>
@@ -143,76 +157,4 @@ const PieChart = ({ moods, pieData }) => {
   };
 
   return <Pie options={pieOptions} data={pieChartData} />;
-};
-
-const BarChart = ({ moods, barData }) => {
-  const barOptions = {
-    legend: { display: false },
-    scales: {
-      xAxes: [
-        {
-          stacked: true,
-          scaleLabel: {
-            // display: true
-            // labelString: this.state.xLabel
-          }
-          // type: "time",
-          // time: {
-          //     unit: this.state.unit,
-          //     displayFormats: {
-          //         month: "Do",
-          //         year: "MM",
-          //         week: "ddd",
-          //         day: "HH[:00]"
-          //     }
-          // }
-        }
-      ],
-      yAxes: [
-        {
-          stacked: true,
-          ticks: { stepSize: 1, beginAtZero: true },
-          scaleLabel: { display: true, labelString: "Frequency" }
-        }
-      ]
-    }
-  };
-
-  const barChartData = {
-    // labels: barLabels,
-    datasets: [
-      {
-        label: "Bad",
-        backgroundColor: "rgb(227, 49, 51)",
-        hoverBackgroundColor: "rgba(227, 49, 51, 0.8)",
-        data: barData[0]
-      },
-      {
-        label: "Not good",
-        backgroundColor: "rgb(240, 116, 58)",
-        hoverBackgroundColor: "rgba(240, 116, 58, 0.8)",
-        data: barData[1]
-      },
-      {
-        label: "OK",
-        backgroundColor: "rgb(255, 190, 58)",
-        hoverBackgroundColor: "rgba(255, 190, 58, 0.8)",
-        data: barData[2]
-      },
-      {
-        label: "Good",
-        backgroundColor: "rgb(151, 187, 61)",
-        hoverBackgroundColor: "rgba(151, 187, 61, 0.8)",
-        data: barData[3]
-      },
-      {
-        label: "Great",
-        backgroundColor: "rgb(67, 184, 63)",
-        hoverBackgroundColor: "rgba(67, 184, 63, 0.8)",
-        data: barData[4]
-      }
-    ]
-  };
-
-  return <Bar options={barOptions} data={barChartData} />;
 };
