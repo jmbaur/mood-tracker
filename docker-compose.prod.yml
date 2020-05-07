@@ -3,8 +3,6 @@ services:
   mongo:
     container_name: 'mongo'
     build: ./db
-    volumes:
-      - 'data:/data/db'
     ports:
       - 27017:27017
   api:
@@ -13,6 +11,6 @@ services:
       context: ./api
       dockerfile: Dockerfile.prod
     ports:
-      - 4000:4000
+      - 4000:8000
     links:
       - mongo

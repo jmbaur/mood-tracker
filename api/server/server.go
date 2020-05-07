@@ -16,7 +16,7 @@ func Run() {
 	router := gin.Default()
 
 	store := cookie.NewStore([]byte(config.Config.GetString("session.key")))
-	store.Options(sessions.Options{SameSite: http.SameSiteStrictMode})
+	store.Options(sessions.Options{SameSite: http.SameSiteLaxMode, Path: "/", HttpOnly: true})
 
 	router.Use(sessions.Sessions("session", store))
 

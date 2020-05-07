@@ -5,5 +5,5 @@ ADD . $GOPATH/src/api/
 WORKDIR $GOPATH/src/api
 RUN go mod download
 RUN go build -o api .
-./api
-EXPOSE 4000
+CMD ./api
+EXPOSE 8000
