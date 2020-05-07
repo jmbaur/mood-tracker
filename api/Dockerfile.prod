@@ -1,0 +1,9 @@
+FROM golang:alpine
+
+RUN mkdir $GOPATH/src/api
+ADD . $GOPATH/src/api/
+WORKDIR $GOPATH/src/api
+RUN go mod download
+RUN go build -o api .
+./api
+EXPOSE 4000
