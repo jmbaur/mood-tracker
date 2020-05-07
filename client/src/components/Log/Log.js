@@ -78,7 +78,6 @@ function Log(props) {
   ];
 
   const updateMark = (id, number, comment) => {
-    console.log(id, number, comment);
     axios({
       method: "put",
       url: `/api/marks?id=${id}`,
@@ -121,35 +120,41 @@ function Log(props) {
     );
   };
 
-  const toggleDetails = async (doy, year) => {
-    const res = await axios.get(
-      `/api/marks?user_id=${props.user.user_id}&type=grid&filter=detail&doy=${doy}&year=${year}`
-    );
-    if (recent !== doy) {
-      setShowDetails(true);
-      setRecent(doy);
-      setDetailData(res.data);
+  const [data, setData] = React.useState([]);
+  const [detailData, setDetailData] = React.useState([]);
+  const [skipPageReset, setSkipPageReset] = React.useState(false);
+  const [showDetailData, setShowDetailData] = React.useState(false);
+  const [recentDoy, setRecentDoy] = React.useState(0);
+
+  const getData = async (start, end) => {
+    const url = !start ? `/api/marks` : `/api/marks?start=${start}&end=${end}`;
+    const { data } = await axios({ method: "get", url });
+    if (start) {
+      setDetailData(data.marks || []);
     } else {
-      setShowDetails(false);
-      setRecent(0);
+      setData(data.marks || []);
     }
   };
 
-  const [data, setData] = React.useState([]);
-  const [skipPageReset, setSkipPageReset] = React.useState(false);
-  const [recent, setRecent] = React.useState(0);
-  const [showDetails, setShowDetails] = React.useState(false);
-  const [detailData, setDetailData] = React.useState([]);
+  const toggleDetails = (start, end, doy) => {
+    if (recentDoy !== doy) {
+      setRecentDoy(doy);
+      getData(start, end);
+      setShowDetailData(true);
+    } else {
+      setShowDetailData(!showDetailData);
+    }
+  };
 
   React.useEffect(() => {
-    axios({ url: "/api/marks", method: "get" }).then(res => {
-      setData(res.data.marks || []);
-    });
+    getData();
   }, []);
 
   React.useEffect(() => {
     setSkipPageReset(false);
   }, [data]);
+
+  console.log(showDetailData);
 
   return (
     <main className="Log">
@@ -157,14 +162,14 @@ function Log(props) {
         <div className="title">
           <h1>View or change your past moods</h1>
         </div>
-        {/* <div className="grid-container"> */}
-        {/*   <Grid detailData={detailData} toggleDetails={toggleDetails} /> */}
-        {/* </div> */}
+        <div className="grid-container">
+          <Grid toggleDetails={toggleDetails} />
+        </div>
         <div className="table-container">
           <Styles>
             <Table
               columns={columns}
-              data={!showDetails ? data : detailData}
+              data={!showDetailData ? data : detailData}
               updateMyData={updateMyData}
               skipPageReset={skipPageReset}
             />

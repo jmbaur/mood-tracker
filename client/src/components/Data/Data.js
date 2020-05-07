@@ -24,7 +24,6 @@ function Data(props) {
     !!localStorage.getItem("showPie") ? false : true
   );
   const [pieData, setPieData] = React.useState([]);
-  const [lineData, setLineData] = React.useState([]);
 
   React.useEffect(() => {
     getData(
@@ -66,9 +65,8 @@ function Data(props) {
         method: "get",
         url
       });
-      const { pieMarks, lineMarks } = formatData(data.marks);
+      const { pieMarks } = formatData(data.marks);
       setPieData(pieMarks);
-      setLineData(lineMarks);
     } catch (err) {
       console.log(err);
     }

@@ -29,7 +29,6 @@ function Register(props) {
       } catch (err) {
         resetUsername();
         alert("User with this username already exists");
-        console.log(err);
       }
     }
   };

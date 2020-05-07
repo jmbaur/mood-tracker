@@ -91,7 +91,6 @@ export default function userReducer(state = initialState, action) {
       };
     case SET_USER + "_REJECTED":
       window.alert("Incorrect username or password.");
-      console.log(action.payload);
       return { ...state, username: "", loading: false, loggedIn: false };
     case SET_TITLE_COLOR:
       return { ...state, titleColor: action.payload };
