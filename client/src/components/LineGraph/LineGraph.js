@@ -8,7 +8,7 @@ const LineGraph = ({ moods, newMark, start, end }) => {
   const [lineComments, setLineComments] = React.useState([]);
   const [lineData, setLineData] = React.useState([]);
 
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     const res = await axios({
       method: "get",
       url: `/api/marks?start=${start}&end=${end}`
@@ -20,7 +20,7 @@ const LineGraph = ({ moods, newMark, start, end }) => {
       setLineComments(marks.map(el => el.comment));
       setLineData(lineMarks);
     }
-  };
+  }, [start, end]);
 
   React.useEffect(() => {
     if (!newMark) {
