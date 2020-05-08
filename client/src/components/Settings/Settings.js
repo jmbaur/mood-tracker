@@ -6,72 +6,30 @@ import EditText from "../EditText/EditText.js";
 import Warning from "../Warning/Warning.js";
 import "./Settings.css";
 
-class Settings extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      input: "",
-      moods: [],
-      warning: false
-    };
-  }
+function Settings(props) {
+  const [warning, setWarning] = React.useState(false);
+  const [eMoods, setMoods] = React.useState(props.moods || []);
 
-  getMoods = async () => {
-    const res = await axios.get(`/api/moods`);
-    const moods = res.data.moods;
-    moods.sort((a, b) => a.number - b.number);
+  const { moods } = props;
+  React.useEffect(() => {
+    if (moods.length) setMoods(moods);
+  }, [moods]);
 
-    const defaultColors = [
-      "#e33133",
-      "#f0743a",
-      "#ffbd3a",
-      "#97bb3d",
-      "#43b83f"
-    ];
-    let tmpArr = moods.slice();
-    let i = 0;
-    while (i < 5) {
-      if (tmpArr[i]?.number !== i + 1) {
-        tmpArr.splice(i, 0, {
-          number: i + 1,
-          name: "",
-          color: defaultColors[i],
-          editable: false
-        });
-      } else if (tmpArr[i].name) {
-        tmpArr[i].editable = true;
-      }
-      i++;
-    }
-    this.setState({ moods: tmpArr });
-  };
+  const deleteAccount = async () => {
+    const res = await axios({ method: "delete", url: "/auth/account" });
 
-  toggleWarning = () => {
-    this.setState({ warning: !this.state.warning });
-  };
-
-  deleteAccount = async () => {
-    const status = await axios({ method: "delete", url: "/auth/account" });
-
-    if (status.data === "OK") {
-      this.props.logout();
-      this.props.history.push("/");
-      alert("User account has been deleted.");
+    if (res.status === 200) {
+      props.logout();
+      props.history.push("/");
+      alert(res.data);
     }
   };
 
-  addNewMood = number => {
-    let tmp = this.state.moods.slice();
-    tmp[number - 1].editable = true;
-    tmp[number - 1].name = "";
-    this.setState(tmp);
-  };
-
-  changeMoodName = (number, name) => {
-    let tmp = this.state.moods.slice();
+  const changeMoodName = (number, name) => {
+    let tmp = eMoods.slice();
     const index = tmp.findIndex(el => el.number === number);
     tmp[index].name = name;
-    this.setState(tmp);
+    setMoods(tmp);
 
     const { color } = tmp[index];
     axios({
@@ -81,10 +39,10 @@ class Settings extends React.Component {
     });
   };
 
-  changeColor = (e, index) => {
-    let tmp = this.state.moods.slice();
+  const changeColor = (e, index) => {
+    let tmp = eMoods.slice();
     tmp[index].color = e.target.value;
-    this.setState(tmp);
+    setMoods(tmp);
 
     const { number, name } = tmp[index];
     axios({
@@ -94,75 +52,49 @@ class Settings extends React.Component {
     });
   };
 
-  clear = number => {
-    let tmp = this.state.moods.slice();
-    let index = tmp.findIndex(el => el.number === number);
-    tmp[index].editable = false;
-    this.setState(tmp);
-    if (tmp[index].name) {
-      axios({
-        url: `/api/moods?number=${number}`,
-        method: "delete"
-      });
-    }
-  };
-
-  componentDidMount() {
-    this.getMoods();
-  }
-
-  render() {
-    const { moods } = this.state;
-    const mappedInputs = moods.map((mood, i) => {
-      return (
-        <div key={i}>
-          <input
-            type="color"
-            name="color"
-            value={mood.color}
-            onChange={e => this.changeColor(e, i)}
-          />
-          {mood.editable ? (
-            <>
-              <EditText
-                number={mood.number}
-                input={mood.name}
-                changeMoodName={this.changeMoodName}
-              />
-              <button onClick={() => this.clear(mood.number)}>Delete</button>
-            </>
-          ) : (
-            <button onClick={() => this.addNewMood(mood.number)}>Add</button>
-          )}
-        </div>
-      );
-    });
-
+  // Mapped input fields
+  const mappedInputs = eMoods.map((mood, i) => {
     return (
-      <main className="Settings">
-        <div>
-          <div className="title">
-            <h1>User settings</h1>
-          </div>
-          <div className="mood-name-container">
-            <h1>Change the message that appears when you mark your moods!</h1>
-            {mappedInputs}
-          </div>
-          <div className="settings-button-container">
-            <button
-              className="delete-account-button"
-              onClick={this.toggleWarning}
-            >
-              Delete Account
-            </button>
-            {this.state.warning ? (
-              <Warning fn1={this.toggleWarning} fn2={this.deleteAccount} />
-            ) : null}
-          </div>
-        </div>
-      </main>
+      <div key={i}>
+        <input
+          type="color"
+          name="color"
+          value={mood.color}
+          onChange={e => changeColor(e, i)}
+        />
+        <EditText
+          number={mood.number}
+          input={mood.name}
+          changeMoodName={changeMoodName}
+        />
+      </div>
     );
-  }
+  });
+
+  return (
+    <main className="Settings">
+      <div>
+        <div className="title">
+          <h1>User settings</h1>
+        </div>
+        <div className="mood-name-container">
+          <h1>Change the message that appears when you mark your moods!</h1>
+          {mappedInputs}
+        </div>
+        <div className="settings-button-container">
+          <button
+            className="delete-account-button"
+            onClick={() => setWarning(!warning)}
+          >
+            Delete Account
+          </button>
+          {warning ? (
+            <Warning fn1={() => setWarning(!warning)} fn2={deleteAccount} />
+          ) : null}
+        </div>
+      </div>
+    </main>
+  );
 }
 
 const mapStateToProps = state => state;

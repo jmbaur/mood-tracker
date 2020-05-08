@@ -98,6 +98,34 @@ func GetSession(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"username": result.Username})
 }
 
+func ChangePassword(c *gin.Context) {
+	userId, _ := primitive.ObjectIDFromHex(c.MustGet("userId").(string))
+
+	var user models.User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, "Could not parse JSON")
+		return
+	}
+
+	coll := db.GetCollection(database, collection)
+
+	bytes, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.MinCost)
+	user.Password = string(bytes)
+
+	filter := bson.M{"_id": userId, "username": user.Username}
+	update := bson.M{"password": user.Password}
+	result, err := coll.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusConflict, "Could not change password")
+	}
+	if result.ModifiedCount == 1 {
+		c.JSON(http.StatusOK, "Password changed")
+	} else {
+		c.JSON(http.StatusNotModified, "Password could not be changed")
+	}
+}
+
 func DeleteAccount(c *gin.Context) {
 	userId, _ := primitive.ObjectIDFromHex(c.MustGet("userId").(string))
 
@@ -111,5 +139,5 @@ func DeleteAccount(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"status": "Could not delete user"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": "OK"})
+	c.JSON(http.StatusOK, "Account deleted")
 }

@@ -86,7 +86,6 @@ func ChangeMark(c *gin.Context) {
 	userId, _ := primitive.ObjectIDFromHex(c.MustGet("userId").(string))
 
 	markId, _ := primitive.ObjectIDFromHex(c.Query("id"))
-	fmt.Printf("%v %T %v %T\n", userId, userId, markId, markId)
 
 	var mark models.Mark
 	if err := c.ShouldBindJSON(&mark); err != nil {

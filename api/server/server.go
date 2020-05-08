@@ -34,6 +34,7 @@ func Run() {
 		auth.POST("/login", controllers.Login)
 		auth.GET("/logout", middlewares.AuthRequired(), controllers.Logout)
 		auth.GET("/session", middlewares.AuthRequired(), controllers.GetSession)
+		auth.PUT("/password", middlewares.AuthRequired(), controllers.ChangePassword)
 		auth.DELETE("/account", middlewares.AuthRequired(), controllers.DeleteAccount)
 	}
 

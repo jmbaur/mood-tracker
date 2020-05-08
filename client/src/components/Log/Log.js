@@ -154,8 +154,6 @@ function Log(props) {
     setSkipPageReset(false);
   }, [data]);
 
-  console.log(showDetailData);
-
   return (
     <main className="Log">
       <div>
