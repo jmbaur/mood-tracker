@@ -4,6 +4,8 @@
 
 Hosted at https://dailymoodtracker.com/
 
+![demo](2020-05-08-12-20-10.gif)
+
 Technologies used:
 
 - Docker
