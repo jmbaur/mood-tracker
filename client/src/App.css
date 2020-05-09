@@ -1,50 +1,65 @@
 .App {
-  font-family: 'Open Sans', ;
+  font-family: "Open Sans";
 }
 
 button {
-    text-decoration: none;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: 600;
-    color: rgb(255,255,255);
-    height: 30px;
-    background-color: rgb(43,48,53);
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+  height: 30px;
+  background-color: rgb(43, 48, 53);
 }
 
 button:hover {
   font-style: italic;
 }
 
-input {
-    border: 1px solid rgb(43,48,53);
-    border-radius: 5px;
-    height: 25px;
-    font-style: italic;
-}
+/* input { */
+/*   border: 1px solid rgb(43, 48, 53); */
+/*   border-radius: 5px; */
+/*   height: 25px; */
+/*   font-style: italic; */
+/* } */
 
 em {
-    font-style: italic;
+  font-style: italic;
 }
 
 em:hover {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .title {
-    width: 100vw;
-    height: 10vh;
-    color: rgb(255,255,255);
-    font-size: x-large;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100vw;
+  height: 10vh;
+  color: rgb(255, 255, 255);
+  font-size: x-large;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  font-size: 16px;
 }
 
 @media screen and (max-width: 700px) {
   .title {
     font-size: large;
+  }
+}
+
+/* disable auto-zoom on iphone input field focus */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  select:focus,
+  textarea:focus,
+  input:focus {
+    font-size: 16px;
   }
 }
