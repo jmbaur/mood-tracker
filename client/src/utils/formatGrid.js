@@ -29,8 +29,9 @@ export default function formatGrid(marks, moods, start, end) {
     }
   }
 
-  // generate color for last tmpMark
+  // generate info for last tmpMark
   tmpMark.color = colors[(Math.round(tmpMark.mood / tmpMark.count) || 1) - 1];
+  tmpMark.count++;
   // push on last tmpMark
   tmpArr.push(tmpMark);
 
@@ -39,8 +40,9 @@ export default function formatGrid(marks, moods, start, end) {
 
 function fill(arr, start, end) {
   let tmp = arr.slice();
+
   // fill array empty days
-  for (let i = 0; i < end - start - 1; i++) {
+  for (let i = 0; i < end - start; i++) {
     if (arr[i]?.doy !== i + start) {
       tmp.splice(i, 0, {
         count: 0,
