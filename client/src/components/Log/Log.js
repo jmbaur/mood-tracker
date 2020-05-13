@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import moment from "moment";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import Table from "../Table/Table.js";
@@ -91,9 +92,18 @@ function Log(props) {
       method: "delete"
     });
     // remove mark from array
-    const newData = data.slice();
-    newData.splice(index, 1);
-    setData(newData);
+    let newData = data.slice();
+    if (showDetailData) {
+      let newDetailData = detailData.slice();
+      newDetailData.splice(index, 1);
+      setDetailData(newDetailData);
+      let altIndex = newData.findIndex(el => el._id === id);
+      if (altIndex !== -1) newData.splice(altIndex, 1);
+      setData(newData);
+    } else {
+      newData.splice(index, 1);
+      setData(newData);
+    }
   };
 
   const updateMyData = (rowIndex, columnId, value) => {
@@ -126,10 +136,10 @@ function Log(props) {
   const [showDetailData, setShowDetailData] = React.useState(false);
   const [recentDoy, setRecentDoy] = React.useState(0);
 
-  const getData = async (start, end) => {
-    const url = !start ? `/api/marks` : `/api/marks?start=${start}&end=${end}`;
+  const getData = async (start, end, detailed) => {
+    const url = `/api/marks?start=${start}&end=${end}`;
     const { data } = await axios({ method: "get", url });
-    if (start) {
+    if (detailed) {
       setDetailData(data.marks || []);
     } else {
       setData(data.marks || []);
@@ -139,7 +149,7 @@ function Log(props) {
   const toggleDetails = (start, end, doy) => {
     if (recentDoy !== doy) {
       setRecentDoy(doy);
-      getData(start, end);
+      getData(start, end, true);
       setShowDetailData(true);
     } else {
       setShowDetailData(!showDetailData);
@@ -147,7 +157,15 @@ function Log(props) {
   };
 
   React.useEffect(() => {
-    getData();
+    const daysToGet = 83 + parseInt(moment().format("e"));
+    const start = moment()
+      .subtract(daysToGet, "days")
+      .startOf("day")
+      .format();
+    const end = moment()
+      .endOf("day")
+      .format();
+    getData(start, end, false);
   }, []);
 
   React.useEffect(() => {
@@ -161,7 +179,11 @@ function Log(props) {
           <h1>View or change your past moods</h1>
         </div>
         <div className="grid-container">
-          <Grid toggleDetails={toggleDetails} />
+          <Grid
+            toggleDetails={toggleDetails}
+            data={data}
+            detailData={detailData}
+          />
         </div>
         <div className="table-container">
           <Styles>

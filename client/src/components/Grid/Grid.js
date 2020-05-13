@@ -1,28 +1,13 @@
 import React from "react";
-import axios from "axios";
 import moment from "moment";
 import { connect } from "react-redux";
 import formatGrid from "../../utils/formatGrid.js";
 import "./Grid.css";
 
 function Grid(props) {
-  const [data, setData] = React.useState([]);
+  const [gridData, setGridData] = React.useState([]);
 
-  const { moods } = props;
-
-  const getData = React.useCallback(async () => {
-    const daysToGet = 83 + parseInt(moment().format("e"));
-    const start = moment()
-      .subtract(daysToGet, "days")
-      .startOf("day")
-      .format();
-    const end = moment()
-      .endOf("day")
-      .format();
-    axios.get(`/api/marks?start=${start}&end=${end}`).then(res => {
-      setData(formatGrid(res.data.marks, moods, start, end));
-    });
-  }, [moods]);
+  const { moods, data, detailData } = props;
 
   const handleClick = (time, doy) => {
     const start = moment(time)
@@ -35,10 +20,11 @@ function Grid(props) {
   };
 
   React.useEffect(() => {
-    if (moods.length) getData();
-  }, [getData, moods]);
+    const dataChange = !!data.length || !!detailData.length;
+    if (moods.length && dataChange) setGridData(formatGrid(data, moods));
+  }, [data, detailData, moods]);
 
-  const grid = data.map((el, i) => {
+  const grid = gridData.map((el, i) => {
     return (
       <div key={i} className="grid-element">
         <div

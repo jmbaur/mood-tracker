@@ -35,16 +35,24 @@ export default function formatGrid(marks, moods, start, end) {
   // push on last tmpMark
   tmpArr.push(tmpMark);
 
-  return fill(tmpArr, +moment(start).format("DDD"), +moment(end).format("DDD"));
+  fill(tmpArr);
+  return tmpArr;
 }
 
-function fill(arr, start, end) {
-  let tmp = arr.slice();
+function fill(arr) {
+  const daysToGet = 83 + parseInt(moment().format("e"));
+  const start = +moment()
+    .subtract(daysToGet, "days")
+    .startOf("day")
+    .format("DDD");
+  const end = +moment()
+    .endOf("day")
+    .format("DDD");
 
   // fill array empty days
   for (let i = 0; i < end - start; i++) {
-    if (tmp[i]?.doy !== i + start) {
-      tmp.splice(i, 0, {
+    if (arr[i]?.doy !== i + start) {
+      arr.splice(i, 0, {
         count: 0,
         color: "#ffffff",
         viewDate: moment()
@@ -53,7 +61,6 @@ function fill(arr, start, end) {
       });
     }
   }
-  return tmp;
 }
 
 function cleanTmpMark() {
