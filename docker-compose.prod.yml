@@ -1,14 +1,12 @@
-version: '3.3'
+version: "3.3"
 services:
   mongo:
-    container_name: 'mood-tracker_mongo'
-    build: ./db
-    volumes:
-      - mood-tracker-db:/data/db
+    container_name: "mood-tracker_mongo"
+    image: "mongo:latest"
     ports:
       - 27017:27017
   api:
-    container_name: 'mood-tracker_api'
+    container_name: "mood-tracker_api"
     build:
       context: ./api
       dockerfile: Dockerfile.prod
