@@ -43,7 +43,7 @@ function fill(arr, start, end) {
 
   // fill array empty days
   for (let i = 0; i < end - start; i++) {
-    if (arr[i]?.doy !== i + start) {
+    if (tmp[i]?.doy !== i + start) {
       tmp.splice(i, 0, {
         count: 0,
         color: "#ffffff",
