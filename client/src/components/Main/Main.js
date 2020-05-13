@@ -6,20 +6,20 @@ import Loading from "../Loading/Loading.js";
 import "./Main.css";
 
 function Main(props) {
-    const { loggedIn, loading } = props;
-    return (
-        <main className="Main">
-            {loading ? (
-                <Loading />
-            ) : loggedIn ? (
-                <div className="Main">
-                    <Marker />
-                </div>
-            ) : (
-                <About />
-            )}
-        </main>
-    );
+  const { loggedIn, loading } = props;
+  return (
+    <main className="Main">
+      {loading ? (
+        <Loading />
+      ) : loggedIn ? (
+        <div className="Main">
+          <Marker />
+        </div>
+      ) : (
+        <About />
+      )}
+    </main>
+  );
 }
 
 const mapStateToProps = state => state;

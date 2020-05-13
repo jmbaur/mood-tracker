@@ -1,12 +1,14 @@
+/* Globals */
+
 .App {
   font-family: "Open Sans";
 }
 
 button {
   text-decoration: none;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: rgb(255, 255, 255);
   height: 30px;
@@ -14,15 +16,8 @@ button {
 }
 
 button:hover {
-  font-style: italic;
+  border: 1px solid rgb(168, 171, 173);
 }
-
-/* input { */
-/*   border: 1px solid rgb(43, 48, 53); */
-/*   border-radius: 5px; */
-/*   height: 25px; */
-/*   font-style: italic; */
-/* } */
 
 em {
   font-style: italic;
@@ -32,34 +27,27 @@ em:hover {
   font-weight: 600;
 }
 
+a {
+  text-decoration: none;
+}
+
 .title {
   width: 100vw;
-  height: 10vh;
+  height: 8vh;
   color: rgb(255, 255, 255);
-  font-size: x-large;
+  font-size: 14px;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-textarea:focus {
-  font-size: 16px;
-}
-
 @media screen and (max-width: 700px) {
   .title {
-    font-size: large;
+    height: 6vh;
+    font-size: 12px;
   }
-}
-
-/* disable auto-zoom on iphone input field focus */
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  select:focus,
-  textarea:focus,
-  input:focus {
-    font-size: 16px;
+  .desktop {
+    display: none;
   }
 }

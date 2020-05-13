@@ -22,7 +22,7 @@ function Login(props) {
   return (
     <main className="Login">
       <div className="title">
-        <h1>Login Here</h1>
+        <h1>Login</h1>
       </div>
       <form onSubmit={submit} className="login-form">
         <div className="input-fields">
