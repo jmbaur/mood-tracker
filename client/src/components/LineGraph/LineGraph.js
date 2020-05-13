@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import moment from "moment";
 import { Line } from "react-chartjs-2";
 import formatData from "../../utils/formatData.js";
 
@@ -7,6 +8,7 @@ const LineGraph = ({ moods, newMark, start, end }) => {
   const [lineLabels, setLineLabels] = React.useState([]);
   const [lineComments, setLineComments] = React.useState([]);
   const [lineData, setLineData] = React.useState([]);
+  const [scale, setScale] = React.useState("hour");
 
   const fetchData = React.useCallback(async () => {
     const res = await axios({
@@ -28,6 +30,28 @@ const LineGraph = ({ moods, newMark, start, end }) => {
     }
   }, [fetchData, newMark, start, end]);
 
+  React.useEffect(() => {
+    if (!lineData.length) return;
+    const first = lineData[0].t;
+    const last = lineData[lineData.length - 1].t;
+
+    if (moment(last).format("DDD") === moment(first).format("DDD")) {
+      if (moment(last).format("mm") === moment(first).format("mm")) {
+        setScale("second");
+      } else if (moment(last).format("H") === moment(first).format("H")) {
+        setScale("minute");
+      } else setScale("hour");
+    } else {
+      if (moment(last).format("w") === moment(first).format("w")) {
+        setScale("day");
+      } else if (moment(last).format("M") === moment(first).format("M")) {
+        setScale("week");
+      } else if (moment(last).format("YYYY") === moment(first).format("YYYY")) {
+        setScale("month");
+      }
+    }
+  }, [lineData]);
+
   const options = {
     title: { display: true, text: "Today" },
     // layout: { padding: {left:10, right: 10} },
@@ -39,9 +63,9 @@ const LineGraph = ({ moods, newMark, start, end }) => {
           type: "time",
           distribution: "linear",
           time: {
-            unit: "hour",
+            unit: scale,
             stepSize: 1,
-            tooltipFormat: "HH:mm:ss"
+            tooltipFormat: "MMM D h:MM A"
           }
         }
       ],

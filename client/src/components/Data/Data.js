@@ -139,6 +139,7 @@ function Data(props) {
 
 const mapStateToProps = state => state;
 export default connect(mapStateToProps)(Data);
+
 ///////////////////////////////////////////////////////////////////////////////
 
 const PieChart = ({ moods, pieData }) => {
