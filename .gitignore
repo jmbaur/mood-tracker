@@ -3,4 +3,6 @@ client/build
 client/Makefile
 api/env.yml
 api/tmp
+api/tests
 *.swp
+.env

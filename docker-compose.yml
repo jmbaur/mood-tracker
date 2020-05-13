@@ -1,12 +1,12 @@
-version: '3.3'
+version: "3.3"
 services:
   mongo:
-    container_name: 'mongo'
-    build: ./db
+    container_name: "mongo"
+    image: "mongo:latest"
     ports:
       - 27017:27017
   api:
-    container_name: 'api'
+    container_name: "api"
     build: ./api
     volumes:
       - ./api:/go/src/api
@@ -15,7 +15,7 @@ services:
     links:
       - mongo
   client:
-    container_name: 'client'
+    container_name: "client"
     build: ./client
     volumes:
       - ./client/src:/client/src

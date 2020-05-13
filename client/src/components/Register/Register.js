@@ -14,8 +14,15 @@ function Register(props) {
     e.preventDefault();
     if (password0 !== password1 || !password0) {
       alert("Passwords do not match");
+    } else if (password0.length < 6) {
+      alert("Password must be at least 6 characters");
+      resetPassword0();
+      resetPassword1();
+    } else if (!username) {
+      alert("Fill in username");
     } else {
       try {
+        // register the user
         await axios({
           method: "post",
           url: "/auth/register",
@@ -24,8 +31,10 @@ function Register(props) {
             password: password0
           }
         });
+        // log them in if registering succeeds
+        props.setUser({ username, password: password0 });
         resetUsername() && resetPassword0() && resetPassword1();
-        props.history.push("/login");
+        props.history.push("/");
       } catch (err) {
         resetUsername();
         alert("User with this username already exists");

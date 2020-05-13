@@ -21,9 +21,10 @@ func Connect() {
 	client, err = mongo.Connect(ctx, options.Client().ApplyURI(dbString))
 	if err != nil {
 		log.Fatal(err)
+	} else {
+		log.Println("DB Connected")
+		populateIndex("mood-tracker", "users")
 	}
-
-	populateIndex("mood-tracker", "users")
 }
 
 func populateIndex(database, collection string) {
