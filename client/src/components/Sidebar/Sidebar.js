@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { logout, toggleMenu } from "../../redux/reducer.js";
-import x from "./x.svg";
-import settings from "./settings.svg";
-import file from "./file.svg";
-import logoutSvg from "./logout.svg";
-import login from "./login.svg";
-import profile from "./profile.svg";
-import log from "./log.svg";
+import x from "../../assets/x.svg";
+import settings from "../../assets/settings.svg";
+import file from "../../assets/file.svg";
+import logoutSvg from "../../assets/logout.svg";
+import login from "../../assets/login.svg";
+import profile from "../../assets/profile.svg";
+import log from "../../assets/log.svg";
 import "./Sidebar.css";
 
 function Sidebar(props) {
