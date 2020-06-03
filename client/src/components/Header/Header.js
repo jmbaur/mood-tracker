@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 import formatMoods from "../../utils/formatMoods.js";
@@ -11,7 +11,7 @@ import {
   logout,
   toggleMenu
 } from "../../redux/reducer.js";
-import hamburger from "./hamburger.svg";
+import hamburger from "../../assets/hamburger.svg";
 import "./Header.css";
 
 function Header(props) {
@@ -32,53 +32,47 @@ function Header(props) {
 
   return (
     <header>
-      <Link to="/">
-        <div className="title-container">
-          <h1 className="title-content" style={{ color: titleColor }}>
-            MOOD TRACKER
-          </h1>
-        </div>
-      </Link>
+      <NavLink className="title-content" style={{ color: titleColor }} to="/">
+        MOOD TRACKER
+      </NavLink>
       <div className="user-portal">
         {!props.loggedIn ? (
-          <div className="not-logged-in">
-            <Link to="/register">
+          <>
+            <NavLink className="desktop" to="/register">
               <button>Register</button>
-            </Link>
-            <Link to="/login">
+            </NavLink>
+            <NavLink className="desktop" to="/login">
               <button>Login</button>
-            </Link>
+            </NavLink>
             <img
               src={hamburger}
               alt="hamburger"
               className="hamburger-menu"
               onClick={() => props.toggleMenu(true)}
             />
-          </div>
+          </>
         ) : (
-          <div className="logged-in">
-            <h1 className="welcome-message">
-              Welcome {props.username || "User"}
-            </h1>
-            <Link to="/data">
+          <>
+            <h2 className="message desktop">Hi, {props.username || "User"}!</h2>
+            <NavLink className="desktop" to="/data">
               <button>Data</button>
-            </Link>
-            <Link to="/log">
+            </NavLink>
+            <NavLink className="desktop" to="/log">
               <button>Log</button>
-            </Link>
-            <Link to="/settings">
+            </NavLink>
+            <NavLink className="desktop" to="/settings">
               <button>Settings</button>
-            </Link>
-            <button onClick={() => props.logout() && props.history.push("/")}>
-              Logout
-            </button>
+            </NavLink>
+            <NavLink className="desktop" to="/">
+              <button onClick={props.logout}>Logout</button>
+            </NavLink>
             <img
               src={hamburger}
               alt="hamburger"
               className="hamburger-menu"
               onClick={() => props.toggleMenu(true)}
             />
-          </div>
+          </>
         )}
       </div>
     </header>
