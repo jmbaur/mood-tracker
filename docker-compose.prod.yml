@@ -3,10 +3,12 @@ services:
   mongo:
     container_name: "mood-tracker_mongo"
     image: "mongo:latest"
+    restart: on-failure
     ports:
       - 27017:27017
   api:
     container_name: "mood-tracker_api"
+    restart: on-failure
     build:
       context: ./api
       dockerfile: Dockerfile.prod
